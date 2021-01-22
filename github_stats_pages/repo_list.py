@@ -51,4 +51,5 @@ def construct_csv(repository_df: pd.DataFrame, csv_outfile: str):
 
     reduced_df = repository_df[SHORTEN_COLUMNS]
 
+    print(f"Writing: {csv_outfile}")
     reduced_df.to_csv(csv_outfile, index=False)
