@@ -10,6 +10,7 @@ setup(
     name='github-stats-pages',
     version='0.1.0',
     packages=['tests', 'github_stats_pages'],
+    scripts=['scripts/get_repo_list'],
     url='https://github.com/astrochun/github-stats-pages',
     license='MIT',
     author='Chun Ly',
