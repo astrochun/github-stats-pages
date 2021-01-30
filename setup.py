@@ -8,7 +8,7 @@ with open("requirements.txt", "r") as fr:
 
 setup(
     name='github-stats-pages',
-    version='0.0.1',
+    version='0.1.0',
     packages=['tests', 'github_stats_pages'],
     url='https://github.com/astrochun/github-stats-pages',
     license='MIT',
