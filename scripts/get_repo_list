@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+
+import argparse
+
+from github_stats_pages import repo_list
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description='CLI to retrieve user or organization repositories')
+    parser.add_argument('-u', '--user', required=True,
+                        help='user or organization name')
+    args = parser.parse_args()
+
+    repository_list, repository_df = repo_list.get_repo_list(args.user)
+
+    # Write CSV files
+    repo_list.construct_csv(repository_df, f"{args.user}.csv")
