@@ -15,13 +15,9 @@ def get_repo_list(user: str) -> Tuple[list, pd.DataFrame]:
     Get list of public repository for a give user
 
     :param user: GitHub user or organization handle (e.g., "numpy")
-    :type user: str
 
-    :return repository_list: Public repositories and additional information
-    :rtype repository_list: list of dict
-
-    :return repository_df: DataFrame containing results
-    :rtype repository_df: pandas.core.frame.DataFrame
+    :return repository_list: List of public repositories and additional info
+    :return repository_df: DataFrame containing public repositories
     """
 
     endpoint = f"https://api.github.com/users/{user}/repos"
