@@ -10,7 +10,7 @@ setup(
     name='github-stats-pages',
     version='0.1.5',
     packages=['tests', 'github_stats_pages'],
-    scripts=['scripts/get_repo_list'],
+    scripts=['scripts/get_repo_list', 'scripts/merge-csv.sh'],
     url='https://github.com/astrochun/github-stats-pages',
     license='MIT',
     author='Chun Ly',
