@@ -1,9 +1,12 @@
+from pathlib import Path
 from github_stats_pages import gts_run
 
 username = 'astrochun'
 
-filename = f'{username}.csv'
 
+def test_run_each_repo(token):
+    gts_run.run_each_repo(username, token, 'github-stats-pages', save_csv=False)
+    assert list(Path('.').glob('*stats.csv')) == []
 
-def test_run_all_repos(token):
-    gts_run.run_all_repos(username, token, filename, save_csv=False)
+    gts_run.run_each_repo(username, token, 'github-stats-pages', save_csv=True)
+    assert len(list(Path('.').glob('*stats.csv'))) == 3
