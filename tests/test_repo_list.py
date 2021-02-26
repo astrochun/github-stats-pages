@@ -6,7 +6,7 @@ from github_stats_pages import repo_list
 username = 'astrochun'
 
 
-def test_all():
+def test_get_repo_list():
 
     repository_list, repository_df = repo_list.get_repo_list(username)
 
