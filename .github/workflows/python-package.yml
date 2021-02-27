@@ -33,4 +33,4 @@ jobs:
     - name: Test scripts
       run: |
         ./scripts/get_repo_list -u astrochun
-        ./scripts/gts_repo_all_repos -u astrochun --t ${{ secrets.GH_TOKEN }} -c astrochun.csv
+        ./scripts/gts_run_all_repos -u astrochun --t ${{ secrets.GH_TOKEN }} -c astrochun.csv
