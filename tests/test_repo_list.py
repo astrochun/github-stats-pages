@@ -3,10 +3,8 @@ from os.path import exists
 
 from github_stats_pages import repo_list
 
-username = 'astrochun'
 
-
-def test_get_repo_list():
+def test_get_repo_list(username):
 
     repository_list, repository_df = repo_list.get_repo_list(username)
 
