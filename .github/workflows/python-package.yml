@@ -6,7 +6,7 @@ name: Python package
 on: [push, pull_request]
 
 jobs:
-  build:
+  build-n-test:
 
     runs-on: ubuntu-latest
     strategy:
@@ -29,4 +29,9 @@ jobs:
         python setup.py install
     - name: Test with pytest
       run: |
-        pytest --cov-report term-missing --cov=github_stats_pages tests
+        echo "Username for unit tests : ${{ github.actor }}"
+        pytest --cov-report term-missing --cov=github_stats_pages tests --username ${{ github.actor }} --token ${{ secrets.GH_TOKEN }}
+    - name: Test scripts
+      run: |
+        ./scripts/get_repo_list -u ${{ github.actor }}
+        ./scripts/gts_run_all_repos -u ${{ github.actor }} -t ${{ secrets.GH_TOKEN }} -c ${{ github.actor }}.csv
