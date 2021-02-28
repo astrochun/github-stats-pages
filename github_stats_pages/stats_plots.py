@@ -13,6 +13,7 @@ from bokeh.models import ColumnDataSource, DatetimeTickFormatter, VBar  # HoverT
 prefix = 'merged'
 stats_type = ['traffic', 'clone', 'referrer']
 columns = ['repository_name', 'date', 'total', 'unique']
+r_columns = ['repository_name', 'source', 'total', 'unique']  # For referrer
 
 TOOLTIPS = [
     ("index", "$index"),
@@ -33,7 +34,8 @@ def load_data(data_dir: str) -> Dict[str, pd.DataFrame]:
 
     for stats in stats_type:
         stat_file = p / f'{prefix}_{stats}.csv'
-        dict_df[stats] = pd.read_csv(stat_file, header=None, names=columns)
+        names = r_columns if stats == 'referrer' else columns
+        dict_df[stats] = pd.read_csv(stat_file, header=None, names=names)
 
     return dict_df
 
