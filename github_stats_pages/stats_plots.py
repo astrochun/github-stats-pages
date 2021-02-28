@@ -46,6 +46,11 @@ def subplots(df: pd.DataFrame, y_column: str, title: str = '',
                tools="pan,box_zoom,wheel_zoom,hover,save,reset")
     # s.toolbar.active_inspect = [HoverTool()]
 
+    s.axis.major_tick_in = 6
+    s.axis.major_tick_out = 0
+    s.axis.minor_tick_in = 3
+    s.axis.minor_tick_out = 0
+
     x = [dt.strptime(d, '%Y-%m-%d') for d in df['date']]
     y = df[y_column]
     g_source = ColumnDataSource(data={'x': x, 'top': y})
