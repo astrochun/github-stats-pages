@@ -38,8 +38,9 @@ def load_data(data_dir: str) -> Dict[str, pd.DataFrame]:
     return dict_df
 
 
-def subplots(df: pd.DataFrame, y_column: str, title: str = '',
-             pw: int = 350, ph: int = 350, bc: str = "#fafafa") -> figure():
+def date_subplots(df: pd.DataFrame, y_column: str, title: str = '',
+                  pw: int = 350, ph: int = 350, bc: str = "#fafafa") \
+        -> figure():
 
     s = figure(plot_width=pw, plot_height=ph, background_fill_color=bc,
                x_axis_type="datetime", title=title, tooltips=TOOLTIPS,
@@ -91,18 +92,18 @@ def make_plots(data_dir: str, out_file: str):
         # r_referrer_df = referrer_df.loc[referrer_df[columns[0]] == r]
 
         # Plot traffic data
-        s1a = subplots(r_traffic_df, 'total', 'Total Daily Traffic', pw=pw,
-                       ph=ph, bc=bc)
+        s1a = date_subplots(r_traffic_df, 'total', 'Total Daily Traffic', pw=pw,
+                            ph=ph, bc=bc)
 
-        s1b = subplots(r_traffic_df, 'unique', 'Unique Daily Traffic', pw=pw,
-                       ph=ph, bc=bc)
+        s1b = date_subplots(r_traffic_df, 'unique', 'Unique Daily Traffic', pw=pw,
+                            ph=ph, bc=bc)
 
         # Plot clones traffic
-        s2a = subplots(r_clone_df, 'total', 'Total Daily Clones', pw=pw,
-                       ph=ph, bc=bc)
+        s2a = date_subplots(r_clone_df, 'total', 'Total Daily Clones', pw=pw,
+                            ph=ph, bc=bc)
 
-        s2b = subplots(r_clone_df, 'unique', 'Unique Daily Clones', pw=pw,
-                       ph=ph, bc=bc)
+        s2b = date_subplots(r_clone_df, 'unique', 'Unique Daily Clones', pw=pw,
+                            ph=ph, bc=bc)
 
         grid = gridplot([[s1a, s1b], [s2a, s2b]], plot_width=pw, plot_height=ph)
 
