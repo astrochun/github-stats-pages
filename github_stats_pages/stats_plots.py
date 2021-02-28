@@ -8,11 +8,16 @@ from datetime import datetime as dt
 from bokeh.io import output_file
 from bokeh.plotting import figure, save
 from bokeh.layouts import gridplot
-from bokeh.models import ColumnDataSource, DatetimeTickFormatter, VBar
+from bokeh.models import ColumnDataSource, DatetimeTickFormatter, VBar  # HoverTool
 
 prefix = 'merged'
 stats_type = ['traffic', 'clone', 'referrer']
 columns = ['repository_name', 'date', 'total', 'unique']
+
+TOOLTIPS = [
+    ("index", "$index"),
+    ("(x,y)", "($x, $top)"),
+]
 
 
 def load_data(data_dir: str) -> Dict[str, pd.DataFrame]:
@@ -37,10 +42,13 @@ def subplots(df: pd.DataFrame, y_column: str, title: str = '',
              pw: int = 350, ph: int = 350, bc: str = "#fafafa") -> figure():
 
     s = figure(plot_width=pw, plot_height=ph, background_fill_color=bc,
-               x_axis_type="datetime", title=title)
+               x_axis_type="datetime", title=title, tooltips=TOOLTIPS,
+               tools="pan,box_zoom,wheel_zoom,hover,save,reset")
+    # s.toolbar.active_inspect = [HoverTool()]
+
     x = [dt.strptime(d, '%Y-%m-%d') for d in df['date']]
     y = df[y_column]
-    g_source = ColumnDataSource({'x': x, 'top': y})
+    g_source = ColumnDataSource(data={'x': x, 'top': y})
     glyphs = VBar(x='x', top='top', bottom=0, width=2.0, fill_color="#b3de69")
     s.add_glyph(g_source, glyphs)
     # s.vbar(x=x, top=y, width=5.0)
