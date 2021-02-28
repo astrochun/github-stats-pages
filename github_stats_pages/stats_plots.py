@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Dict
 
 import pandas as pd
-from datetime import datetime as dt
+from datetime import datetime as dt, timedelta as td
 
 # Bokeh Libraries
 from bokeh.io import output_file
@@ -54,7 +54,8 @@ def subplots(df: pd.DataFrame, y_column: str, title: str = '',
     x = [dt.strptime(d, '%Y-%m-%d') for d in df['date']]
     y = df[y_column]
     g_source = ColumnDataSource(data={'x': x, 'top': y})
-    glyphs = VBar(x='x', top='top', bottom=0, width=2.0, fill_color="#b3de69")
+    glyphs = VBar(x='x', top='top', bottom=0, width=td(days=1),
+                  fill_color="#6fa1f8", fill_alpha=0.5, line_color=None)
     s.add_glyph(g_source, glyphs)
     # s.vbar(x=x, top=y, width=5.0)
     s.xaxis.formatter = DatetimeTickFormatter(years=["%Y %m"])
