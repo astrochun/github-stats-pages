@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import Dict
 
+from math import pi
 import pandas as pd
 from datetime import datetime as dt, timedelta as td
 
@@ -66,6 +67,32 @@ def date_subplots(df: pd.DataFrame, y_column: str, title: str = '',
     return s
 
 
+def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
+                   pw: int = 350, ph: int = 350, bc: str = "#fafafa") \
+        -> figure():
+
+    x = df['source'].to_list()
+    '''print(x)
+    s.x_range = FactorRange(*x)'''
+
+    s = figure(plot_width=pw, plot_height=ph, background_fill_color=bc,
+               x_range=x, title=title, tools="", toolbar_location=None)
+
+    s.axis.major_tick_in = 6
+    s.axis.major_tick_out = 0
+    s.axis.major_label_orientation = 0.83 * pi/2
+    s.axis.minor_tick_line_color = None
+    # s.axis.minor_tick_in = 3
+    # s.axis.minor_tick_out = 0
+    # s.axis.subgroup_label_orientation = "normal"
+
+    y = df[y_column]
+    s.vbar(x=x, top=y, width=0.9, fill_color="#6fa1f8", fill_alpha=0.5,
+           line_color=None)
+
+    return s
+
+
 def make_plots(data_dir: str, out_file: str):
 
     dict_df = load_data(data_dir)
@@ -91,7 +118,7 @@ def make_plots(data_dir: str, out_file: str):
 
         r_traffic_df = traffic_df.loc[traffic_df[columns[0]] == r]
         r_clone_df = clone_df.loc[clone_df[columns[0]] == r]
-        # r_referrer_df = referrer_df.loc[referrer_df[columns[0]] == r]
+        r_referrer_df = referrer_df.loc[referrer_df[columns[0]] == r]
 
         # Plot traffic data
         s1a = date_subplots(r_traffic_df, 'total', 'Total Daily Traffic', pw=pw,
@@ -107,6 +134,13 @@ def make_plots(data_dir: str, out_file: str):
         s2b = date_subplots(r_clone_df, 'unique', 'Unique Daily Clones', pw=pw,
                             ph=ph, bc=bc)
 
-        grid = gridplot([[s1a, s1b], [s2a, s2b]], plot_width=pw, plot_height=ph)
+        s3a = refer_subplots(r_referrer_df, 'total', 'Total Referrals', pw=pw,
+                             ph=ph, bc=bc)
+
+        s3b = refer_subplots(r_referrer_df, 'unique', 'Unique Referrals', pw=pw,
+                             ph=ph, bc=bc)
+
+        grid = gridplot([[s1a, s1b], [s2a, s2b], [s3a, s3b]],
+                        plot_width=pw, plot_height=ph)
 
         save(grid)
