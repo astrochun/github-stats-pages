@@ -52,8 +52,9 @@ def date_subplots(df: pd.DataFrame, y_column: str, title: str = '',
 
     s.axis.major_tick_in = 6
     s.axis.major_tick_out = 0
-    s.axis.minor_tick_in = 3
-    s.axis.minor_tick_out = 0
+    s.axis.minor_tick_line_color = None
+    # s.axis.minor_tick_in = 3
+    # s.axis.minor_tick_out = 0
 
     x = [dt.strptime(d, '%Y-%m-%d') for d in df['date']]
     y = df[y_column]
@@ -113,7 +114,7 @@ def make_plots(data_dir: str, out_file: str):
     ph = 350  # plot height
     bc = "#fafafa"  # background color
 
-    for r in ['Metallicity_Stack_Commons']:
+    for r in ['voxcharta-my-voting-record']:
         output_file(out_file, title=f'GitHub Traffic Stats : {r}')
 
         r_traffic_df = traffic_df.loc[traffic_df[columns[0]] == r]
