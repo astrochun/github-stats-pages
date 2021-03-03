@@ -6,10 +6,11 @@ import pandas as pd
 from datetime import datetime as dt, timedelta as td
 
 # Bokeh Libraries
-from bokeh.io import output_file
-from bokeh.plotting import figure, save
+from bokeh.plotting import figure
 from bokeh.layouts import gridplot
 from bokeh.models import ColumnDataSource, DatetimeTickFormatter, VBar  # HoverTool
+from bokeh.embed import components
+from jinja2 import Environment, FileSystemLoader
 
 prefix = 'merged'
 stats_type = ['traffic', 'clone', 'referrer']
@@ -94,7 +95,7 @@ def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
     return s
 
 
-def make_plots(data_dir: str, out_file: str):
+def make_plots(data_dir: str, out_dir: str):
 
     dict_df = load_data(data_dir)
 
@@ -115,8 +116,6 @@ def make_plots(data_dir: str, out_file: str):
     bc = "#fafafa"  # background color
 
     for r in ['voxcharta-my-voting-record']:
-        output_file(out_file, title=f'GitHub Traffic Stats : {r}')
-
         r_traffic_df = traffic_df.loc[traffic_df[columns[0]] == r]
         r_clone_df = clone_df.loc[clone_df[columns[0]] == r]
         r_referrer_df = referrer_df.loc[referrer_df[columns[0]] == r]
@@ -144,4 +143,23 @@ def make_plots(data_dir: str, out_file: str):
         grid = gridplot([[s1a, s1b], [s2a, s2b], [s3a, s3b]],
                         plot_width=pw, plot_height=ph)
 
-        save(grid)
+        script, div = components(grid)
+        # save(grid)
+
+        jinja_dict = {
+            'title': f"GitHub Statistics for {r}",
+            'Total_Views': r_traffic_df['total'].sum(),
+            'Total_Clones': r_clone_df['total'].sum(),
+            'script': script,
+            'div': div,
+        }
+
+        file_loader = FileSystemLoader('templates/')
+        env = Environment(loader=file_loader)
+        t = env.get_template('page.html')
+
+        # html = file_html(grid, CDN, r, template='templates/index.html')
+
+        out_file = Path(out_dir) / f"{r}.html"
+        with open(out_file, 'w') as f:
+            f.writelines(t.render(jinja_dict=jinja_dict))
