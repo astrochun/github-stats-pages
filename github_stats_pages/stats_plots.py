@@ -82,7 +82,7 @@ def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
 
     s.axis.major_tick_in = 6
     s.axis.major_tick_out = 0
-    s.axis.major_label_orientation = 0.83 * pi/2
+    s.xaxis.major_label_orientation = 0.83 * pi/2
     s.axis.minor_tick_line_color = None
     # s.axis.minor_tick_in = 3
     # s.axis.minor_tick_out = 0
@@ -113,7 +113,7 @@ def make_plots(data_dir: str, out_dir: str, csv_file: str):
     clone_df = dict_df['clone']
     referrer_df = dict_df['referrer']
 
-    pw = 350  # plot width
+    pw = 450  # plot width
     ph = 350  # plot height
     bc = "#fafafa"  # background color
 
@@ -148,7 +148,6 @@ def make_plots(data_dir: str, out_dir: str, csv_file: str):
                         plot_width=pw, plot_height=ph)
 
         script, div = components(grid)
-        # save(grid)
 
         jinja_dict = {
             'title': f"GitHub Statistics for {r}",
