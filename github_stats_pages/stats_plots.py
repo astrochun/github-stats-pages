@@ -1,3 +1,5 @@
+from requests import get
+
 from pathlib import Path
 from typing import Dict
 
@@ -95,7 +97,7 @@ def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
     return s
 
 
-def make_plots(data_dir: str, out_dir: str, csv_file: str):
+def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str):
 
     repository_df = pd.read_csv(csv_file)
 
@@ -117,7 +119,22 @@ def make_plots(data_dir: str, out_dir: str, csv_file: str):
     ph = 350  # plot height
     bc = "#fafafa"  # background color
 
-    for r in ['voxcharta-my-voting-record']:
+    avatar_response = get(f'https://api.github.com/users/{username}').json()
+    jinja_dict = {
+        'username': username,
+        'avatar_url': avatar_response['avatar_url'],
+        'repos': sorted(repo_names),
+    }
+
+    file_loader = FileSystemLoader('templates/styles/')
+    env = Environment(loader=file_loader)
+    for file in ['index.html', 'about.html']:
+        t_index = env.get_template(file)
+        out_file = Path(out_dir) / file
+        with open(out_file, 'w') as f:
+            f.writelines(t_index.render(jinja_dict=jinja_dict))
+
+    for r in repo_names:  # ['voxcharta-my-voting-record']:
         t_r_df = repository_df.loc[repository_df['name'] == r]
 
         r_traffic_df = traffic_df.loc[traffic_df[columns[0]] == r]
@@ -155,14 +172,12 @@ def make_plots(data_dir: str, out_dir: str, csv_file: str):
             'Total_Clones': r_clone_df['total'].sum(),
             'script': script,
             'div': div,
+            'repos': sorted(repo_names),
+            'avatar_url': avatar_response['avatar_url'],
         }
         jinja_dict.update(t_r_df.to_dict(orient='records')[0])
 
-        file_loader = FileSystemLoader('templates/')
-        env = Environment(loader=file_loader)
         t = env.get_template('page.html')
-
-        # html = file_html(grid, CDN, r, template='templates/index.html')
 
         out_file = Path(out_dir) / f"{r}.html"
         with open(out_file, 'w') as f:
