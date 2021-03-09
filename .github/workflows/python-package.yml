@@ -13,7 +13,7 @@ jobs:
       matrix:
         python-version: ['3.7', '3.8', '3.9']
     env:
-      work_dir: ./test_folder
+      work_dir: test_folder
 
     steps:
     - name: Checkout github_stats_pages
@@ -33,11 +33,14 @@ jobs:
       run: |
         echo "Username for unit tests : ${{ github.actor }}"
         pytest --cov-report term-missing --cov=github_stats_pages tests --username ${{ github.actor }} --token ${{ secrets.GH_TOKEN }}
-    - name: Test scripts
+    - name: Test scripts (get data)
       run: |
         mkdir ${{ env.work_dir }}
         get_repo_list -u ${{ github.actor }}
         gts_run_all_repos -u ${{ github.actor }} -t ${{ secrets.GH_TOKEN }} -c ${{ github.actor }}.csv
-        merge_csv.sh ./
-        make_stats_plots -u ${{ github.actor }} -d ./ -o ./ -c ${{ github.actor }}.csv
       working-directory: ${{env.work_dir}}
+    - name: Test scripts (merge and generate static pages)
+      run: |
+        merge_csv.sh ${{env.work_dir}}
+        make_stats_plots -u ${{ github.actor }} -d ${{env.work_dir}} -o ${{env.work_dir}} \
+          -c ${{env.work_dir}}/${{ github.actor }}.csv
