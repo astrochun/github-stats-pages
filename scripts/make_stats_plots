@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+
+import argparse
+
+from github_stats_pages import stats_plots
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description='CLI to generate stats plots and static pages')
+    parser.add_argument('-u', '--username', required=True,
+                        help='user or organization name')
+    parser.add_argument('-d', '--data-dir', required=True,
+                        help='Absolute path of folder containing merge CSV files')
+    parser.add_argument('-o', '--out-dir', required=True,
+                        help='Absolute path to save static pages')
+    parser.add_argument('-c', '--csv-file', required=True,
+                        help='CSV filename')
+    args = parser.parse_args()
+    vargs = vars(args)
+
+    stats_plots.make_plots(**vargs)
