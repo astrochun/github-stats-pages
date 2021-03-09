@@ -134,7 +134,7 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str):
         with open(out_file, 'w') as f:
             f.writelines(t_index.render(jinja_dict=jinja_dict))
 
-    for r in repo_names:  # ['voxcharta-my-voting-record']:
+    for r in repo_names:
         t_r_df = repository_df.loc[repository_df['name'] == r]
 
         r_traffic_df = traffic_df.loc[traffic_df[columns[0]] == r]
