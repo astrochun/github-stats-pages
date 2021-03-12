@@ -7,3 +7,25 @@ Retrieve statistics for a user's repositories and populate the information onto 
 [![PyPI](https://img.shields.io/pypi/v/github-stats-pages?color=blue)](https://pypi.org/project/github-stats-pages)
 
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/github-stats-pages?color=light%20green&label=PyPI-download)
+
+## Overview
+
+## Getting Started
+
+## Installation
+
+## Versioning
+
+## Continuous Integration
+
+## Authors
+
+* Chun Ly, Ph.D. ([@astrochun](http://www.github.com/astrochun))
+
+See also the list of
+[contributors](https://github.com/astrochun/github-stats-pages/contributors) who participated in this project.
+
+
+## License
+
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) - see the [LICENSE](LICENSE) file for details.
