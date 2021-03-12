@@ -1,6 +1,6 @@
+from pathlib import Path
 from requests import get
 
-from pathlib import Path
 from typing import Dict
 
 from math import pi
@@ -23,6 +23,8 @@ TOOLTIPS = [
     ("index", "$index"),
     ("(x,y)", "($x, $top)"),
 ]
+
+main_p = Path(__file__).parent
 
 
 def load_data(data_dir: str) -> Dict[str, pd.DataFrame]:
@@ -126,7 +128,8 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str):
         'repos': sorted(repo_names),
     }
 
-    file_loader = FileSystemLoader('templates/styles/')
+    template_p = main_p / 'templates'
+    file_loader = FileSystemLoader(template_p / 'styles/')
     env = Environment(loader=file_loader)
     for file in ['index.html', 'about.html']:
         t_index = env.get_template(file)
