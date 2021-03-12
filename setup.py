@@ -14,6 +14,8 @@ setup(
              'scripts/gts_run_all_repos',
              'scripts/merge-csv.sh',
              'scripts/make_stats_plots'],
+    include_package_data=True,
+    package_data={'github_stats_pages': ['templates/*']},
     url='https://github.com/astrochun/github-stats-pages',
     license='MIT',
     author='Chun Ly',

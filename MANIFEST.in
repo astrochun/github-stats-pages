@@ -1,3 +1,5 @@
 include LICENSE
 include README.md
 include requirements.txt
+include github_stats_pages/templates
+recursive-include github_stats_pages/templates/** *
