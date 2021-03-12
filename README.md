@@ -8,6 +8,14 @@ Retrieve statistics for a user's repositories and populate the information onto 
 
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/github-stats-pages?color=light%20green&label=PyPI-download)
 
+- [Overview](#overview)
+- [Installation](#installation)
+- [Execution](#execution)
+- [Versioning](#versioning)
+- [Continuous Integration](#continuous-integration)
+- [Authors](#authors)
+- [License](#license)
+
 ## Overview
 
 ## Installation
