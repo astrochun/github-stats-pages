@@ -14,6 +14,19 @@ Retrieve statistics for a user's repositories and populate the information onto 
 
 ## Installation
 
+Use our [PyPI package](https://pypi.org/project/github-traffic-stats/) to
+get the most stable release:
+```
+(venv) $ pip install github-stats-pages
+```
+
+Or if you want the latest version then:
+```
+(venv) $ git clone https://github.com/astrochun/github-stats-pages
+(venv) $ cd github-stats_pages
+(venv) $ python setup.py install
+```
+
 ## Versioning
 
 ## Continuous Integration
