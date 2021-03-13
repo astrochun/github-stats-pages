@@ -129,7 +129,7 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str):
     }
 
     template_p = main_p / 'templates'
-    file_loader = FileSystemLoader(template_p / 'styles/')
+    file_loader = FileSystemLoader(template_p)
     env = Environment(loader=file_loader)
     for file in ['index.html', 'about.html']:
         t_index = env.get_template(file)
