@@ -65,7 +65,7 @@ def date_subplots(df: pd.DataFrame, y_column: str, title: str = '',
     y = df[y_column]
     g_source = ColumnDataSource(data={'x': x, 'top': y})
     glyphs = VBar(x='x', top='top', bottom=0, width=td(days=1),
-                  fill_color="#6fa1f8", fill_alpha=0.5, line_color=None)
+                  fill_color="#f8b739", fill_alpha=0.8, line_color=None)
     s.add_glyph(g_source, glyphs)
     # s.vbar(x=x, top=y, width=5.0)
     s.xaxis.formatter = DatetimeTickFormatter(years=["%Y %m"])
@@ -93,7 +93,7 @@ def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
     # s.axis.subgroup_label_orientation = "normal"
 
     y = df[y_column]
-    s.vbar(x=x, top=y, width=0.9, fill_color="#6fa1f8", fill_alpha=0.5,
+    s.vbar(x=x, top=y, width=0.9, fill_color="#f8b739", fill_alpha=0.8,
            line_color=None)
 
     return s
