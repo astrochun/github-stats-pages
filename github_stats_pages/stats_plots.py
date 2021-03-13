@@ -47,11 +47,12 @@ def load_data(data_dir: str) -> Dict[str, pd.DataFrame]:
 
 
 def date_subplots(df: pd.DataFrame, y_column: str, title: str = '',
-                  pw: int = 350, ph: int = 350, bc: str = "#fafafa") \
-        -> figure():
+                  pw: int = 350, ph: int = 350, bc: str = "#ffffff",
+                  bfc: str = "#fafafa") -> figure():
 
-    s = figure(plot_width=pw, plot_height=ph, background_fill_color=bc,
-               x_axis_type="datetime", title=title, tooltips=TOOLTIPS,
+    s = figure(plot_width=pw, plot_height=ph, title=title,
+               background_fill_color=bc, border_fill_color=bfc,
+               x_axis_type="datetime", tooltips=TOOLTIPS,
                tools="pan,box_zoom,wheel_zoom,hover,save,reset")
     # s.toolbar.active_inspect = [HoverTool()]
 
@@ -74,15 +75,16 @@ def date_subplots(df: pd.DataFrame, y_column: str, title: str = '',
 
 
 def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
-                   pw: int = 350, ph: int = 350, bc: str = "#fafafa") \
-        -> figure():
+                   pw: int = 350, ph: int = 350, bc: str = "#ffffff",
+                   bfc: str = "#fafafa") -> figure():
 
     x = df['source'].to_list()
     '''print(x)
     s.x_range = FactorRange(*x)'''
 
-    s = figure(plot_width=pw, plot_height=ph, background_fill_color=bc,
-               x_range=x, title=title, tools="", toolbar_location=None)
+    s = figure(plot_width=pw, plot_height=ph, title=title,
+               background_fill_color=bc, border_fill_color=bfc,
+               x_range=x, tools="", toolbar_location=None)
 
     s.axis.major_tick_in = 6
     s.axis.major_tick_out = 0
@@ -119,7 +121,8 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str):
 
     pw = 450  # plot width
     ph = 350  # plot height
-    bc = "#fafafa"  # background color
+    bc = "#ffffff"  # background color
+    bfc = "#fafafa"  # border fill color
 
     avatar_response = get(f'https://api.github.com/users/{username}').json()
     jinja_dict = {
@@ -146,20 +149,20 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str):
 
         # Plot traffic data
         s1a = date_subplots(r_traffic_df, 'total', 'Total Daily Traffic', pw=pw,
-                            ph=ph, bc=bc)
+                            ph=ph, bc=bc, bfc=bfc)
 
         s1b = date_subplots(r_traffic_df, 'unique', 'Unique Daily Traffic', pw=pw,
-                            ph=ph, bc=bc)
+                            ph=ph, bc=bc, bfc=bfc)
 
         # Plot clones traffic
         s2a = date_subplots(r_clone_df, 'total', 'Total Daily Clones', pw=pw,
-                            ph=ph, bc=bc)
+                            ph=ph, bc=bc, bfc=bfc)
 
         s2b = date_subplots(r_clone_df, 'unique', 'Unique Daily Clones', pw=pw,
-                            ph=ph, bc=bc)
+                            ph=ph, bc=bc, bfc=bfc)
 
         s3a = refer_subplots(r_referrer_df, 'total', 'Total Referrals', pw=pw,
-                             ph=ph, bc=bc)
+                             ph=ph, bc=bc, bfc=bfc)
 
         s3b = refer_subplots(r_referrer_df, 'unique', 'Unique Referrals', pw=pw,
                              ph=ph, bc=bc)
