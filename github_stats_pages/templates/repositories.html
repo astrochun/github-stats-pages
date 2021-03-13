@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>About | github-stats-pages</title>
+  	<title>Repositories | {{ jinja_dict.username }} </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -68,37 +68,14 @@
           </div>
         </nav>
 
-	      <h2 class="mb-4">About | <a href="https://github.com/astrochun/github-stats-pages">github-stats-pages</a></h2>
+        <h2 class="mb-4">List of Repositories |
+          <a href="https://github.com/{{ jinja_dict.username }}">@{{ jinja_dict.username }}</a></h2>
         <p>
-          This software was envisioned as part of a way to preserve traffic statistics for any public GitHub repository.
-          Traffic statistics is one way to measure the impact of open-source software. The idea of this project came
-          to fruition when I was working on an <a href="https://github.com/astrochun/voxcharta-my-voting-record">open-source software</a>
-          that I built for astronomers where it received a fair amount of use. Because GitHub only stores that record for up to two
-          weeks, this poses a problem for measuring impact over time. While there were some solutions available on GitHub,
-          I wanted something that would generate it for multiple repositories and to publish static site content such as
-          <a href="https://pages.github.com/">GitHub Pages</a>. In principle these pages can be deployed in a number of
-          ways. I hope the project can expand to include other statistics so that it is a one-stop website for all
-          GitHub statistics.<br><br>
-
-          This project is powered by <a href="https://www.python.org">Python</a>,
-          <a href="https://github.com/features/actions">GitHub Actions</a>,
-          <a href="https://bokeh.org/">Bokeh</a>, and
-          <a href="https://getbootstrap.com/">Bootstrap</a>.<br><br>
-
-          If you are interested in contributing, feel free to submit an
-          <a href="https://github.com/astrochun/github-stats-pages/issues/new">issue</a> or
-          <a href="https://github.com/astrochun/github-stats-pages/fork">forked the repository</a> and submit a pull request.
-          This code is made publicly available under an
-          <a href="https://github.com/astrochun/github-stats-pages/blob/main/LICENSE">MIT License</a>.
-          If you find this software useful, please consider acknowledging the use of this software or making a small donation
-          through <a href="https://github.com/sponsors">GitHub Sponsors</a> via the button below.
-          Donations ensure that the software remains maintained.<br><br>
-
-          Like any open source projects, this is made with ❤️!<br>
-          &nbsp; - Chun (<a href="https://github.com/astrochun/">@astrochun</a>)<br><br>
-
-          <iframe src="https://github.com/sponsors/astrochun/button" title="Sponsor astrochun"
-                  height="35" width="116" style="border: 0;"></iframe><br><br><br>
+          {% for repo in jinja_dict.repos %}
+          <li>
+            <a href="{{ repo }}.html">{{ repo }}</a>
+          </li>
+          {% endfor %}
         </p>
       </div>
 		</div>

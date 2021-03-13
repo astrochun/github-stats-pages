@@ -131,9 +131,9 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str):
     template_p = main_p / 'templates'
     file_loader = FileSystemLoader(template_p)
     env = Environment(loader=file_loader)
-    for file in ['index.html', 'about.html']:
-        t_index = env.get_template(file)
-        out_file = Path(out_dir) / file
+    for file in ['index', 'about', 'repositories']:
+        t_index = env.get_template(f"{file}.html")
+        out_file = Path(out_dir) / f"{file}.html"
         with open(out_file, 'w') as f:
             f.writelines(t_index.render(jinja_dict=jinja_dict))
 
