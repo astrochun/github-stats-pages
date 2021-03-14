@@ -173,6 +173,7 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str):
         script, div = components(grid)
 
         jinja_dict = {
+            'username': username,
             'title': f"GitHub Statistics for {r}",
             'Total_Views': r_traffic_df['total'].sum(),
             'Total_Clones': r_clone_df['total'].sum(),
