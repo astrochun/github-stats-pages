@@ -38,7 +38,7 @@ jobs:
     - name: Test scripts (get data)
       run: |
         get_repo_list -u ${{ github.actor }}
-        gts_run_all_repos -u ${{ github.actor }} -t ${{ secrets.GH_TOKEN }} -c ${{ github.actor }}.csv
+        gts_run_all_repos -u ${{ github.actor }} -t ${{ secrets.GH_TOKEN }} -c ${{ github.actor }}.csv --test
         mv ${{ github.actor }}.csv 20*.csv -t ${{env.work_dir}}
     - name: Test scripts (merge and generate static pages)
       run: |

@@ -19,12 +19,19 @@ if __name__ == '__main__':
                         help='API token')
     parser.add_argument('-c', '--csv-file', required=True,
                         help='CSV filename')
+    parser.add_argument('--test', action='store_true',
+                        help='Flag to quickly run a few repositories')
     args = parser.parse_args()
 
     df = read_csv(args.csv_file)
     # Exclude forks
     new_df = df.loc[df['fork'] == False]
 
-    for repo_name in new_df['name']:
+    if args.test:
+        repo_list = new_df['name'][0:5]
+    else:
+        repo_list = new_df['name']
+
+    for repo_name in repo_list:
         gts_run.run_each_repo(args.user, args.token, repo_name,
                               save_csv=True)
