@@ -71,11 +71,18 @@
         <h2 class="mb-4">List of Repositories |
           <a href="https://github.com/{{ jinja_dict.username }}">@{{ jinja_dict.username }}</a></h2>
         <p>
-          {% for repo in jinja_dict.repos %}
-          <li>
-            <a href="{{ repo }}.html">{{ repo }}</a>
-          </li>
-          {% endfor %}
+          <ul>
+            {% for repo in jinja_dict.repos %}
+            <li>
+              <a href="{{ repo }}.html">{{ repo }}</a>&nbsp;&nbsp;<a href="https://github.com/{{ jinja_dict.username }}/{{ repo }}"><img src="https://img.shields.io/badge/GitHub-%20-f8b739?logo=github&style=plastic"></a>
+              <!--
+              <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/{{ jinja_dict.username }}/{{ repo }}?style=social">
+              <img alt="GitHub stars" src="https://img.shields.io/github/stars/{{ jinja_dict.username }}/{{ repo }}?style=social">
+              <img alt="GitHub forks" src="https://img.shields.io/github/forks/{{ jinja_dict.username }}/{{ repo }}?style=social">
+              -->
+            </li>
+            {% endfor %}
+          </ul>
         </p>
       </div>
 		</div>
