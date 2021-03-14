@@ -78,7 +78,7 @@ window of data aggregation. The data can be merged with the `merge-csv.sh`
 script:
 
 ```
-(venv) laptop:github_data $ ./merge-csv.sh .
+(venv) laptop:github_data $ ./merge-csv.sh
 ```
 
 This generates three files: merge_clones.csv, merge_traffic.csv and
