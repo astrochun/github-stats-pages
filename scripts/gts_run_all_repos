@@ -12,7 +12,7 @@ def read_csv(csv_file: str) -> pd.DataFrame:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description='CLI to retrieve user or organization repositories')
+        description='CLI to retrieve GitHub traffic statistics')
     parser.add_argument('-u', '--user', required=True,
                         help='user or organization name')
     parser.add_argument('-t', '--token', required=True,
