@@ -1,7 +1,7 @@
 from pathlib import Path
 from requests import get
 
-from typing import Dict
+from typing import Dict, Union
 
 from math import pi
 import pandas as pd
@@ -101,7 +101,14 @@ def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
     return s
 
 
-def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str):
+def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
+               include_repo: Union[str, list] = '',
+               exclude_repo: Union[str, list] = ''):
+
+    if include_repo and exclude_repo:
+        raise ValueError(
+            "Cannot provide include_repo and exclude_repo simultaneously!"
+        )
 
     repository_df = pd.read_csv(csv_file)
 
@@ -112,8 +119,24 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str):
     for key, df in dict_df.items():
         repo_names.update(set(df[columns[0]].unique()))
 
-    n_repo_names = len(repo_names)
-    print(f"Number of GitHub repositories: {n_repo_names}")
+    final_repo_names = repo_names  # init
+
+    # Filter for only inclusion
+    if include_repo:
+        if isinstance(include_repo, str):
+            include_repo = [include_repo]
+        print(f"Only including: {', '.join(include_repo)}")
+        final_repo_names = repo_names & set(include_repo)
+
+    # Filter for exclusion
+    if exclude_repo:
+        if isinstance(exclude_repo, str):
+            exclude_repo = [exclude_repo]
+        print(f"Excluding: {', '.join(exclude_repo)}")
+        final_repo_names = repo_names - set(exclude_repo)
+
+    n_final_repo_names = len(final_repo_names)
+    print(f"Number of GitHub repositories: {n_final_repo_names}")
 
     traffic_df = dict_df['traffic']
     clone_df = dict_df['clone']
@@ -128,7 +151,7 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str):
     jinja_dict = {
         'username': username,
         'avatar_url': avatar_response['avatar_url'],
-        'repos': sorted(repo_names),
+        'repos': sorted(final_repo_names),
     }
 
     template_p = main_p / 'templates'
@@ -140,7 +163,7 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str):
         with open(out_file, 'w') as f:
             f.writelines(t_index.render(jinja_dict=jinja_dict))
 
-    for r in repo_names:
+    for r in final_repo_names:
         t_r_df = repository_df.loc[repository_df['name'] == r]
 
         r_traffic_df = traffic_df.loc[traffic_df[columns[0]] == r]
@@ -179,7 +202,7 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str):
             'Total_Clones': r_clone_df['total'].sum(),
             'script': script,
             'div': div,
-            'repos': sorted(repo_names),
+            'repos': sorted(final_repo_names),
             'avatar_url': avatar_response['avatar_url'],
         }
         jinja_dict.update(t_r_df.to_dict(orient='records')[0])
