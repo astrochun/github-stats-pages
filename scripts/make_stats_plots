@@ -19,7 +19,17 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--out-dir', default=Path.cwd(),
                         help='Absolute path to save static pages'
                              'Default: current working directory')
+    parser.add_argument('-i', '--include-repo', default='',
+                        help='Repositories to only render')
+    parser.add_argument('-e', '--exclude-repo', default='',
+                        help='Repositories to exclude')
+
     args = parser.parse_args()
     vargs = vars(args)
+
+    if args.include_repo and args.exclude_repos:
+        raise ValueError(
+            "Cannot provide include_repo and exclude_repo simultaneously!"
+        )
 
     stats_plots.make_plots(**vargs)
