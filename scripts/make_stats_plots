@@ -14,7 +14,7 @@ if __name__ == '__main__':
     parser.add_argument('-c', '--csv-file', required=True,
                         help='CSV filename')
     parser.add_argument('-d', '--data-dir', default=Path.cwd(),
-                        help='Absolute path of folder containing merge CSV files'
+                        help='Folder path containing merge CSV files'
                              'Default: current working directory')
     parser.add_argument('-o', '--out-dir', default=Path.cwd(),
                         help='Absolute path to save static pages'

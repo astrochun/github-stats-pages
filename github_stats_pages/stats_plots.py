@@ -1,3 +1,4 @@
+import shutil
 from pathlib import Path
 from requests import get
 
@@ -102,6 +103,7 @@ def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
 
 
 def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
+               symlink: bool = False,
                include_repo: Union[str, list] = '',
                exclude_repo: Union[str, list] = ''):
 
@@ -154,6 +156,7 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
         'repos': sorted(final_repo_names),
     }
 
+    # Write HTML Files
     template_p = main_p / 'templates'
     file_loader = FileSystemLoader(template_p)
     env = Environment(loader=file_loader)
@@ -162,6 +165,24 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
         out_file = Path(out_dir) / f"{file}.html"
         with open(out_file, 'w') as f:
             f.writelines(t_index.render(jinja_dict=jinja_dict))
+
+    # Copy or symlink files
+    source = template_p / "styles"
+    target = Path(out_dir) / "styles"
+    if target.exists():
+        if target.is_symlink():
+            print("styles folder is already a symbolic link!")
+        else:
+            # Delete content to start fresh
+            print("Deleting styles assets (fresh start) ...")
+            shutil.rmtree(target)
+
+    if not target.exists() and not symlink:
+        shutil.copytree(source, target, symlinks=True,
+                        copy_function=shutil.copy2)
+    else:
+        if not target.is_symlink():
+            target.symlink_to(source)
 
     for r in final_repo_names:
         t_r_df = repository_df.loc[repository_df['name'] == r]

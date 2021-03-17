@@ -1,4 +1,7 @@
+import shutil
+import os
 from pathlib import Path
+
 from github_stats_pages import stats_plots
 
 tests_data_folder = Path('tests_data')
@@ -22,3 +25,12 @@ def test_make_plots(username):
         p = tests_data_folder / html_file
         assert p.exists()
         p.unlink()
+
+    # Test folder and symlink
+    stats_plots.make_plots(**d0)  # check that folder is clean and restarted
+
+    stats_plots.make_plots(**d0, symlink=True)
+
+    stats_plots.make_plots(**d0)
+
+    os.unlink(tests_data_folder / "styles")
