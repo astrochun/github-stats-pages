@@ -28,14 +28,18 @@ TOOLTIPS = [
 main_p = Path(__file__).parent
 
 
-def load_data(data_dir: str) -> Dict[str, pd.DataFrame]:
+def load_data(data_dir: str, ci: bool = False) -> Dict[str, pd.DataFrame]:
     """
     Load stats CSV as dict of pandas DataFrame
 
     :param data_dir: Path containing merged*.csv
+    :param ci: For CI unit tests
     :return: Dict of pandas DataFrame
     """
-    p = Path(data_dir) / "data"
+
+    p = Path(data_dir)
+    if not ci:
+        p = Path(data_dir) / "data"
 
     dict_df = {}
 
@@ -104,7 +108,7 @@ def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
 
 
 def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
-               symlink: bool = False,
+               symlink: bool = False, ci: bool = False,
                include_repo: Union[str, list] = '',
                exclude_repo: Union[str, list] = ''):
 
@@ -115,7 +119,7 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
 
     repository_df = pd.read_csv(csv_file)
 
-    dict_df = load_data(data_dir)
+    dict_df = load_data(data_dir, ci=ci)
 
     # Get unique repository names
     repo_names = set()
