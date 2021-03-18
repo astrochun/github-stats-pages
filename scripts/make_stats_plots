@@ -23,6 +23,8 @@ if __name__ == '__main__':
                         help='Repositories to only render')
     parser.add_argument('-e', '--exclude-repo', default='',
                         help='Repositories to exclude')
+    parser.add_argument('-s', '--symlink', action='store_true',
+                        help='Symlink to styles assets')
 
     args = parser.parse_args()
     vargs = vars(args)
