@@ -48,7 +48,7 @@ def load_data(data_dir: str) -> Dict[str, pd.DataFrame]:
 
 
 def date_subplots(df: pd.DataFrame, y_column: str, title: str = '',
-                  pw: int = 350, ph: int = 350, bc: str = "#ffffff",
+                  pw: int = 350, ph: int = 350, bc: str = "#f0f0f0",
                   bfc: str = "#fafafa") -> figure():
 
     s = figure(plot_width=pw, plot_height=ph, title=title,
@@ -60,8 +60,7 @@ def date_subplots(df: pd.DataFrame, y_column: str, title: str = '',
     s.axis.major_tick_in = 6
     s.axis.major_tick_out = 0
     s.axis.minor_tick_line_color = None
-    # s.axis.minor_tick_in = 3
-    # s.axis.minor_tick_out = 0
+    s.grid.grid_line_color = "#ffffff"
 
     x = [dt.strptime(d, '%Y-%m-%d') for d in df['date']]
     y = df[y_column]
@@ -76,7 +75,7 @@ def date_subplots(df: pd.DataFrame, y_column: str, title: str = '',
 
 
 def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
-                   pw: int = 350, ph: int = 350, bc: str = "#ffffff",
+                   pw: int = 350, ph: int = 350, bc: str = "#f0f0f0",
                    bfc: str = "#fafafa") -> figure():
 
     x = df['source'].to_list()
@@ -91,6 +90,8 @@ def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
     s.axis.major_tick_out = 0
     s.xaxis.major_label_orientation = 0.83 * pi/2
     s.axis.minor_tick_line_color = None
+
+    s.grid.grid_line_color = "#ffffff"
     # s.axis.minor_tick_in = 3
     # s.axis.minor_tick_out = 0
     # s.axis.subgroup_label_orientation = "normal"
@@ -146,7 +147,7 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
 
     pw = 450  # plot width
     ph = 350  # plot height
-    bc = "#ffffff"  # background color
+    bc = "#f0f0f0"  # background color
     bfc = "#fafafa"  # border fill color
 
     avatar_response = get(f'https://api.github.com/users/{username}').json()
