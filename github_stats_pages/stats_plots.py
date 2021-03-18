@@ -35,7 +35,7 @@ def load_data(data_dir: str) -> Dict[str, pd.DataFrame]:
     :param data_dir: Path containing merged*.csv
     :return: Dict of pandas DataFrame
     """
-    p = Path(data_dir)
+    p = Path(data_dir) / "data"
 
     dict_df = {}
 

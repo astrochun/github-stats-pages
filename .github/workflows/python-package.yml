@@ -35,13 +35,11 @@ jobs:
         pytest --cov-report term-missing --cov=github_stats_pages tests --username ${{ github.actor }} --token ${{ secrets.GH_TOKEN }}
     - run: |
         mkdir ${{env.work_dir}}
-    - name: Test scripts (get data)
+        cd ${{env.work_dir}}
+    - name: Test scripts (get data, merge, and generate static pages)
       run: |
         get_repo_list -u ${{ github.actor }}
-        gts_run_all_repos -u ${{ github.actor }} -t ${{ secrets.GH_TOKEN }} -c ${{ github.actor }}.csv --test
-        mv ${{ github.actor }}.csv 20*.csv -t ${{env.work_dir}}
-    - name: Test scripts (merge and generate static pages)
-      run: |
-        merge-csv.sh ${{env.work_dir}}
+        gts_run_all_repos -u ${{ github.actor }} -t ${{ secrets.GH_TOKEN }} -c ${{ github.actor }}.csv --test,
+        merge-csv.sh .
         make_stats_plots -u ${{ github.actor }} -d ${{env.work_dir}} -o ${{env.work_dir}} \
           -c ${{env.work_dir}}/${{ github.actor }}.csv

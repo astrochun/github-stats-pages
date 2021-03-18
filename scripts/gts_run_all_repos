@@ -2,6 +2,7 @@
 
 import argparse
 import pandas as pd
+from pathlib import Path
 
 from github_stats_pages import gts_run
 
@@ -35,3 +36,13 @@ if __name__ == '__main__':
     for repo_name in repo_list:
         gts_run.run_each_repo(args.user, args.token, repo_name,
                               save_csv=True)
+
+    # Save files in a data folder
+    print("Moving records to data/ folder")
+    p_cwd = Path.cwd()
+    p_data = p_cwd / "data"
+    if not p_data.exists():
+        p_data.mkdir()
+
+    for f in p_cwd.glob('????-??-??-???-???-*stats.csv'):
+        f.rename(p_data / f.name)
