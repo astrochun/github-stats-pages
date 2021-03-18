@@ -54,7 +54,7 @@ def date_subplots(df: pd.DataFrame, y_column: str, title: str = '',
     s = figure(plot_width=pw, plot_height=ph, title=title,
                background_fill_color=bc, border_fill_color=bfc,
                x_axis_type="datetime", tooltips=TOOLTIPS,
-               tools="pan,box_zoom,wheel_zoom,hover,save,reset")
+               tools="xpan,xwheel_zoom,xzoom_in,xzoom_out,hover,save,reset")
     # s.toolbar.active_inspect = [HoverTool()]
 
     s.axis.major_tick_in = 6
