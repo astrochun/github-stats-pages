@@ -40,6 +40,5 @@ jobs:
       run: |
         get_repo_list -u ${{ github.actor }}
         gts_run_all_repos -u ${{ github.actor }} -t ${{ secrets.GH_TOKEN }} -c ${{ github.actor }}.csv --test
-        merge-csv.sh .
-        make_stats_plots -u ${{ github.actor }} -d ${{env.work_dir}} -o ${{env.work_dir}} \
-          -c ${{env.work_dir}}/${{ github.actor }}.csv
+        merge-csv.sh
+        make_stats_plots -u ${{ github.actor }} -c ${{ github.actor }}.csv
