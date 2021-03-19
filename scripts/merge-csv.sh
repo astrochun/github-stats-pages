@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Usage:
 # $ bash ./scripts/merge-csv.sh [directory_with_csv_files]
 # Based on nchah's script but modified to separate out the different types
