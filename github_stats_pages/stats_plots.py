@@ -189,6 +189,11 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
         if not target.is_symlink():
             target.symlink_to(source)
 
+    # Add repo folder for all static repo pages
+    p_repos = Path(out_dir) / "repos"
+    if not p_repos.exists():
+        p_repos.mkdir()
+
     for r in final_repo_names:
         t_r_df = repository_df.loc[repository_df['name'] == r]
 
@@ -235,6 +240,6 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
 
         t = env.get_template('page.html')
 
-        out_file = Path(out_dir) / f"{r}.html"
+        out_file = p_repos / f"{r}.html"
         with open(out_file, 'w') as f:
             f.writelines(t.render(jinja_dict=jinja_dict))
