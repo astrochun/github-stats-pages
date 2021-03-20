@@ -21,7 +21,7 @@ def test_make_plots(username):
     }
     stats_plots.make_plots(**d0, ci=True)
 
-    for html_file in ['index.html', 'about.html', 'github-stats-pages.html']:
+    for html_file in ['index.html', 'about.html', 'repos/github-stats-pages.html']:
         p = tests_data_folder / html_file
         assert p.exists()
         p.unlink()
