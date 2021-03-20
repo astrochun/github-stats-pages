@@ -1,4 +1,3 @@
-import shutil
 import os
 from pathlib import Path
 
@@ -21,7 +20,8 @@ def test_make_plots(username):
     }
     stats_plots.make_plots(**d0, ci=True)
 
-    for html_file in ['index.html', 'about.html', 'repos/github-stats-pages.html']:
+    for html_file in ['index.html', 'about.html', 'repositories.html',
+                      'repos/github-stats-pages.html']:
         p = tests_data_folder / html_file
         assert p.exists()
         p.unlink()
@@ -33,4 +33,15 @@ def test_make_plots(username):
 
     stats_plots.make_plots(**d0, ci=True)
 
-    os.unlink(tests_data_folder / "styles")
+    # Clean up after unit test run
+    Path(tests_data_folder / "styles").unlink()
+    for html_file in ['index.html', 'about.html', 'repositories.html',
+                      'repos/github-stats-pages.html']:
+        Path(f"{tests_data_folder}/{html_file}").unlink()
+
+    os.rmdir(f"{tests_data_folder}/repos")  # Delete repos folder
+
+    # Delete gts csv files
+    test_csv_files = Path('').glob('????-??-??-???-???-*stats.csv')
+    for delete_file in list(test_csv_files):
+        delete_file.unlink()
