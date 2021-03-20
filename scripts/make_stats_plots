@@ -13,6 +13,8 @@ if __name__ == '__main__':
                         help='user or organization name')
     parser.add_argument('-c', '--csv-file', required=True,
                         help='CSV filename')
+    parser.add_argument('-t', '--token', default='',
+                        help='GitHub API token')  # Avoids rate limiting
     parser.add_argument('-d', '--data-dir', default=Path.cwd(),
                         help='Folder path containing merge CSV files'
                              'Default: current working directory')

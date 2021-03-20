@@ -11,9 +11,10 @@ def test_load_data():
     assert isinstance(dict_df, dict)
 
 
-def test_make_plots(username):
+def test_make_plots(username, token):
     d0 = {
         'username': username,
+        'token': token,
         'data_dir': tests_data_folder,
         'out_dir': tests_data_folder,
         'csv_file': tests_data_folder / 'repository.csv',

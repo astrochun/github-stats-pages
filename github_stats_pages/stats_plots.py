@@ -109,6 +109,7 @@ def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
 
 def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
                symlink: bool = False, ci: bool = False,
+               token: str = '',
                include_repo: Union[str, list] = '',
                exclude_repo: Union[str, list] = ''):
 
@@ -154,7 +155,10 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
     bc = "#f0f0f0"  # background color
     bfc = "#fafafa"  # border fill color
 
-    avatar_response = get(f'https://api.github.com/users/{username}').json()
+    headers = {}
+    if token:
+        headers['Authorization'] = f"token {token}"
+    avatar_response = get(f'https://api.github.com/users/{username}', headers=headers).json()
     jinja_dict = {
         'username': username,
         'avatar_url': avatar_response['avatar_url'],
