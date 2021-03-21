@@ -14,6 +14,12 @@ def test_load_data():
 
 
 def test_make_plots(username, token):
+    def html_check(input_list):
+        for html_file in input_list:
+            p = tests_data_folder / html_file
+            assert p.exists()
+            p.unlink()
+
     d0 = {
         'username': username,
         'token': token,
@@ -21,15 +27,13 @@ def test_make_plots(username, token):
         'out_dir': tests_data_folder,
         'csv_file': tests_data_folder / 'repository.csv',
     }
+    html_list = ['index.html', 'about.html', 'repositories.html',
+                 'repos/github-stats-pages.html']
 
     # General test
     stats_plots.make_plots(**d0, ci=True)
 
-    for html_file in ['index.html', 'about.html', 'repositories.html',
-                      'repos/github-stats-pages.html']:
-        p = tests_data_folder / html_file
-        assert p.exists()
-        p.unlink()
+    html_check(html_list)
 
     # Check that folder is clean and restarted
     stats_plots.make_plots(**d0, ci=True)
@@ -41,8 +45,10 @@ def test_make_plots(username, token):
     stats_plots.make_plots(**d0, ci=True)
 
     d2 = d0.copy()
-    d2.update({'exclude_repo': username})
+    d2.update({'exclude_repo': 'github-stats-pages.html'})
     stats_plots.make_plots(**d2, ci=True)
+
+    html_check(html_list[:-1])
 
     d3 = d0.copy()
     d3.update({'include_repo': 'github-stats-pages'})
@@ -56,9 +62,8 @@ def test_make_plots(username, token):
 
     # Clean up after unit test run
     Path(tests_data_folder / "styles").unlink()
-    for html_file in ['index.html', 'about.html', 'repositories.html',
-                      'repos/github-stats-pages.html']:
-        Path(f"{tests_data_folder}/{html_file}").unlink()
+    for file in html_list:
+        Path(f"{tests_data_folder}/{file}").unlink()
 
     os.rmdir(f"{tests_data_folder}/repos")  # Delete repos folder
 
