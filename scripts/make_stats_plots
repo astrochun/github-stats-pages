@@ -16,15 +16,18 @@ if __name__ == '__main__':
     parser.add_argument('-t', '--token', default='',
                         help='GitHub API token')  # Avoids rate limiting
     parser.add_argument('-d', '--data-dir', default=Path.cwd(),
-                        help='Folder path containing merge CSV files'
-                             'Default: current working directory')
+                        help='''Folder path containing merge CSV files
+                             'Default: current working directory''')
     parser.add_argument('-o', '--out-dir', default=Path.cwd(),
-                        help='Absolute path to save static pages'
-                             'Default: current working directory')
+                        help='''Absolute path to save static pages.
+                             'Default: current working directory''')
     parser.add_argument('-i', '--include-repo', default='',
-                        help='Repositories to only render')
+                        help='''Repositories to only render.
+                             Overrides --csv-filename input.
+                             Comma separated if more than one''')
     parser.add_argument('-e', '--exclude-repo', default='',
-                        help='Repositories to exclude')
+                        help='''Repositories to exclude.
+                             Comma separated if more than one''')
     parser.add_argument('-s', '--symlink', action='store_true',
                         help='Symlink to styles assets')
 

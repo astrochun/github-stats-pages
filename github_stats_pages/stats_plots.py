@@ -2,7 +2,7 @@ import shutil
 from pathlib import Path
 from requests import get
 
-from typing import Dict, Union
+from typing import Dict
 
 from math import pi
 import pandas as pd
@@ -131,8 +131,8 @@ def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
 def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
                symlink: bool = False, ci: bool = False,
                token: str = '',
-               include_repo: Union[str, list] = '',
-               exclude_repo: Union[str, list] = ''):
+               include_repo: str = '',
+               exclude_repo: str = ''):
     """
     Generate HTML pages containing Bokeh plots
 
@@ -167,17 +167,13 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
 
     # Filter for only inclusion
     if include_repo:
-        if isinstance(include_repo, str):
-            include_repo = [include_repo]
-        print(f"Only including: {', '.join(include_repo)}")
-        final_repo_names = repo_names & set(include_repo)
+        print(f"Only including: {include_repo.replace(',', ', ')}")
+        final_repo_names = repo_names & set(include_repo.split(','))
 
     # Filter for exclusion
     if exclude_repo:
-        if isinstance(exclude_repo, str):
-            exclude_repo = [exclude_repo]
-        print(f"Excluding: {', '.join(exclude_repo)}")
-        final_repo_names = repo_names - set(exclude_repo)
+        print(f"Excluding: {exclude_repo.replace(',', ', ')}")
+        final_repo_names = repo_names - set(exclude_repo.split(','))
 
     n_final_repo_names = len(final_repo_names)
     print(f"Number of GitHub repositories: {n_final_repo_names}")
