@@ -54,7 +54,17 @@ def load_data(data_dir: str, ci: bool = False) -> Dict[str, pd.DataFrame]:
 def date_subplots(df: pd.DataFrame, y_column: str, title: str = '',
                   pw: int = 350, ph: int = 350, bc: str = "#f0f0f0",
                   bfc: str = "#fafafa") -> figure():
+    """
+    Generate subplots with date x-axis
 
+    :param df: DataFrame of traffic or clone data
+    :param y_column: DataFrame column to plot on y-axis, e.g., 'total', 'unique'
+    :param title: Title of plot
+    :param pw: plot width in pixel
+    :param ph: plot height in pixel
+    :param bc: background color, #f0f0f0
+    :param bfc: background filled color. Default: #fafafa
+    """
     s = figure(plot_width=pw, plot_height=ph, title=title,
                background_fill_color=bc, border_fill_color=bfc,
                x_axis_type="datetime", tooltips=TOOLTIPS,
@@ -81,6 +91,17 @@ def date_subplots(df: pd.DataFrame, y_column: str, title: str = '',
 def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
                    pw: int = 350, ph: int = 350, bc: str = "#f0f0f0",
                    bfc: str = "#fafafa") -> figure():
+    """
+    Generate subplots with referrer x-axis
+
+    :param df: DataFrame of referrer data
+    :param y_column: DataFrame column to plot on y-axis, e.g., 'total', 'unique'
+    :param title: Title of plot
+    :param pw: plot width in pixel
+    :param ph: plot height in pixel
+    :param bc: background color, #f0f0f0
+    :param bfc: background filled color. Default: #fafafa
+    """
 
     x = df['source'].to_list()
     '''print(x)
@@ -112,6 +133,21 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
                token: str = '',
                include_repo: Union[str, list] = '',
                exclude_repo: Union[str, list] = ''):
+    """
+    Generate HTML pages containing Bokeh plots
+
+    :param username: GitHub username or organization
+    :param data_dir: Path to working folder. CSV files are under a 'data' sub-folder
+    :param out_dir: Location of outputted HTML
+    :param csv_file: CSV file containing user or organization repository list
+    :param symlink: Symbolic link styles assets instead of a copy. Default: copy
+    :param ci: Flag to do short run for CI build test
+    :param token: GitHub Personal Access Token (this is to avoid rate limits)
+    :param include_repo: Repositories to only generate HTML pages.
+                         Ignore csv_file inputs. Comma separated for more than one
+    :param exclude_repo: Repositories to exclude from csv_file list.
+                         Comma separated for more than one
+    """
 
     if include_repo and exclude_repo:
         raise ValueError(
