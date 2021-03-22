@@ -19,7 +19,7 @@ def test_make_plots(username, token):
             p = tests_data_folder / html_file
             if exists:
                 assert p.exists()
-                p.unlink()
+                p.unlink()  # Delete file for clean set-up
             else:
                 assert not p.exists()
 
@@ -69,7 +69,9 @@ def test_make_plots(username, token):
     # Clean up after unit test run
     Path(tests_data_folder / "styles").unlink()
     for file in html_list:
-        Path(f"{tests_data_folder}/{file}").unlink()
+        p_file = Path(f"{tests_data_folder}/{file}")
+        if p_file.exists():
+            p_file.unlink()
 
     os.rmdir(f"{tests_data_folder}/repos")  # Delete repos folder
 
