@@ -89,7 +89,7 @@ Finally to generate static pages containing the visualization, we
 use the `make_stats_plots` script:
 
 ```
-(venv) laptop:github_data $ make_stats_plots -u <username> -c <username>.csv
+(venv) laptop:github_data $ make_stats_plots -u <username> -c <username>.csv -t $API_TOKEN
 ```
 
 This will generate all contents in the local path. Note that you can specify
