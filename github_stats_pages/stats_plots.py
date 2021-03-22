@@ -158,6 +158,11 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
 
     dict_df = load_data(data_dir, ci=ci)
 
+    # Add repo folder for all static repo pages
+    p_repos = Path(out_dir) / "repos"
+    if not p_repos.exists():
+        p_repos.mkdir()
+
     # Get unique repository names
     repo_names = set()
     for key, df in dict_df.items():
@@ -174,6 +179,12 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
     if exclude_repo:
         print(f"Excluding: {exclude_repo.replace(',', ', ')}")
         final_repo_names = repo_names - set(exclude_repo.split(','))
+
+        for exclude in exclude_repo.split(','):
+            p_exclude = Path(p_repos / f"{exclude}.html")
+            print(f"Deleting: {p_exclude}")
+            if p_exclude.exists():
+                p_exclude.unlink()
 
     n_final_repo_names = len(final_repo_names)
     print(f"Number of GitHub repositories: {n_final_repo_names}")
@@ -224,11 +235,6 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
     else:
         if not target.is_symlink():
             target.symlink_to(source)
-
-    # Add repo folder for all static repo pages
-    p_repos = Path(out_dir) / "repos"
-    if not p_repos.exists():
-        p_repos.mkdir()
 
     for r in final_repo_names:
         t_r_df = repository_df.loc[repository_df['name'] == r]

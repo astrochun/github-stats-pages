@@ -41,21 +41,24 @@ def test_make_plots(username, token):
     # Check that folder is clean and restarted
     stats_plots.make_plots(**d0, ci=True)
 
-    # Test for symlink case
+    # Test for symlink case. Delete static assets and create symlink
     stats_plots.make_plots(**d0, symlink=True, ci=True)
 
     # Delete styles assets if exists
     stats_plots.make_plots(**d0, ci=True)
 
     d2 = d0.copy()
-    d2.update({'exclude_repo': 'github-stats-pages.html'})
+    d2.update({'exclude_repo': 'github-stats-pages'})
     stats_plots.make_plots(**d2, ci=True)
 
     html_check(html_list[:-1])
+    html_check([html_list[-1]], exists=False)  # Check that github-stats-pages.html does not exist
 
     d3 = d0.copy()
     d3.update({'include_repo': 'github-stats-pages'})
     stats_plots.make_plots(**d3, ci=True)
+
+    html_check(html_list)
 
     # Check error when both exclude_repo and include_repo are included
     d4 = d2.copy()
