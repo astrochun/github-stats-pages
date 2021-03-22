@@ -14,11 +14,14 @@ def test_load_data():
 
 
 def test_make_plots(username, token):
-    def html_check(input_list):
+    def html_check(input_list: list, exists=True):
         for html_file in input_list:
             p = tests_data_folder / html_file
-            assert p.exists()
-            p.unlink()
+            if exists:
+                assert p.exists()
+                p.unlink()
+            else:
+                assert not p.exists()
 
     d0 = {
         'username': username,
