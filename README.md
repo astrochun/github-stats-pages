@@ -93,7 +93,37 @@ use the `make_stats_plots` script:
 ```
 
 This will generate all contents in the local path. Note that you can specify
-an output directory with the `-o`/`--out-dir` option.
+an output directory with the `-o`/`--out-dir` option. Default is the current
+path.
+
+The resulting folder structure, for example, will be the following:
+
+```
+github_data/
+├── data
+│   ├── 2021-01-17-00h-46m-clone-stats.csv
+│   ├── 2021-01-17-00h-46m-referrer-stats.csv
+│   ├── 2021-01-17-00h-46m-traffic-stats.csv
+│   ├── ...
+│   ├── merged_clone.csv
+│   ├── merged_referrer.csv
+│   └── merged_traffic.csv
+├── repos
+│   ├── github-stats-pages.html
+│   └── ...
+├── styles
+|   ├── css
+|   │   └── style.css
+|   └── js
+|       ├── bootstrap.min.js
+|       ├── jquery.min.js
+|       ├── main.js
+|       └── popper.js
+├── about.html
+├── index.html
+├── repositories.html
+└── <username>.csv
+```
 
 ## Versioning
 
