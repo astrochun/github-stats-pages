@@ -18,20 +18,20 @@
 
   <body>
     <div class="wrapper d-flex align-items-stretch">
-			<nav id="sidebar">
-				<div class="p-4 pt-5">
-					<a href="https://github.com/{{ jinja_dict.username }}" class="img logo rounded-circle mb-5" style="background-image: url({{ jinja_dict.avatar_url }});"></a>
-					<ul class="list-unstyled components mb-5">
-						<li>
-							<a href="../">Home</a>
-						</li>
+      <nav id="sidebar">
+        <div class="p-4 pt-5">
+          <a href="https://github.com/{{ jinja_dict.username }}" class="img logo rounded-circle mb-5" style="background-image: url({{ jinja_dict.avatar_url }});"></a>
+          <ul class="list-unstyled components mb-5">
+            <li>
+              <a href="./">Home</a>
+            </li>
             <li>
              <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">Repositories</a>
              <ul class="list-unstyled collapse show" id="pageSubmenu">
                {% for repo in jinja_dict.repos %}
 	             {% if jinja_dict.name == repo %}
-	             <li class="active">
-		           {% else %}
+               <li class="active">
+               {% else %}
 	             <li>
 	             {% endif %}
                  <a href="{{ repo }}.html">{{ repo }}</a>
@@ -57,7 +57,7 @@
         </div>
 			</nav>
 
-	    <!-- Page Content -->
+      <!-- Page Content -->
       <div id="content" class="p-4 p-md-5">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container-fluid">
