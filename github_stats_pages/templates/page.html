@@ -1,23 +1,23 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>{{ jinja_dict.title }}</title>
+	  <title>{{ jinja_dict.title }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="../styles/css/style.css">
+	  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	  <link rel="stylesheet" href="../styles/css/style.css">
 
-	  <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.3.0.min.js" integrity="sha384-HjagQp6T0/7bxYTAXbLotF1MLAGWmhkY5siA1Gc/pcEgvgRPtMsRn0gQtMwGKiw1" crossorigin="anonymous"></script>
-	  <script type="text/javascript">
-      Bokeh.set_log_level("info");
-    </script>
+	  <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.3.0.min.js"
+	          integrity="sha384-HjagQp6T0/7bxYTAXbLotF1MLAGWmhkY5siA1Gc/pcEgvgRPtMsRn0gQtMwGKiw1"
+	          crossorigin="anonymous"></script>
+	  <script type="text/javascript">Bokeh.set_log_level("info");</script>
   </head>
 
   <body>
-		<div class="wrapper d-flex align-items-stretch">
+    <div class="wrapper d-flex align-items-stretch">
 	    <nav id="sidebar">
 	      <div class="p-4 pt-5">
 	        <a href="https://github.com/{{ jinja_dict.username }}" class="img logo rounded-circle mb-5" style="background-image: url({{ jinja_dict.avatar_url }});"></a>
@@ -55,12 +55,10 @@
             Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
           </p>
         </div>
-
 	    </nav>
 
-			<!-- Page Content  -->
+	    <!-- Page Content -->
       <div id="content" class="p-4 p-md-5">
-
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container-fluid">
 
@@ -105,7 +103,7 @@
             {{ jinja_dict.script| safe }}
           </center>
       </div>
-		</div>
+    </div>
 
     <script src="../styles/js/jquery.min.js"></script>
     <script src="../styles/js/popper.js"></script>
