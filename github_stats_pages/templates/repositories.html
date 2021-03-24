@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Repositories | {{ jinja_dict.username }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles/css/style.css">
+  </head>
+
+  <body>
+    <div class="wrapper d-flex align-items-stretch">
+      <nav id="sidebar">
+        <div class="p-4 pt-5">
+          <a href="https://github.com/{{ jinja_dict.username }}" class="img logo rounded-circle mb-5" style="background-image: url({{ jinja_dict.avatar_url }});"></a>
+          <ul class="list-unstyled components mb-5">
+            <li>
+              <a href="./">Home</a>
+            </li>
+            <li class="active">
+              <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Repositories</a>
+              <ul class="collapse list-unstyled" id="pageSubmenu">
+                {% for repo in jinja_dict.repos %}
+                <li>
+                  <a href="repos/{{ repo }}.html">{{ repo }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+            </li>
+            <li>
+              <a href="./about.html">About</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer">
+          <p align="center">
+            Powered by Open Source!<br>
+            <a href="https://python.org"><img src="styles/img/python-logo-generic.svg" height="50pix" /></a><br>
+            <a href="https://bokeh.org/"><img src="styles/img/bokeh-logo-grey.svg" height="35pix" /></a><br>
+            <a href="https://getbootstrap.com/"><img src="styles/img/bootstrap-logo-grey.svg" height="43pix" /></a><br>
+            <a href="https://pandas.pydata.org/"><img src="styles/img/pandas-logo-grey.svg" height="43pix" /></a><br>
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
+          </p>
+        </div>
+      </nav>
+
+
+      <!-- Page Content -->
+      <div id="content" class="p-4 p-md-5">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="container-fluid">
+
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+              <i class="fa fa-bars"></i>
+              <span class="sr-only">Toggle Menu</span>
+            </button>
+            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="./">Home</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="./repositories.html">Repositories</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./about.html">About</a>
+                </li>
+                <li class="nav-item-sponsor">
+                  <a class="nav-link-sponsor" href="https://github.com/sponsors/astrochun">❤ Sponsor</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <h2 class="mb-4">List of Repositories |
+          <a href="https://github.com/{{ jinja_dict.username }}">@{{ jinja_dict.username }}</a>
+        </h2>
+        <ul>
+          {% for repo in jinja_dict.repos %}
+          <li>
+            <a href="repos/{{ repo }}.html">{{ repo }}</a>&nbsp;&nbsp;
+            <a href="https://github.com/{{ jinja_dict.username }}/{{ repo }}">
+              <img src="https://img.shields.io/badge/GitHub-%20-f8b739?logo=github&style=plastic">
+            </a>
+            <!--
+            <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/{{ jinja_dict.username }}/{{ repo }}?style=social">
+            <img alt="GitHub stars" src="https://img.shields.io/github/stars/{{ jinja_dict.username }}/{{ repo }}?style=social">
+            <img alt="GitHub forks" src="https://img.shields.io/github/forks/{{ jinja_dict.username }}/{{ repo }}?style=social">
+            -->
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <script src="styles/js/jquery.min.js"></script>
+    <script src="styles/js/popper.js"></script>
+    <script src="styles/js/bootstrap.min.js"></script>
+    <script src="styles/js/main.js"></script>
+  </body>
+</html>

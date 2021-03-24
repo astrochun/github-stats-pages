@@ -8,11 +8,14 @@ with open("requirements.txt", "r") as fr:
 
 setup(
     name='github-stats-pages',
-    version='0.2.0',
+    version='0.3.0',
     packages=['tests', 'github_stats_pages'],
     scripts=['scripts/get_repo_list',
              'scripts/gts_run_all_repos',
-             'scripts/merge-csv.sh'],
+             'scripts/merge-csv.sh',
+             'scripts/make_stats_plots'],
+    include_package_data=True,
+    package_data={'github_stats_pages': ['templates/*']},
     url='https://github.com/astrochun/github-stats-pages',
     license='MIT',
     author='Chun Ly',

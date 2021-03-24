@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>{{ jinja_dict.title }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="../styles/css/style.css">
+
+		<script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.3.0.min.js"
+						integrity="sha384-HjagQp6T0/7bxYTAXbLotF1MLAGWmhkY5siA1Gc/pcEgvgRPtMsRn0gQtMwGKiw1"
+						crossorigin="anonymous"></script>
+		<script type="text/javascript">Bokeh.set_log_level("info");</script>
+  </head>
+
+  <body>
+    <div class="wrapper d-flex align-items-stretch">
+      <nav id="sidebar">
+        <div class="p-4 pt-5">
+          <a href="https://github.com/{{ jinja_dict.username }}" class="img logo rounded-circle mb-5" style="background-image: url({{ jinja_dict.avatar_url }});"></a>
+          <ul class="list-unstyled components mb-5">
+            <li>
+              <a href="./">Home</a>
+            </li>
+            <li>
+             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">Repositories</a>
+             <ul class="list-unstyled collapse show" id="pageSubmenu">
+               {% for repo in jinja_dict.repos %}
+	             {% if jinja_dict.name == repo %}
+               <li class="active">
+               {% else %}
+	             <li>
+	             {% endif %}
+                 <a href="{{ repo }}.html">{{ repo }}</a>
+               </li>
+               {% endfor %}
+            </ul>
+            </li>
+            <li>
+              <a href="../about.html">About</a>
+           </li>
+          </ul>
+        </div>
+
+        <div class="footer">
+          <p align="center">
+            Powered by Open Source!<br>
+            <a href="https://python.org"><img src="../styles/img/python-logo-generic.svg" height="50pix" /></a><br>
+            <a href="https://bokeh.org/"><img src="../styles/img/bokeh-logo-grey.svg" height="35pix" /></a><br>
+            <a href="https://getbootstrap.com/"><img src="../styles/img/bootstrap-logo-grey.svg" height="43pix" /></a><br>
+            <a href="https://pandas.pydata.org/"><img src="../styles/img/pandas-logo-grey.svg" height="43pix" /></a><br>
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
+          </p>
+        </div>
+			</nav>
+
+      <!-- Page Content -->
+      <div id="content" class="p-4 p-md-5">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="container-fluid">
+
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+              <i class="fa fa-bars"></i>
+              <span class="sr-only">Toggle Menu</span>
+            </button>
+            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="../">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../repositories.html">Repositories</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../about.html">About</a>
+                </li>
+                <li class="nav-item-sponsor">
+                  <a class="nav-link-sponsor" href="https://github.com/sponsors/astrochun">❤ Sponsor</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <h2 align=center class="mb-4"><a href="{{ jinja_dict.html_url }}">{{ jinja_dict.name }}</a></h2>
+        <p align="center">
+          <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/{{ jinja_dict.username }}/{{ jinja_dict.name }}?style=social">
+          <img alt="GitHub stars" src="https://img.shields.io/github/stars/{{ jinja_dict.username }}/{{ jinja_dict.name }}?style=social">
+          <img alt="GitHub forks" src="https://img.shields.io/github/forks/{{ jinja_dict.username }}/{{ jinja_dict.name }}?style=social">
+          <br>
+          <b>Total Views: {{ jinja_dict.Total_Views }}</b>
+          <b>Total Clones: {{ jinja_dict.Total_Clones }}</b>
+        </p>
+          <center>
+            {{ jinja_dict.div| safe }}
+            {{ jinja_dict.script| safe }}
+          </center>
+      </div>
+    </div>
+
+    <script src="../styles/js/jquery.min.js"></script>
+    <script src="../styles/js/popper.js"></script>
+    <script src="../styles/js/bootstrap.min.js"></script>
+    <script src="../styles/js/main.js"></script>
+  </body>
+</html>

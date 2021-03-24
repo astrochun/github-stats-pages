@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>About | github-stats-pages</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles/css/style.css">
+  </head>
+
+  <body>
+    <div class="wrapper d-flex align-items-stretch">
+      <nav id="sidebar">
+        <div class="p-4 pt-5">
+          <a href="https://github.com/{{ jinja_dict.username }}" class="img logo rounded-circle mb-5" style="background-image: url({{ jinja_dict.avatar_url }});"></a>
+          <ul class="list-unstyled components mb-5">
+            <li>
+              <a href="./">Home</a>
+            </li>
+            <li>
+              <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Repositories</a>
+              <ul class="collapse list-unstyled" id="pageSubmenu">
+                {% for repo in jinja_dict.repos %}
+                <li>
+                  <a href="repos/{{ repo }}.html">{{ repo }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+            </li>
+            <li class="active">
+              <a href="./about.html">About</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer">
+          <p align="center">
+            Powered by Open Source!<br>
+            <a href="https://python.org"><img src="styles/img/python-logo-generic.svg" height="50pix" /></a><br>
+            <a href="https://bokeh.org/"><img src="styles/img/bokeh-logo-grey.svg" height="35pix" /></a><br>
+            <a href="https://getbootstrap.com/"><img src="styles/img/bootstrap-logo-grey.svg" height="43pix" /></a><br>
+            <a href="https://pandas.pydata.org/"><img src="styles/img/pandas-logo-grey.svg" height="43pix" /></a><br>
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
+          </p>
+        </div>
+      </nav>
+
+      <!-- Page Content -->
+      <div id="content" class="p-4 p-md-5">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="container-fluid">
+
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+              <i class="fa fa-bars"></i>
+              <span class="sr-only">Toggle Menu</span>
+            </button>
+            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="./">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./repositories.html">Repositories</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="./about.html">About</a>
+                </li>
+                <li class="nav-item-sponsor">
+                  <a class="nav-link-sponsor" href="https://github.com/sponsors/astrochun">❤ Sponsor</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <h2 class="mb-4">About | <a href="https://github.com/astrochun/github-stats-pages">github-stats-pages</a></h2>
+        <p>
+          This software was envisioned as part of a way to preserve traffic statistics for any public GitHub repository.
+          Traffic statistics is one way to measure the impact of open-source software. The idea of this project came
+          to fruition when I was working on an <a href="https://github.com/astrochun/voxcharta-my-voting-record">open-source software</a>
+          that I built for astronomers where it received a fair amount of use. Because GitHub only stores that record for up to two
+          weeks, this poses a problem for measuring impact over time. While there were some solutions available on GitHub,
+          I wanted something that would generate it for multiple repositories and to publish static site content.
+          In principle these pages can be deployed in a number of ways, including <a href="https://pages.github.com/">GitHub Pages</a>.
+          I hope the project can expand to include other statistics so that it is a one-stop website for all
+          GitHub statistics.<br><br>
+
+          This project is powered by <a href="https://www.python.org">Python</a> (License: <a href="https://docs.python.org/3/license.html#psf-license">PSF</a>),
+          <a href="https://github.com/features/actions">GitHub Actions</a> (License: MIT),
+          <a href="https://bokeh.org/">Bokeh</a> (License: <a href="https://github.com/bokeh/demo.bokeh.org/blob/main/LICENSE.txt">BSD</a>), and
+          <a href="https://getbootstrap.com/">Bootstrap</a> (License: <a href="https://getbootstrap.com/docs/4.0/about/license/">MIT</a>).
+          We use a <a href="https://colorlib.com" target="_blank">Colorlib.com</a> Bootstrap template (License: CC BY 3.0).<br><br>
+
+          If you are interested in contributing, feel free to submit an
+          <a href="https://github.com/astrochun/github-stats-pages/issues/new">issue</a> or
+          <a href="https://github.com/astrochun/github-stats-pages/fork">forked the repository</a> and submit a pull request.
+          This code is made publicly available under an
+          <a href="https://github.com/astrochun/github-stats-pages/blob/main/LICENSE">MIT License</a>.
+          If you find this software useful, please consider acknowledging the use of this software or making a small donation
+          through <a href="https://github.com/sponsors">GitHub Sponsors</a> via the link in the upper right.
+          Donations ensure software maintenance.<br><br>
+
+          Like any open source projects, this is made with ❤️!<br>
+          &nbsp; - Chun (<a href="https://github.com/astrochun/">@astrochun</a>)<br><br>
+
+          <!--
+          <iframe src="https://github.com/sponsors/astrochun/button" title="Sponsor astrochun"
+                  height="35" width="116" style="border: 0;"></iframe><br><br><br>
+          -->
+        </p>
+      </div>
+    </div>
+
+    <script src="styles/js/jquery.min.js"></script>
+    <script src="styles/js/popper.js"></script>
+    <script src="styles/js/bootstrap.min.js"></script>
+    <script src="styles/js/main.js"></script>
+  </body>
+</html>

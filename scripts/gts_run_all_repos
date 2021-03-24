@@ -2,6 +2,7 @@
 
 import argparse
 import pandas as pd
+from pathlib import Path
 
 from github_stats_pages import gts_run
 
@@ -12,19 +13,36 @@ def read_csv(csv_file: str) -> pd.DataFrame:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description='CLI to retrieve user or organization repositories')
+        description='CLI to retrieve GitHub traffic statistics')
     parser.add_argument('-u', '--user', required=True,
                         help='user or organization name')
     parser.add_argument('-t', '--token', required=True,
                         help='API token')
     parser.add_argument('-c', '--csv-file', required=True,
                         help='CSV filename')
+    parser.add_argument('--test', action='store_true',
+                        help='Flag to quickly run a few repositories')
     args = parser.parse_args()
 
     df = read_csv(args.csv_file)
     # Exclude forks
     new_df = df.loc[df['fork'] == False]
 
-    for repo_name in new_df['name']:
+    if args.test:
+        repo_list = new_df['name'][0:5]
+    else:
+        repo_list = new_df['name']
+
+    for repo_name in repo_list:
         gts_run.run_each_repo(args.user, args.token, repo_name,
                               save_csv=True)
+
+    # Save files in a data folder
+    print("Moving records to data/ folder")
+    p_cwd = Path.cwd()
+    p_data = p_cwd / "data"
+    if not p_data.exists():
+        p_data.mkdir()
+
+    for f in p_cwd.glob('????-??-??-???-???-*stats.csv'):
+        f.rename(p_data / f.name)
