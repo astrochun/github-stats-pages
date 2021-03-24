@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased](https://github.com/astrochun/github-stats-pages/tree/HEAD) (2021-03-XX)
+## [v0.3.0](https://github.com/astrochun/github-stats-pages/tree/v0.3.0) (2021-03-23)
 
 **Implemented enhancements:**
  - Module and script to generate plots; add CHANGELOG.md [#17](https://github.com/astrochun/github-stats-pages/pull/17)
