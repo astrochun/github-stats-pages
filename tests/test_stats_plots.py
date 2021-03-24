@@ -9,7 +9,7 @@ tests_data_folder = Path('tests_data')
 
 
 def test_load_data():
-    dict_df = stats_plots.load_data(tests_data_folder, ci=True)
+    dict_df = stats_plots.load_data(tests_data_folder)
     assert isinstance(dict_df, dict)
 
 
@@ -34,29 +34,29 @@ def test_make_plots(username, token):
                  'repos/github-stats-pages.html']
 
     # General test
-    stats_plots.make_plots(**d0, ci=True)
+    stats_plots.make_plots(**d0)
 
     html_check(html_list)
 
     # Check that folder is clean and restarted
-    stats_plots.make_plots(**d0, ci=True)
+    stats_plots.make_plots(**d0)
 
     # Test for symlink case. Delete static assets and create symlink
-    stats_plots.make_plots(**d0, symlink=True, ci=True)
+    stats_plots.make_plots(**d0, symlink=True)
 
     # Delete styles assets if exists
-    stats_plots.make_plots(**d0, ci=True)
+    stats_plots.make_plots(**d0)
 
     d2 = d0.copy()
     d2.update({'exclude_repo': 'github-stats-pages'})
-    stats_plots.make_plots(**d2, ci=True)
+    stats_plots.make_plots(**d2)
 
     html_check(html_list[:-1])
     html_check([html_list[-1]], exists=False)  # Check that github-stats-pages.html does not exist
 
     d3 = d0.copy()
     d3.update({'include_repo': 'github-stats-pages'})
-    stats_plots.make_plots(**d3, ci=True)
+    stats_plots.make_plots(**d3)
 
     html_check(html_list)
 
@@ -64,7 +64,7 @@ def test_make_plots(username, token):
     d4 = d2.copy()
     d4.update({'include_repo': 'github-stats-pages'})
     with pytest.raises(ValueError):
-        stats_plots.make_plots(**d4, ci=True)
+        stats_plots.make_plots(**d4)
 
     # Clean up after unit test run
     Path(tests_data_folder / "styles").unlink()

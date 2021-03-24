@@ -28,18 +28,15 @@ TOOLTIPS = [
 main_p = Path(__file__).parent
 
 
-def load_data(data_dir: str, ci: bool = False) -> Dict[str, pd.DataFrame]:
+def load_data(data_dir: str) -> Dict[str, pd.DataFrame]:
     """
     Load stats CSV as dict of pandas DataFrame
 
     :param data_dir: Path containing merged*.csv
-    :param ci: For CI unit tests
     :return: Dict of pandas DataFrame
     """
 
-    p = Path(data_dir)
-    if not ci:
-        p = Path(data_dir) / "data"
+    p = Path(data_dir) / "data"
 
     dict_df = {}
 
@@ -129,8 +126,7 @@ def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
 
 
 def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
-               symlink: bool = False, ci: bool = False,
-               token: str = '',
+               symlink: bool = False, token: str = '',
                include_repo: str = '',
                exclude_repo: str = ''):
     """
@@ -141,7 +137,6 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
     :param out_dir: Location of outputted HTML
     :param csv_file: CSV file containing user or organization repository list
     :param symlink: Symbolic link styles assets instead of a copy. Default: copy
-    :param ci: Flag to do short run for CI build test
     :param token: GitHub Personal Access Token (this is to avoid rate limits)
     :param include_repo: Repositories to only generate HTML pages.
                          Ignore csv_file inputs. Comma separated for more than one
@@ -156,7 +151,7 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
 
     repository_df = pd.read_csv(csv_file)
 
-    dict_df = load_data(data_dir, ci=ci)
+    dict_df = load_data(data_dir)
 
     # Add repo folder for all static repo pages
     p_repos = Path(out_dir) / "repos"
