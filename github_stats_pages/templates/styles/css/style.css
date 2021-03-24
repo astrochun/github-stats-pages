@@ -8285,4 +8285,6 @@ a[data-toggle="collapse"] {
     border-color: #f8b739 !important; }
 
 .footer p {
-  color: rgba(255, 255, 255, 0.5); }
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0;
+  }
