@@ -3373,6 +3373,16 @@ input[type="button"].btn-block {
     pointer-events: none;
     cursor: default; }
 
+.nav-link-sponsor {
+  display: block;
+  padding: 0.5rem 1rem; }
+  .nav-link:hover, .nav-link:focus {
+    text-decoration: none; }
+  .nav-link.disabled {
+    color: #ffc0cb;
+    pointer-events: none;
+    cursor: default; }
+
 .nav-tabs {
   border-bottom: 1px solid #dee2e6; }
   .nav-tabs .nav-item {
