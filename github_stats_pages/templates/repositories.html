@@ -17,10 +17,10 @@
         <div class="p-4 pt-5">
           <a href="https://github.com/{{ jinja_dict.username }}" class="img logo rounded-circle mb-5" style="background-image: url({{ jinja_dict.avatar_url }});"></a>
           <ul class="list-unstyled components mb-5">
-            <li class="active">
+            <li>
               <a href="./">Home</a>
             </li>
-            <li>
+            <li class="active">
               <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Repositories</a>
               <ul class="collapse list-unstyled" id="pageSubmenu">
                 {% for repo in jinja_dict.repos %}
