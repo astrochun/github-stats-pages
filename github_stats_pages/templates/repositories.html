@@ -88,7 +88,10 @@
           <ul>
             {% for repo in jinja_dict.repos %}
             <li>
-              <a href="repos/{{ repo }}.html">{{ repo }}</a>&nbsp;&nbsp;<a href="https://github.com/{{ jinja_dict.username }}/{{ repo }}"><img src="https://img.shields.io/badge/GitHub-%20-f8b739?logo=github&style=plastic"></a>
+              <a href="repos/{{ repo }}.html">{{ repo }}</a>&nbsp;&nbsp;
+              <a href="https://github.com/{{ jinja_dict.username }}/{{ repo }}">
+                <img src="https://img.shields.io/badge/GitHub-%20-f8b739?logo=github&style=plastic">
+              </a>
               <!--
               <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/{{ jinja_dict.username }}/{{ repo }}?style=social">
               <img alt="GitHub stars" src="https://img.shields.io/github/stars/{{ jinja_dict.username }}/{{ repo }}?style=social">
