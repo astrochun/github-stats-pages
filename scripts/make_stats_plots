@@ -34,7 +34,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     vargs = vars(args)
 
-    if args.include_repo and args.exclude_repos:
+    if args.include_repo and args.exclude_repo:
         raise ValueError(
             "Cannot provide include_repo and exclude_repo simultaneously!"
         )
