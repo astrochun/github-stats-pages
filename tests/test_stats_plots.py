@@ -48,21 +48,21 @@ def test_make_plots(username, token):
     stats_plots.make_plots(**d0)
 
     d2 = d0.copy()
-    d2.update({'exclude_repo': 'github-stats-pages'})
+    d2.update({'exclude_repos': 'github-stats-pages'})
     stats_plots.make_plots(**d2)
 
     html_check(html_list[:-1])
     html_check([html_list[-1]], exists=False)  # Check that github-stats-pages.html does not exist
 
     d3 = d0.copy()
-    d3.update({'include_repo': 'github-stats-pages'})
+    d3.update({'include_repos': 'github-stats-pages'})
     stats_plots.make_plots(**d3)
 
     html_check(html_list)
 
-    # Check error when both exclude_repo and include_repo are included
+    # Check error when both exclude_repos and include_repos are included
     d4 = d2.copy()
-    d4.update({'include_repo': 'github-stats-pages'})
+    d4.update({'include_repos': 'github-stats-pages'})
     with pytest.raises(ValueError):
         stats_plots.make_plots(**d4)
 

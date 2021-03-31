@@ -21,11 +21,11 @@ if __name__ == '__main__':
     parser.add_argument('-o', '--out-dir', default=Path.cwd(),
                         help='''Absolute path to save static pages.
                              'Default: current working directory''')
-    parser.add_argument('-i', '--include-repo', default='',
+    parser.add_argument('-i', '--include-repos', default='',
                         help='''Repositories to only render.
                              Overrides --csv-filename input.
                              Comma separated if more than one''')
-    parser.add_argument('-e', '--exclude-repo', default='',
+    parser.add_argument('-e', '--exclude-repos', default='',
                         help='''Repositories to exclude.
                              Comma separated if more than one''')
     parser.add_argument('-s', '--symlink', action='store_true',
@@ -34,9 +34,9 @@ if __name__ == '__main__':
     args = parser.parse_args()
     vargs = vars(args)
 
-    if args.include_repo and args.exclude_repo:
+    if args.include_repos and args.exclude_repos:
         raise ValueError(
-            "Cannot provide include_repo and exclude_repo simultaneously!"
+            "Cannot provide include_repos and exclude_repos simultaneously!"
         )
 
     stats_plots.make_plots(**vargs)

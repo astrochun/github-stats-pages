@@ -12,11 +12,11 @@ inputs:
     description: "For CI testing. Runs a subset of repositories"
     required: false
     default: ''
-  include-repo:
+  include-repos:
     description: "List of repositories to only include for static pages. Comma-separated list"
     required: false
     default: ''
-  exclude-repo:
+  exclude-repos:
     description: "List of repositories to exclude from public list of repositories. Comma-separated list"
     required: false
     default: ''
@@ -27,5 +27,5 @@ runs:
     - ${{ inputs.username }}
     - ${{ inputs.token }}
     - ${{ inputs.test }}
-    - ${{ inputs.include-repo }}
-    - ${{ inputs.exclude-repo }}
+    - ${{ inputs.include-repos }}
+    - ${{ inputs.exclude-repos }}

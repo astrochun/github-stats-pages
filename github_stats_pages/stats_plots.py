@@ -127,8 +127,8 @@ def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
 
 def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
                symlink: bool = False, token: str = '',
-               include_repo: str = '',
-               exclude_repo: str = ''):
+               include_repos: str = '',
+               exclude_repos: str = ''):
     """
     Generate HTML pages containing Bokeh plots
 
@@ -138,15 +138,15 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
     :param csv_file: CSV file containing user or organization repository list
     :param symlink: Symbolic link styles assets instead of a copy. Default: copy
     :param token: GitHub Personal Access Token (this is to avoid rate limits)
-    :param include_repo: Repositories to only generate HTML pages.
-                         Ignore csv_file inputs. Comma separated for more than one
-    :param exclude_repo: Repositories to exclude from csv_file list.
-                         Comma separated for more than one
+    :param include_repos: Repositories to only generate HTML pages.
+                          Ignore csv_file inputs. Comma separated for more than one
+    :param exclude_repos: Repositories to exclude from csv_file list.
+                          Comma separated for more than one
     """
 
-    if include_repo and exclude_repo:
+    if include_repos and exclude_repos:
         raise ValueError(
-            "Cannot provide include_repo and exclude_repo simultaneously!"
+            "Cannot provide include_repos and exclude_repos simultaneously!"
         )
 
     repository_df = pd.read_csv(csv_file)
@@ -166,16 +166,16 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
     final_repo_names = repo_names  # init
 
     # Filter for only inclusion
-    if include_repo:
-        print(f"Only including: {include_repo.replace(',', ', ')}")
-        final_repo_names = repo_names & set(include_repo.split(','))
+    if include_repos:
+        print(f"Only including: {include_repos.replace(',', ', ')}")
+        final_repo_names = repo_names & set(include_repos.split(','))
 
     # Filter for exclusion
-    if exclude_repo:
-        print(f"Excluding: {exclude_repo.replace(',', ', ')}")
-        final_repo_names = repo_names - set(exclude_repo.split(','))
+    if exclude_repos:
+        print(f"Excluding: {exclude_repos.replace(',', ', ')}")
+        final_repo_names = repo_names - set(exclude_repos.split(','))
 
-        for exclude in exclude_repo.split(','):
+        for exclude in exclude_repos.split(','):
             p_exclude = Path(p_repos / f"{exclude}.html")
             print(f"Deleting: {p_exclude}")
             if p_exclude.exists():
