@@ -9,6 +9,7 @@ Retrieve statistics for a user's repositories and populate the information onto 
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/github-stats-pages?color=light%20green&label=PyPI-download)
 
 - [Overview](#overview)
+- [#GitHub Actions Deployment](#github-actions-deployment)
 - [Installation](#installation)
 - [Execution](#execution)
 - [Versioning](#versioning)
@@ -17,6 +18,54 @@ Retrieve statistics for a user's repositories and populate the information onto 
 - [License](#license)
 
 ## Overview
+
+This software is both a GitHub Docker container action and a Python
+packaged software. The former allows for this to run to generate GitHub
+pages while the latter gives flexibility to deploy on a variety of
+compute resources (e.g., cloud, dev). Below outlines how to set this up.
+
+## GitHub Actions Deployment
+
+
+Deployment is simple with the following:
+
+```yaml
+  - name: Build GitHub stats pages
+    uses: astrochun/github-stats-pages@latest
+    with:
+      username: ${{ github.actor }}
+      token: ${{ secrets.GH_TOKEN }}
+```
+
+This here will run for all public repositories.
+
+To override all public repositories and limit to a subset of public repositories,
+specify a comma-separated list (_no spaces between commas_) for `include-repos` argument.
+
+```yaml
+  - name: Build GitHub stats pages
+    uses: astrochun/github-stats-pages@latest
+    with:
+      username: ${{ github.actor }}
+      token: ${{ secrets.GH_TOKEN }}
+      include-repos: "github-stats-pages"
+```
+
+Alternatively to exclude specific repositories from the list of public repositories,
+use the `exclude-repos` argument with a comma-separated list (_no spaces between commas_).
+
+```yaml
+  - name: Build GitHub stats pages
+    uses: astrochun/github-stats-pages@latest
+    with:
+      username: ${{ github.actor }}
+      token: ${{ secrets.GH_TOKEN }}
+      exclude-repos: "repo1,repo2"
+```
+
+Note that you can only specify `include-repos` _or_ `exclude-repos`.
+Specifying both will fail.
+
 
 ## Installation
 
