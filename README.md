@@ -9,6 +9,7 @@ Retrieve statistics for a user's repositories and populate the information onto 
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/github-stats-pages?color=light%20green&label=PyPI-download)
 
 - [Overview](#overview)
+- [Requirements](#requirements)
 - [GitHub Actions Deployment](#github-actions-deployment)
 - [Installation](#installation)
 - [Execution](#execution)
@@ -23,6 +24,20 @@ This software is both a GitHub Docker container action and a Python
 packaged software. The former allows for this to run to generate GitHub
 pages while the latter gives flexibility to deploy on a variety of
 compute resources (e.g., cloud, dev). Below outlines how to set this up.
+
+## Requirements
+
+[Traffic data](https://docs.github.com/en/github/visualizing-repository-data-with-graphs/viewing-traffic-to-a-repository)
+for repositories are limited to those who have write or ownership access.
+Thus, regardless of how you choose to deploy, you will need a token.
+This codebase uses
+[GitHub's Personal Access Token (PAT)](https://github.blog/2013-05-16-personal-api-tokens/).
+
+To create one, follow these
+[instructions](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
+or go [here](https://github.com/settings/tokens).
+For scopes, select: `repo` and `workflow` (if you decide to deploy using GitHub Action).
+Save your PAT in a safe place as you will provide it below.
 
 ## GitHub Actions Deployment
 
@@ -94,6 +109,9 @@ Or if you want the latest version then:
 
 ## Execution
 
+## More details
+
+Here's an overview providing more details how this codebase works.
 There are four primary scripts accompanying `github-stats-pages`
 1. `get_repo_list`
 2. `gts_run_all_repos`
