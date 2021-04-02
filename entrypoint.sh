@@ -1,24 +1,24 @@
 #!/bin/bash
 
-# To activate testing for quick run / CI
-if [ -z $3 ]; then
-  test=""
-else
-  test="--test"
-fi
-
 # For include_repos flag
-if [ -z $4 ]; then
+if [ -z $3 ]; then
   include_repos=''
 else
   include_repos="--include-repos $4"
 fi
 
 # For exclude_repos flag
-if [ -z $5 ]; then
+if [ -z $4 ]; then
   exclude_repos=''
 else
   exclude_repos="--exclude-repos $5"
+fi
+
+# To activate testing for quick runs / CI
+if [ -z $5 ]; then
+  test=""
+else
+  test="--test"
 fi
 
 get_repo_list -u $1

@@ -8,10 +8,6 @@ inputs:
   token:
     description: "GitHub Personal Access Token"
     required: true
-  test:
-    description: "For CI testing. Runs a subset of repositories"
-    required: false
-    default: ''
   include-repos:
     description: "List of repositories to only include for static pages. Comma-separated list"
     required: false
@@ -20,12 +16,16 @@ inputs:
     description: "List of repositories to exclude from public list of repositories. Comma-separated list"
     required: false
     default: ''
+  test:
+    description: "Runs a subset of repositories (e.g., use in CI testing)"
+    required: false
+    default: ''
 runs:
   using: "docker"
   image: "Dockerfile"
   args:
     - ${{ inputs.username }}
     - ${{ inputs.token }}
-    - ${{ inputs.test }}
     - ${{ inputs.include-repos }}
     - ${{ inputs.exclude-repos }}
+    - ${{ inputs.test }}
