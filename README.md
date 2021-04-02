@@ -9,7 +9,7 @@ Retrieve statistics for a user's repositories and populate the information onto 
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/github-stats-pages?color=light%20green&label=PyPI-download)
 
 - [Overview](#overview)
-- [#GitHub Actions Deployment](#github-actions-deployment)
+- [GitHub Actions Deployment](#github-actions-deployment)
 - [Installation](#installation)
 - [Execution](#execution)
 - [Versioning](#versioning)
@@ -26,7 +26,6 @@ compute resources (e.g., cloud, dev). Below outlines how to set this up.
 
 ## GitHub Actions Deployment
 
-
 Deployment is simple with the following:
 
 ```yaml
@@ -38,6 +37,17 @@ Deployment is simple with the following:
 ```
 
 This here will run for all public repositories.
+
+### Inputs
+
+| Variable        | Description                        | Required? | Type  | Defaults | Examples       |
+| --------------- | ---------------------------------- | --------- | ----- | -------- | -------------- |
+| `username`      | GitHub username or organization    | **Yes**   | `str` | N/A      | astrochun      |
+| `token`         | GitHub Personal Access Token (PAT) | **Yes**   | `str` | N/A      | abcdef12345678 |
+| `include-repos` | Comma-separated lists of repositories.<br>This overrides the full list of public repositories | No | `str` | `''` | github-stats-pages,astrochun.github.io'
+| `exclude-repos` | Comma-separated lists of repositories to exclude<br>from default public repository list | No | `str` | `''` | 'repo1' |
+
+### Other GitHub Action deployment examples:
 
 To override all public repositories and limit to a subset of public repositories,
 specify a comma-separated list (_no spaces between commas_) for `include-repos` argument.
