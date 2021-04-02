@@ -4,14 +4,14 @@
 if [ -z $3 ]; then
   include_repos=''
 else
-  include_repos="--include-repos $4"
+  include_repos="--include-repos $3"
 fi
 
 # For exclude_repos flag
 if [ -z $4 ]; then
   exclude_repos=''
 else
-  exclude_repos="--exclude-repos $5"
+  exclude_repos="--exclude-repos $4"
 fi
 
 # To activate testing for quick runs / CI
