@@ -1,0 +1,31 @@
+name: "Container Action using github-stats-pages"
+description: "Retrieve github stats and push static content"
+author: "Chun Ly"
+inputs:
+  username:
+    description: "GitHub username or organization name"
+    required: true
+  token:
+    description: "GitHub Personal Access Token"
+    required: true
+  include-repos:
+    description: "List of repositories to only include for static pages. Comma-separated list"
+    required: false
+    default: ''
+  exclude-repos:
+    description: "List of repositories to exclude from public list of repositories. Comma-separated list"
+    required: false
+    default: ''
+  test:
+    description: "Runs a subset of repositories (e.g., use in CI testing)"
+    required: false
+    default: ''
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.username }}
+    - ${{ inputs.token }}
+    - ${{ inputs.include-repos }}
+    - ${{ inputs.exclude-repos }}
+    - ${{ inputs.test }}

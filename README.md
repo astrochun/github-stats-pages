@@ -9,6 +9,11 @@ Retrieve statistics for a user's repositories and populate the information onto 
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/github-stats-pages?color=light%20green&label=PyPI-download)
 
 - [Overview](#overview)
+- [Requirements](#requirements)
+- [Deployment](#deployment)
+   - [GitHub Actions Deployment](#github-actions-deployment)
+   - [Docker Deployment](#docker-deployment)
+   - [From Source](#from-source)
 - [Installation](#installation)
 - [Execution](#execution)
 - [Versioning](#versioning)
@@ -18,7 +23,97 @@ Retrieve statistics for a user's repositories and populate the information onto 
 
 ## Overview
 
-## Installation
+This software is both a GitHub Docker container action and a Python
+packaged software. The former allows for this to run to generate GitHub
+pages while the latter gives flexibility to deploy on a variety of
+compute resources (e.g., cloud, dev). Below outlines how to set this up.
+
+## Requirements
+
+[Traffic data](https://docs.github.com/en/github/visualizing-repository-data-with-graphs/viewing-traffic-to-a-repository)
+for repositories are limited to those who have write or ownership access.
+Thus, regardless of how you choose to deploy, you will need a token.
+This codebase uses
+[GitHub's Personal Access Token (PAT)](https://github.blog/2013-05-16-personal-api-tokens/).
+
+To create one, follow these
+[instructions](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
+or go [here](https://github.com/settings/tokens).
+For scopes, select: `repo` and `workflow` (if you decide to deploy using GitHub Action).
+Save your PAT in a safe place as you will provide it below.
+
+## Deployment
+
+This code is intended to deploy in a number of ways to allow for the greatest flexibility.
+First, this repository is also as a
+[GitHub Docker container action](https://docs.github.com/en/actions/creating-actions/about-actions#docker-container-actions) (see [below](#github-actions-deployment)).
+Second, this code is package on [PyPI](https://pypi.org/project/github-stats-pages/).
+Third, the source code can be [forked](https://github.com/astrochun/github-stats-pages/fork)
+or cloned.
+Finally, a [Dockerfile](Dockerfile) is included for containerization.
+
+### GitHub Actions Deployment
+
+Deployment is simple with the following:
+
+```yaml
+  - name: Build GitHub stats pages
+    uses: astrochun/github-stats-pages@latest
+    with:
+      username: ${{ github.actor }}
+      token: ${{ secrets.GH_TOKEN }}
+```
+
+This here will run for all public repositories.
+
+#### Inputs
+
+| Variable        | Description                        | Required? | Type  | Defaults | Examples         |
+| --------------- | ---------------------------------- | --------- | ----- | -------- | ---------------- |
+| `username`      | GitHub username or organization    | **Yes**   | `str` | N/A      | `astrochun`      |
+| `token`         | GitHub Personal Access Token (PAT) | **Yes**   | `str` | N/A      | `abcdef12345678` |
+| `include-repos` | Comma-separated lists of repositories. This overrides the full list of public repositories | No | `str` | `''` | `'github-stats-pages,astrochun.github.io'`
+| `exclude-repos` | Comma-separated lists of repositories to exclude from default public repository list | No | `str` | `''` | `'repo1'` |
+
+#### Other GitHub Action deployment examples:
+
+To override all public repositories and limit to a subset of public repositories,
+specify a comma-separated list (_no spaces between commas_) for `include-repos` argument.
+
+```yaml
+  - name: Build GitHub stats pages
+    uses: astrochun/github-stats-pages@latest
+    with:
+      username: ${{ github.actor }}
+      token: ${{ secrets.GH_TOKEN }}
+      include-repos: "github-stats-pages"
+```
+
+Alternatively to exclude specific repositories from the list of public repositories,
+use the `exclude-repos` argument with a comma-separated list (_no spaces between commas_).
+
+```yaml
+  - name: Build GitHub stats pages
+    uses: astrochun/github-stats-pages@latest
+    with:
+      username: ${{ github.actor }}
+      token: ${{ secrets.GH_TOKEN }}
+      exclude-repos: "repo1,repo2"
+```
+
+Note that you can only specify `include-repos` _or_ `exclude-repos`.
+**Specifying both will fail**!
+
+### Docker Deployment
+
+This repository includes a [Dockerfile](Dockerfile).
+More details/instructions provided later.
+
+### From source
+
+To run this code from original source, you will need to install it.
+
+#### Installation
 
 Use our [PyPI package](https://pypi.org/project/github-traffic-stats/) to
 get the most stable release:
@@ -33,8 +128,24 @@ Or if you want the latest version then:
 (venv) $ python setup.py install
 ```
 
-## Execution
+#### Execution from source
 
+TL;DR: If you decide to run this code from source, there are a few things you should know.
+
+First, this repository includes an [`entrypoint.sh`](entrypoint.sh).
+You can simply execute it with the following:
+```
+(venv) laptop:github_data $ username="<username>"
+(venv) laptop:github_data $ token="<personal_access_token>"
+(venv) laptop:github_data $ /path/to/github-stats-pages/entrypoint.sh $username $token
+```
+
+Second, it is recommended to create a folder (e.g., `github_data`) as the contents
+will ultimately contain multiple files.
+
+#### More details
+
+Here's an overview providing more details how this codebase works.
 There are four primary scripts accompanying `github-stats-pages`
 1. `get_repo_list`
 2. `gts_run_all_repos`
@@ -58,17 +169,12 @@ forks. We use another Python library that does this called
 [github-traffic-stats](https://github.com/nchah/github-traffic-stats). It
 is accompanied by a `python` script called `gts`.
 
-To access traffic data, this requires a
-[Personal Access Token (PAT)](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token),
-so let's create a PAT. Generate one by going to the
-[following GitHub page](https://github.com/settings/tokens).
-For selected scopes you will only need `repo`.
-
-Then you can execute the next script:
+To access traffic data, this requires a PAT. See [above](#requirements)
+for instructions. Then you can execute the next script:
 
 ```
-(venv) laptop:github_data $ API_TOKEN='abcdef12345678'
-(venv) laptop:github_data $ gts_run_all_repos -u <username/organization> -t $API_TOKEN -c <username/organization>.csv
+(venv) laptop:github_data $ token='abcdef12345678'
+(venv) laptop:github_data $ gts_run_all_repos -u <username/organization> -t $token -c <username/organization>.csv
 ```
 
 This will generate CSV files with date and time stamps prefixes for clones,
@@ -89,7 +195,7 @@ Finally to generate static pages containing the visualization, we
 use the `make_stats_plots` script:
 
 ```
-(venv) laptop:github_data $ make_stats_plots -u <username> -c <username>.csv -t $API_TOKEN
+(venv) laptop:github_data $ make_stats_plots -u <username> -c <username>.csv -t $token
 ```
 
 This will generate all contents in the local path. Note that you can specify

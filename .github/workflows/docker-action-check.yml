@@ -1,0 +1,20 @@
+# Action to build Docker image, run it
+name: Docker container action check
+
+on:
+  - push
+
+jobs:
+  docker-run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Build image and run
+      uses: ./
+      with:
+        username: ${{ github.actor }}
+        token: ${{ secrets.GH_TOKEN }}
+        test: true
+        exclude-repos: "2018-09-01-steward"
