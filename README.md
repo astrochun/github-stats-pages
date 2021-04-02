@@ -10,7 +10,10 @@ Retrieve statistics for a user's repositories and populate the information onto 
 
 - [Overview](#overview)
 - [Requirements](#requirements)
-- [GitHub Actions Deployment](#github-actions-deployment)
+- [Deployment](#deployment)
+   - [GitHub Actions Deployment](#github-actions-deployment)
+   - [Docker Deployment](#docker-deployment)
+   - [From Source](#from-source)
 - [Installation](#installation)
 - [Execution](#execution)
 - [Versioning](#versioning)
@@ -39,7 +42,17 @@ or go [here](https://github.com/settings/tokens).
 For scopes, select: `repo` and `workflow` (if you decide to deploy using GitHub Action).
 Save your PAT in a safe place as you will provide it below.
 
-## GitHub Actions Deployment
+## Deployment
+
+This code is intended to deploy in a number of ways to allow for the greatest flexibility.
+First, this repository is also as a
+[GitHub Docker container action](https://docs.github.com/en/actions/creating-actions/about-actions#docker-container-actions) (see [below](#github-actions-deployment)).
+Second, this code is package on [PyPI](https://pypi.org/project/github-stats-pages/).
+Third, the source code can be [forked](https://github.com/astrochun/github-stats-pages/fork)
+or cloned.
+Finally, a [Dockerfile](Dockerfile) is included for containerization.
+
+### GitHub Actions Deployment
 
 Deployment is simple with the following:
 
@@ -53,7 +66,7 @@ Deployment is simple with the following:
 
 This here will run for all public repositories.
 
-### Inputs
+#### Inputs
 
 | Variable        | Description                        | Required? | Type  | Defaults | Examples         |
 | --------------- | ---------------------------------- | --------- | ----- | -------- | ---------------- |
@@ -62,7 +75,7 @@ This here will run for all public repositories.
 | `include-repos` | Comma-separated lists of repositories.<br>This overrides the full list of public repositories | No | `str` | `''` | `'github-stats-pages,astrochun.github.io'`
 | `exclude-repos` | Comma-separated lists of repositories to exclude<br>from default public repository list | No | `str` | `''` | `'repo1'` |
 
-### Other GitHub Action deployment examples:
+#### Other GitHub Action deployment examples:
 
 To override all public repositories and limit to a subset of public repositories,
 specify a comma-separated list (_no spaces between commas_) for `include-repos` argument.
@@ -89,10 +102,18 @@ use the `exclude-repos` argument with a comma-separated list (_no spaces between
 ```
 
 Note that you can only specify `include-repos` _or_ `exclude-repos`.
-Specifying both will fail.
+**Specifying both will fail**!
 
+### Docker Deployment
 
-## Installation
+This repository includes a [Dockerfile](Dockerfile).
+More details/instructions provided later.
+
+### From source
+
+To run this code from original source, you will need to install it.
+
+#### Installation
 
 Use our [PyPI package](https://pypi.org/project/github-traffic-stats/) to
 get the most stable release:
@@ -107,7 +128,7 @@ Or if you want the latest version then:
 (venv) $ python setup.py install
 ```
 
-## Execution from source
+#### Execution from source
 
 TL;DR: If you decide to run this code from source, there are a few things you should know.
 
@@ -122,7 +143,7 @@ You can simply execute it with the following:
 Second, it is recommended to create a folder (e.g., `github_data`) as the contents
 will ultimately contain multiple files.
 
-## More details
+#### More details
 
 Here's an overview providing more details how this codebase works.
 There are four primary scripts accompanying `github-stats-pages`
