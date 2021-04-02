@@ -107,7 +107,20 @@ Or if you want the latest version then:
 (venv) $ python setup.py install
 ```
 
-## Execution
+## Execution from source
+
+TL;DR: If you decide to run this code from source, there are a few things you should know.
+
+First, this repository includes an [`entrypoint.sh`](entrypoint.sh).
+You can simply execute it with the following:
+```
+(venv) laptop:github_data $ username="<username>"
+(venv) laptop:github_data $ token="<personal_access_token>"
+(venv) laptop:github_data $ /path/to/github-stats-pages/entrypoint.sh $username $token
+```
+
+Second, it is recommended to create a folder (e.g., `github_data`) as the contents
+will ultimately contain multiple files.
 
 ## More details
 
@@ -135,17 +148,12 @@ forks. We use another Python library that does this called
 [github-traffic-stats](https://github.com/nchah/github-traffic-stats). It
 is accompanied by a `python` script called `gts`.
 
-To access traffic data, this requires a
-[Personal Access Token (PAT)](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token),
-so let's create a PAT. Generate one by going to the
-[following GitHub page](https://github.com/settings/tokens).
-For selected scopes you will only need `repo`.
-
-Then you can execute the next script:
+To access traffic data, this requires a PAT. See [above](#requirements)
+for instructions. Then you can execute the next script:
 
 ```
-(venv) laptop:github_data $ API_TOKEN='abcdef12345678'
-(venv) laptop:github_data $ gts_run_all_repos -u <username/organization> -t $API_TOKEN -c <username/organization>.csv
+(venv) laptop:github_data $ token='abcdef12345678'
+(venv) laptop:github_data $ gts_run_all_repos -u <username/organization> -t $token -c <username/organization>.csv
 ```
 
 This will generate CSV files with date and time stamps prefixes for clones,
@@ -166,7 +174,7 @@ Finally to generate static pages containing the visualization, we
 use the `make_stats_plots` script:
 
 ```
-(venv) laptop:github_data $ make_stats_plots -u <username> -c <username>.csv -t $API_TOKEN
+(venv) laptop:github_data $ make_stats_plots -u <username> -c <username>.csv -t $token
 ```
 
 This will generate all contents in the local path. Note that you can specify
