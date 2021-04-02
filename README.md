@@ -55,12 +55,12 @@ This here will run for all public repositories.
 
 ### Inputs
 
-| Variable        | Description                        | Required? | Type  | Defaults | Examples       |
-| --------------- | ---------------------------------- | --------- | ----- | -------- | -------------- |
-| `username`      | GitHub username or organization    | **Yes**   | `str` | N/A      | astrochun      |
-| `token`         | GitHub Personal Access Token (PAT) | **Yes**   | `str` | N/A      | abcdef12345678 |
-| `include-repos` | Comma-separated lists of repositories.<br>This overrides the full list of public repositories | No | `str` | `''` | github-stats-pages,astrochun.github.io'
-| `exclude-repos` | Comma-separated lists of repositories to exclude<br>from default public repository list | No | `str` | `''` | 'repo1' |
+| Variable        | Description                        | Required? | Type  | Defaults | Examples         |
+| --------------- | ---------------------------------- | --------- | ----- | -------- | ---------------- |
+| `username`      | GitHub username or organization    | **Yes**   | `str` | N/A      | `astrochun`      |
+| `token`         | GitHub Personal Access Token (PAT) | **Yes**   | `str` | N/A      | `abcdef12345678` |
+| `include-repos` | Comma-separated lists of repositories.<br>This overrides the full list of public repositories | No | `str` | `''` | `'github-stats-pages,astrochun.github.io'`
+| `exclude-repos` | Comma-separated lists of repositories to exclude<br>from default public repository list | No | `str` | `''` | `'repo1'` |
 
 ### Other GitHub Action deployment examples:
 
