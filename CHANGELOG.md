@@ -1,5 +1,16 @@
 # Changelog
 
+## [v0.3.1](https://github.com/astrochun/github-stats-pages/tree/v0.3.1) (2021-04-02)
+
+**Implemented enhancements:**
+ - Implement a Docker Actions to gather stats and build pages [#26](http://github.com/astrochun/github-stats-pages/pull/26)
+
+**Closed issues:**
+ - Implement a Docker Actions to gather stats and build pages [#20](http://github.com/astrochun/github-stats-pages/issues/20)
+ - Bug: Fix typo with exclude_repo in make_stats_plots [#24](http://github.com/astrochun/github-stats-pages/issues/24)
+ - Fix namespace for include-repo and exclude-repo [#25](http://github.com/astrochun/github-stats-pages/issues/25)
+
+
 ## [v0.3.0](https://github.com/astrochun/github-stats-pages/tree/v0.3.0) (2021-03-23)
 
 **Implemented enhancements:**
@@ -9,8 +20,9 @@
  - Module and script to generate plots [#16](http://github.com/astrochun/github-stats-pages/issues/16)
  - Add CHANGELOG.md [#18](http://github.com/astrochun/github-stats-pages/issues/18)
 
-
 **Merged pull requests:**
+ - Fix tag issue with CI run [#19](https://github.com/astrochun/github-stats-pages/pull/19)
+
 
 ## [v0.2.0](https://github.com/astrochun/github-stats-pages/tree/v0.2.0) (2021-02-27)
 
