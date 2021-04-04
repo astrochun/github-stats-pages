@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.3.2](https://github.com/astrochun/github-stats-pages/tree/v0.3.2) (2021-04-04)
+
+**Implemented enhancements:**
+ - Change Container action to write static pages to a public folder [#29](http://github.com/astrochun/github-stats-pages/pull/29)
+
+**Closed issues:**
+ - Change Container action to write static pages to a public folder [#28](http://github.com/astrochun/github-stats-pages/issues/28)
+
+
 ## [v0.3.1](https://github.com/astrochun/github-stats-pages/tree/v0.3.1) (2021-04-02)
 
 **Implemented enhancements:**
