@@ -156,7 +156,7 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
     # Add repo folder for all static repo pages
     p_repos = Path(out_dir) / "repos"
     if not p_repos.exists():
-        p_repos.mkdir()
+        p_repos.mkdir(parents=True)
 
     # Get unique repository names
     repo_names = set()
