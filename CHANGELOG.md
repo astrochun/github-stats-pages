@@ -1,5 +1,14 @@
 # Changelog
 
+## [UNRELEASED](https://github.com/astrochun/github-stats-pages/tree/HEAD) (YYYY-MM-DD)
+
+**Fixed bugs:**
+ - Bug: Fix page not found on repo pages [#30](http://github.com/astrochun/github-stats-pages/issues/30)
+
+**Merged pull requests:**
+ - Bug: Fix page not found on repo pages [#32](http://github.com/astrochun/github-stats-pages/pull/32)
+
+
 ## [v0.3.2](https://github.com/astrochun/github-stats-pages/tree/v0.3.2) (2021-04-04)
 
 **Implemented enhancements:**
