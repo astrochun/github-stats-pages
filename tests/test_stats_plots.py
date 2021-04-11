@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+from requests import HTTPError
 import pytest
 
 from github_stats_pages import stats_plots
@@ -11,6 +12,12 @@ tests_data_folder = Path('tests_data')
 def test_load_data():
     dict_df = stats_plots.load_data(tests_data_folder)
     assert isinstance(dict_df, dict)
+
+
+def test_user_readme():
+    assert stats_plots.user_readme('astrochun') != ''
+
+    assert stats_plots.user_readme('test') == ''
 
 
 def test_make_plots(username, token):

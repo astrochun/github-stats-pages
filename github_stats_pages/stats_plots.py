@@ -126,6 +126,28 @@ def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
     return s
 
 
+def user_readme(username: str) -> str:
+    """
+    Retrieve user README.md and return HTML content
+
+    :param username: GitHub username or organization
+    :return: Markdown -> HTML content
+    """
+
+    readme_url = f"https://raw.githubusercontent.com/{username}/{username}/main/README.md"
+    readme_response = get(readme_url)
+    try:
+        readme_response.raise_for_status()
+        readme_html = markdown.markdown(
+            readme_response.content.decode('utf-8'),
+            extensions=['sane_lists']
+        )
+    except HTTPError:
+        readme_html = ''
+
+    return readme_html
+
+
 def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
                symlink: bool = False, token: str = '',
                include_repos: str = '',
@@ -195,21 +217,13 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
     bfc = "#fafafa"  # border fill color
 
     # Retrieve README.md file for user
-    readme_url = f"https://raw.githubusercontent.com/{username}/{username}/main/README.md"
-    readme_response = get(readme_url)
-    try:
-        readme_response.raise_for_status()
-        readme_html = markdown.markdown(
-            readme_response.content.decode('utf-8'),
-            extensions=['sane_lists']
-        )
-    except HTTPError:
-        readme_html = ''
+    readme_html = user_readme(username)
 
     headers = {}
     if token:
         headers['Authorization'] = f"token {token}"
-    avatar_response = get(f'https://api.github.com/users/{username}', headers=headers).json()
+    avatar_response = get(f'https://api.github.com/users/{username}',
+                          headers=headers).json()
     jinja_dict = {
         'username': username,
         'avatar_url': avatar_response['avatar_url'],
