@@ -2,6 +2,15 @@
 
 ## [UNRELEASED](https://github.com/astrochun/github-stats-pages/tree/HEAD) (YYYY-MM-DD)
 
+**Implemented enhancements:**
+ -  Convert username README.md to HTML for index.html page [#34](http://github.com/astrochun/github-stats-pages/pull/34)
+
+**Closed issues:**
+ - Convert username README.md to HTML for index.html page [#33](http://github.com/astrochun/github-stats-pages/issues/33)
+
+
+## [v0.3.3](https://github.com/astrochun/github-stats-pages/tree/v0.3.3) (2021-04-08)
+
 **Fixed bugs:**
  - Bug: Fix page not found on repo pages [#30](http://github.com/astrochun/github-stats-pages/issues/30)
 

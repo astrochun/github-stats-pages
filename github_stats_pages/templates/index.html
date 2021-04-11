@@ -81,7 +81,9 @@
         </nav>
 
         <h2 class="mb-4">GitHub Statistics |  <a href="https://github.com/{{ jinja_dict.username }}">@{{ jinja_dict.username }}</a></h2>
-        <p></p>
+        {% if jinja_dict.readme_html != '' %}
+        {{ jinja_dict.readme_html | safe }}
+        {% endif %}
       </div>
     </div>
 
