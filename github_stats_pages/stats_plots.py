@@ -1,6 +1,7 @@
 import shutil
 from pathlib import Path
-from requests import get
+from requests import get, HTTPError
+import markdown
 
 from typing import Dict
 
@@ -193,6 +194,18 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
     bc = "#f0f0f0"  # background color
     bfc = "#fafafa"  # border fill color
 
+    # Retrieve README.md file for user
+    readme_url = f"https://raw.githubusercontent.com/{username}/{username}/main/README.md"
+    readme_response = get(readme_url)
+    try:
+        readme_response.raise_for_status()
+        readme_html = markdown.markdown(
+            readme_response.content.decode('utf-8'),
+            extensions=['sane_lists']
+        )
+    except HTTPError:
+        readme_html = ''
+
     headers = {}
     if token:
         headers['Authorization'] = f"token {token}"
@@ -201,6 +214,7 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
         'username': username,
         'avatar_url': avatar_response['avatar_url'],
         'repos': sorted(final_repo_names),
+        'readme_html': readme_html,
     }
 
     # Write HTML Files
