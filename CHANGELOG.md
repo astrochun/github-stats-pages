@@ -1,6 +1,6 @@
 # Changelog
 
-## [UNRELEASED](https://github.com/astrochun/github-stats-pages/tree/HEAD) (YYYY-MM-DD)
+## [v0.3.4](https://github.com/astrochun/github-stats-pages/tree/v0.3.4) 2011-04-11)
 
 **Implemented enhancements:**
  -  Convert username README.md to HTML for index.html page [#34](http://github.com/astrochun/github-stats-pages/pull/34)
