@@ -54,19 +54,54 @@ Finally, a [Dockerfile](Dockerfile) is included for containerization.
 
 ### GitHub Actions Deployment
 
-Deployment is simple with the following:
+TL;DR: For easy deployment, try this
+[GitHub template](https://github.com/astrochun/github-stats). Simply:
+
+1. [Use it!](https://github.com/astrochun/github-stats/generate)
+2. Add a Personal access token, as a repository secret, `GH_TOKEN`.
+   See [above](#requirements). (Settings > Secrets)
+3. Enable GitHub Actions (Settings > Actions)
+4. Enable GitHub pages through the settings page and select `gh-pages` (Settings > Pages)
+5. Sit back and enjoy that ☕️!
+
+#### Nitty Gritty
+
+GitHub Pages deployment is simple with the following GitHub Actions workflow:
 
 ```yaml
+  - name: Checkout
+    uses: actions/checkout@v2
+  - name: Get current date
+    id: date
+    run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
   - name: Build GitHub stats pages
     uses: astrochun/github-stats-pages@latest
     with:
       username: ${{ github.actor }}
       token: ${{ secrets.GH_TOKEN }}
+  - name: Upload data to main branch
+    uses: EndBug/add-and-commit@v7.0.0
+    with:
+      add: 'data'
+      branch: main
+      message: "Update data: ${{ steps.date.outputs.date }}"
+      author_name: 'github-actions[bot]'
+      author_email: '41898282+github-actions[bot]@users.noreply.github.com'
+  - name: Upload static files to gh-pages
+    uses: peaceiris/actions-gh-pages@v3
+    with:
+      personal_token: ${{ secrets.GH_TOKEN }}
+      publish_dir: ./public
+      keep_files: false
+      user_name: 'github-actions[bot]'
+      user_email: '41898282+github-actions[bot]@users.noreply.github.com'
+      publish_branch: gh-pages
+      commit_message: "Update static pages: ${{ steps.date.outputs.date }}"
 ```
 
-This here will run for all public repositories.
+This workflow will run for all public repositories.
 
-#### Inputs
+##### Inputs
 
 | Variable        | Description                        | Required? | Type  | Defaults | Examples         |
 | --------------- | ---------------------------------- | --------- | ----- | -------- | ---------------- |
@@ -75,7 +110,7 @@ This here will run for all public repositories.
 | `include-repos` | Comma-separated lists of repositories. This overrides the full list of public repositories | No | `str` | `''` | `'github-stats-pages,astrochun.github.io'`
 | `exclude-repos` | Comma-separated lists of repositories to exclude from default public repository list | No | `str` | `''` | `'repo1'` |
 
-#### Other GitHub Action deployment examples:
+##### Other GitHub Action deployment examples:
 
 To override all public repositories and limit to a subset of public repositories,
 specify a comma-separated list (_no spaces between commas_) for `include-repos` argument.
