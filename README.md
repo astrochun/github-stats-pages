@@ -26,7 +26,19 @@ Retrieve statistics for a user's repositories and populate the information onto 
 This software is both a GitHub Docker container action and a Python
 packaged software. The former allows for this to run to generate GitHub
 pages while the latter gives flexibility to deploy on a variety of
-compute resources (e.g., cloud, dev). Below outlines how to set this up.
+compute resources (e.g., cloud, dev).
+
+Some key features of this software:
+
+1. Flexible - Designed to be deployed in a number of ways
+2. Python - Most of the code is Python (excluding static assets) with static types
+3. Copy-left license: This is supported by open source and thus is open source
+   with an MIT License!
+4. Continuous Integration - We currently have 100% code coverage of the Python
+   codebase and the Docker action
+5. Environmentally friendly - [Websitecarbon.com](https://www.websitecarbon.com/)
+   reported that a GitHub Pages deployment of this code has a lower carbon
+   footprint than 90% of web pages tested
 
 ## Requirements
 
