@@ -81,37 +81,48 @@ For easy deployment, try this
 
 #### The Nitty Gritty
 
-GitHub Pages deployment is simple with the following GitHub Actions workflow:
+GitHub Pages deployment is simple with the following GitHub Actions `cronjob` workflow:
 
 ```yaml
-  - name: Checkout
-    uses: actions/checkout@v2
-  - name: Get current date
-    id: date
-    run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-  - name: Build GitHub stats pages
-    uses: astrochun/github-stats-pages@latest
-    with:
-      username: ${{ github.actor }}
-      token: ${{ secrets.GH_TOKEN }}
-  - name: Upload data to main branch
-    uses: EndBug/add-and-commit@v7.0.0
-    with:
-      add: 'data'
-      branch: main
-      message: "Update data: ${{ steps.date.outputs.date }}"
-      author_name: 'github-actions[bot]'
-      author_email: '41898282+github-actions[bot]@users.noreply.github.com'
-  - name: Upload static files to gh-pages
-    uses: peaceiris/actions-gh-pages@v3
-    with:
-      personal_token: ${{ secrets.GH_TOKEN }}
-      publish_dir: ./public
-      keep_files: false
-      user_name: 'github-actions[bot]'
-      user_email: '41898282+github-actions[bot]@users.noreply.github.com'
-      publish_branch: gh-pages
-      commit_message: "Update static pages: ${{ steps.date.outputs.date }}"
+name: Deploy GitHub pages with traffic stats
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+
+jobs:
+  build-n-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+    - name: Build GitHub stats pages
+      uses: astrochun/github-stats-pages@latest
+      with:
+        username: ${{ github.actor }}
+        token: ${{ secrets.GH_TOKEN }}
+    - name: Upload data to main branch
+      uses: EndBug/add-and-commit@v7.0.0
+      with:
+        add: 'data'
+        branch: main
+        message: "Update data: ${{ steps.date.outputs.date }}"
+        author_name: 'github-actions[bot]'
+        author_email: '41898282+github-actions[bot]@users.noreply.github.com'
+    - name: Upload static files to gh-pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        personal_token: ${{ secrets.GH_TOKEN }}
+        publish_dir: ./public
+        keep_files: false
+        user_name: 'github-actions[bot]'
+        user_email: '41898282+github-actions[bot]@users.noreply.github.com'
+        publish_branch: gh-pages
+        commit_message: "Update static pages: ${{ steps.date.outputs.date }}"
 ```
 
 This workflow will run for all public repositories.
