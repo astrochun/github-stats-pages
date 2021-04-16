@@ -142,24 +142,24 @@ To override all public repositories and limit to a subset of public repositories
 specify a comma-separated list (_no spaces between commas_) for `include-repos` argument.
 
 ```yaml
-  - name: Build GitHub stats pages
-    uses: astrochun/github-stats-pages@latest
-    with:
-      username: ${{ github.actor }}
-      token: ${{ secrets.GH_TOKEN }}
-      include-repos: "github-stats-pages"
+    - name: Build GitHub stats pages
+      uses: astrochun/github-stats-pages@latest
+      with:
+        username: ${{ github.actor }}
+        token: ${{ secrets.GH_TOKEN }}
+        include-repos: "github-stats-pages"
 ```
 
 Alternatively to exclude specific repositories from the list of public repositories,
 use the `exclude-repos` argument with a comma-separated list (_no spaces between commas_).
 
 ```yaml
-  - name: Build GitHub stats pages
-    uses: astrochun/github-stats-pages@latest
-    with:
-      username: ${{ github.actor }}
-      token: ${{ secrets.GH_TOKEN }}
-      exclude-repos: "repo1,repo2"
+    - name: Build GitHub stats pages
+      uses: astrochun/github-stats-pages@latest
+      with:
+        username: ${{ github.actor }}
+        token: ${{ secrets.GH_TOKEN }}
+        exclude-repos: "repo1,repo2"
 ```
 
 Note that you can only specify `include-repos` _or_ `exclude-repos`.
