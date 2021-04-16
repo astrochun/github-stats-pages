@@ -1,6 +1,6 @@
 from setuptools import setup
 
-with open("README.md", "r") as fh:
+with open("README.md", "r", encoding='utf-8') as fh:
     long_description = fh.read()
 
 with open("requirements.txt", "r") as fr:
@@ -8,7 +8,7 @@ with open("requirements.txt", "r") as fr:
 
 setup(
     name='github-stats-pages',
-    version='0.3.4',
+    version='0.3.5',
     packages=['github_stats_pages'],
     scripts=['scripts/get_repo_list',
              'scripts/gts_run_all_repos',
