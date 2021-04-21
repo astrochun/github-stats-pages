@@ -1,0 +1,21 @@
+name: README Repos List
+
+on:
+  schedule:
+    - cron: "30 3 * * 5"  # Update every Friday
+
+jobs:
+  readme:
+    name: Update README
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run readme-repos-list
+        uses: koj-co/readme-repos-list@master
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          query: "topic:github-stats-pages"
+          max: 1000
+          one-per-owner: true
