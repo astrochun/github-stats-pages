@@ -20,6 +20,7 @@ Retrieve statistics for a user's repositories and populate the information onto 
 - [Continuous Integration](#continuous-integration)
 - [Authors](#authors)
 - [License](#license)
+- [Used by](#used-by)
 
 ## Overview
 
@@ -307,3 +308,9 @@ See also the list of
 ## License
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) - see the [LICENSE](LICENSE) file for details.
+
+
+## Used by
+
+<!-- start: readme-repos-list -->
+<!-- end: readme-repos-list -->
