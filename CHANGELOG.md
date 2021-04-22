@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.3.6](https://github.com/astrochun/github-stats-pages/tree/v0.3.6) (2021-04-21)
+
+**Implemented enhancements:**
+ - Enhancement: CI to search for uses and update README.md [#42](http://github.com/astrochun/github-stats-pages/pull/42)
+
+**Closed issues:**
+ - Enhancement: CI to search for uses and update README.md [#39](http://github.com/astrochun/github-stats-pages/issues/39)
+
+
 ## [v0.3.5](https://github.com/astrochun/github-stats-pages/tree/HEAD) (2021-04-16)
 
 **Implemented enhancements:**
