@@ -20,6 +20,7 @@ Retrieve statistics for a user's repositories and populate the information onto 
 - [Continuous Integration](#continuous-integration)
 - [Authors](#authors)
 - [License](#license)
+- [Used by](#used-by)
 
 ## Overview
 
@@ -77,7 +78,7 @@ For easy deployment, try this
 3. Enable GitHub Actions (Settings > Actions)
 4. Enable GitHub pages through the settings page and select `gh-pages`
    (Settings > Pages)
-5. Sit back and enjoy that ☕️!
+5. Sit back and enjoy that ☕️ !
 
 #### The Nitty Gritty
 
@@ -307,3 +308,11 @@ See also the list of
 ## License
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) - see the [LICENSE](LICENSE) file for details.
+
+
+## Used by
+
+A list of repos using `github-stats-pages` can be found [here](https://github.com/topics/github-stats-pages)
+
+<!-- start: readme-repos-list -->
+<!-- end: readme-repos-list -->
