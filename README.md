@@ -75,10 +75,11 @@ For easy deployment, try this
 1. [Use it!](https://github.com/astrochun/github-stats/generate)
 2. Add a Personal access token, as a repository secret, `GH_TOKEN`.
    See [above](#requirements) (Settings > Secrets)
-3. Enable GitHub Actions (Settings > Actions)
-4. Enable GitHub pages through the settings page and select `gh-pages`
-   (Settings > Pages)
-5. Sit back and enjoy that ☕️ !
+3. If not already enabled, enable GitHub Actions (Settings > Actions)
+4. Sit back and enjoy that ☕️ !
+
+Note: After the first Action run, you may need to enable GitHub pages through
+the  settings page and select `gh-pages` (Settings > Pages)
 
 #### The Nitty Gritty
 
