@@ -52,8 +52,7 @@ This codebase uses
 To create one, follow these
 [instructions](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
 or go [here](https://github.com/settings/tokens).
-For scopes, select: `repo` and `workflow` (if you decide to deploy using GitHub Action).
-Save your PAT in a safe place as you will provide it below.
+For scopes, select: `repo`. Save your PAT in a safe place as you will need it later.
 
 ## Deployment
 
