@@ -95,6 +95,9 @@ on:
 jobs:
   build-n-publish:
     runs-on: ubuntu-latest
+    env:
+      BOT_NAME: 'github-actions[bot]'
+      BOT_EMAIL: '41898282+github-actions[bot]@users.noreply.github.com'
 
     steps:
     - name: Checkout
@@ -113,16 +116,16 @@ jobs:
         add: 'data'
         branch: main
         message: "Update data: ${{ steps.date.outputs.date }}"
-        author_name: 'github-actions[bot]'
-        author_email: '41898282+github-actions[bot]@users.noreply.github.com'
+        author_name: env.BOT_NAME
+        author_email: env.BOT_EMAIL
     - name: Upload static files to gh-pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         personal_token: ${{ secrets.GH_TOKEN }}
         publish_dir: ./public
         keep_files: false
-        user_name: 'github-actions[bot]'
-        user_email: '41898282+github-actions[bot]@users.noreply.github.com'
+        user_name: env.BOT_NAME
+        user_email: env.BOT_EMAIL
         publish_branch: gh-pages
         commit_message: "Update static pages: ${{ steps.date.outputs.date }}"
 ```
