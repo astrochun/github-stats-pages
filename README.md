@@ -52,8 +52,7 @@ This codebase uses
 To create one, follow these
 [instructions](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
 or go [here](https://github.com/settings/tokens).
-For scopes, select: `repo` and `workflow` (if you decide to deploy using GitHub Action).
-Save your PAT in a safe place as you will provide it below.
+For scopes, select: `repo`. Save your PAT in a safe place as you will need it later.
 
 ## Deployment
 
@@ -75,10 +74,11 @@ For easy deployment, try this
 1. [Use it!](https://github.com/astrochun/github-stats/generate)
 2. Add a Personal access token, as a repository secret, `GH_TOKEN`.
    See [above](#requirements) (Settings > Secrets)
-3. Enable GitHub Actions (Settings > Actions)
-4. Enable GitHub pages through the settings page and select `gh-pages`
-   (Settings > Pages)
-5. Sit back and enjoy that ☕️ !
+3. If not already enabled, enable GitHub Actions (Settings > Actions)
+4. Sit back and enjoy that ☕️ !
+
+Note: After the first Action run, you may need to enable GitHub pages through
+the  settings page and select `gh-pages` (Settings > Pages)
 
 #### The Nitty Gritty
 
@@ -94,6 +94,9 @@ on:
 jobs:
   build-n-publish:
     runs-on: ubuntu-latest
+    env:
+      BOT_NAME: 'github-actions[bot]'
+      BOT_EMAIL: '41898282+github-actions[bot]@users.noreply.github.com'
 
     steps:
     - name: Checkout
@@ -104,7 +107,7 @@ jobs:
     - name: Build GitHub stats pages
       uses: astrochun/github-stats-pages@latest
       with:
-        username: ${{ github.actor }}
+        username: ${{ github.repository_owner }}
         token: ${{ secrets.GH_TOKEN }}
     - name: Upload data to main branch
       uses: EndBug/add-and-commit@v7.0.0
@@ -112,16 +115,16 @@ jobs:
         add: 'data'
         branch: main
         message: "Update data: ${{ steps.date.outputs.date }}"
-        author_name: 'github-actions[bot]'
-        author_email: '41898282+github-actions[bot]@users.noreply.github.com'
+        author_name: env.BOT_NAME
+        author_email: env.BOT_EMAIL
     - name: Upload static files to gh-pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         personal_token: ${{ secrets.GH_TOKEN }}
         publish_dir: ./public
         keep_files: false
-        user_name: 'github-actions[bot]'
-        user_email: '41898282+github-actions[bot]@users.noreply.github.com'
+        user_name: env.BOT_NAME
+        user_email: env.BOT_EMAIL
         publish_branch: gh-pages
         commit_message: "Update static pages: ${{ steps.date.outputs.date }}"
 ```
@@ -146,7 +149,7 @@ specify a comma-separated list (_no spaces between commas_) for `include-repos` 
     - name: Build GitHub stats pages
       uses: astrochun/github-stats-pages@latest
       with:
-        username: ${{ github.actor }}
+        username: ${{ github.repository_owner }}
         token: ${{ secrets.GH_TOKEN }}
         include-repos: "github-stats-pages"
 ```
@@ -158,7 +161,7 @@ use the `exclude-repos` argument with a comma-separated list (_no spaces between
     - name: Build GitHub stats pages
       uses: astrochun/github-stats-pages@latest
       with:
-        username: ${{ github.actor }}
+        username: ${{ github.repository_owner }}
         token: ${{ secrets.GH_TOKEN }}
         exclude-repos: "repo1,repo2"
 ```
@@ -312,7 +315,7 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 
 ## Used by
 
-A list of repos using `github-stats-pages` can be found [here](https://github.com/topics/github-stats-pages)
+A list of repos using `github-stats-pages` can be found [here](https://github.com/topics/github-stats-pages).
 
 <!-- start: readme-repos-list -->
 <!-- This list is auto-generated using koj-co/readme-repos-list -->
