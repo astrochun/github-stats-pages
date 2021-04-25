@@ -315,7 +315,7 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 
 ## Used by
 
-A list of repos using `github-stats-pages` can be found [here](https://github.com/topics/github-stats-pages)
+A list of repos using `github-stats-pages` can be found [here](https://github.com/topics/github-stats-pages).
 
 <!-- start: readme-repos-list -->
 <!-- This list is auto-generated using koj-co/readme-repos-list -->
