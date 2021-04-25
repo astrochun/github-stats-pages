@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.3.7](https://github.com/astrochun/github-stats-pages/tree/v0.3.7) (2021-04-25)
+
+**Closed issues:**
+ - Docs: Fix YAML in README.md to use repository_owner over actor, GitHub env [#43](http://github.com/astrochun/github-stats-pages/issues/43)
+
+**Merged pull requests:**
+ - Docs: Fix YAML in README.md to use repository_owner over actor, GitHub env [#44](http://github.com/astrochun/github-stats-pages/pull/44)
+
+
 ## [v0.3.6](https://github.com/astrochun/github-stats-pages/tree/v0.3.6) (2021-04-21)
 
 **Implemented enhancements:**
