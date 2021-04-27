@@ -3,9 +3,13 @@
 
 [UNRELEASED](https://github.com/astrochun/github-stats-pages/tree/HEAD)
 
+**Implemented enhancements:**
+ - Feature: Support for markdown table to HTML [#48](http://github.com/astrochun/github-stats-pages/pull/48)
+
 **Closed issues:**
  - Chore: Add Shields.io logo [#41](http://github.com/astrochun/github-stats-pages/issues/41)
  - Chore: Add FAQs in documentation [#37](http://github.com/astrochun/github-stats-pages/issues/37)
+ - Feature: Support for markdown table to HTML [#47](http://github.com/astrochun/github-stats-pages/issues/47)
 
 **Merged pull requests:**
  - Chore: Add Shields.io logo [#45](http://github.com/astrochun/github-stats-pages/pull/45)
