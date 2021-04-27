@@ -16,6 +16,7 @@ Retrieve statistics for a user's repositories and populate the information onto 
    - [From Source](#from-source)
 - [Installation](#installation)
 - [Execution](#execution)
+- [FAQ](#faq)
 - [Versioning](#versioning)
 - [Continuous Integration](#continuous-integration)
 - [Authors](#authors)
@@ -295,6 +296,45 @@ github_data/
 ├── repositories.html
 └── <username>.csv
 ```
+
+## FAQ
+
+### 1. How do I add old data?
+
+If you ran this code outside your production deployment (e.g., GitHub pages),
+it is in fact straightforward to include those data.
+
+For GitHub Pages deployment, simply:
+   1. `git clone` your copy of the [`github-stats`](https://github.com/astrochun/github-stats) repo
+   2. Move/copy previous CSV files to the `data` folder in the `main` branch.
+      These files follow a YYYY-MM-DD prefix
+   3. Then add, commit, and push:
+      `git add data/????-??-??*stats.csv`, `git commit -m "Add old data"`, `git push`
+
+On the next GitHub Action scheduled run, the live pages will automatically incorporate these data.
+
+For any other deployments (e.g., cloud), simply:
+   1. Move/copy/`rsync`/`scp` the previous CSV files to the `data` folder in the deployed instance
+
+Upon the next `cronjob` or script run, the old data will automatically be incorporated.
+
+### 2. How do I add content to the home page (`index.html`)?
+
+The deployed `index.html` can be customized to provide a biography, cool
+graphics, and/or additional statistics. This is possible through a
+[GitHub profile README](https://docs.github.com/en/github/setting-up-and-managing-your-github-profile/managing-your-profile-readme)
+that you can create. The link above provides instruction for setting up one. This software
+will convert the markdown content to HTML and include it in the `index.html`.
+An example of the outcome can be found [here](https://astrochun.github.io/github-stats/).
+
+Many GitHub users have developed fancy GitHub profile READMEs:
+[https://github.com/abhisheknaiidu/awesome-github-profile-readme](https://github.com/abhisheknaiidu/awesome-github-profile-readme).
+By including those in your profile README, they should be included in your deployed version.
+If it doesn't work, feel free to reach out.
+
+Note: While a GitHub profile README does not work for an organization in the same manner as
+individual GitHub accounts, this software will still use its content if it is publicly available.
+Here's an [example](https://ual-odis.github.io/github-stats/)
 
 ## Versioning
 

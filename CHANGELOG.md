@@ -1,5 +1,17 @@
 # Changelog
 
+
+[UNRELEASED](https://github.com/astrochun/github-stats-pages/tree/HEAD)
+
+**Closed issues:**
+ - Chore: Add Shields.io logo [#41](http://github.com/astrochun/github-stats-pages/issues/41)
+ - Chore: Add FAQs in documentation [#37](http://github.com/astrochun/github-stats-pages/issues/37)
+
+**Merged pull requests:**
+ - Chore: Add Shields.io logo [#45](http://github.com/astrochun/github-stats-pages/pull/45)
+ - Chore: Add FAQs in documentation [#46](http://github.com/astrochun/github-stats-pages/pull/46)
+
+
 ## [v0.3.7](https://github.com/astrochun/github-stats-pages/tree/v0.3.7) (2021-04-25)
 
 **Closed issues:**
