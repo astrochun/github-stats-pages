@@ -140,7 +140,10 @@ def user_readme(username: str) -> str:
         readme_response.raise_for_status()
         readme_html = markdown.markdown(
             readme_response.content.decode('utf-8'),
-            extensions=['sane_lists']
+            extensions=[
+                'sane_lists',
+                'markdown.extensions.tables',
+            ]
         )
     except HTTPError:
         readme_html = ''
