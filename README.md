@@ -330,10 +330,11 @@ An example of the outcome can be found [here](https://astrochun.github.io/github
 Many GitHub users have developed fancy GitHub profile READMEs:
 [https://github.com/abhisheknaiidu/awesome-github-profile-readme](https://github.com/abhisheknaiidu/awesome-github-profile-readme).
 By including those in your profile README, they should be included in your deployed version.
-If it doesn't work, feel free to reach out
+If it doesn't work, feel free to reach out.
 
 Note: While a GitHub profile README does not work for an organization in the same manner as
-individual GitHub accounts, this software will still use its content.
+individual GitHub accounts, this software will still use its content if it is publicly available.
+Here's an [example](https://ual-odis.github.io/github-stats/)
 
 ## Versioning
 
