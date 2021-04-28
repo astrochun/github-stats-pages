@@ -1,5 +1,13 @@
 # Changelog
 
+## [UNRELEASED](https://github.com/astrochun/github-stats-pages/tree/HEAD) (YYYY-MM-DD)
+
+**Closed issues:**
+ - Chore: Add hidden HTML explaining each HTML files [#38](http://github.com/astrochun/github-stats-pages/issues/38)
+
+**Merged pull requests:**
+ - Chore: Add hidden HTML explaining each HTML files [#49](http://github.com/astrochun/github-stats-pages/pull/49)
+
 
 [v0.3.8](https://github.com/astrochun/github-stats-pages/tree/v0.3.8)
 
