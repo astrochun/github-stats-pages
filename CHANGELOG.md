@@ -1,7 +1,7 @@
 # Changelog
 
 
-[UNRELEASED](https://github.com/astrochun/github-stats-pages/tree/HEAD)
+[v0.3.8](https://github.com/astrochun/github-stats-pages/tree/v0.3.8)
 
 **Implemented enhancements:**
  - Feature: Support for markdown table to HTML [#48](http://github.com/astrochun/github-stats-pages/pull/48)
