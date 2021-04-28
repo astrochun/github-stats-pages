@@ -71,14 +71,15 @@ def get_date_range(df_list: List[pd.DataFrame]) -> Optional[Tuple[dt, dt]]:
         return None
 
 
-def date_subplots(df: pd.DataFrame, y_column: str, title: str = '',
-                  pw: int = 350, ph: int = 350, bc: str = "#f0f0f0",
-                  bfc: str = "#fafafa") -> figure():
+def date_subplots(df: pd.DataFrame, y_column: str, date_range: tuple,
+                  title: str = '', pw: int = 350, ph: int = 350,
+                  bc: str = "#f0f0f0", bfc: str = "#fafafa") -> figure():
     """
     Generate subplots with date x-axis
 
     :param df: DataFrame of traffic or clone data
     :param y_column: DataFrame column to plot on y-axis, e.g., 'total', 'unique'
+    :param date_range: Minimum and maximum datetime object for ``x_range``
     :param title: Title of plot
     :param pw: plot width in pixel
     :param ph: plot height in pixel
@@ -87,7 +88,8 @@ def date_subplots(df: pd.DataFrame, y_column: str, title: str = '',
     """
     s = figure(plot_width=pw, plot_height=ph, title=title,
                background_fill_color=bc, border_fill_color=bfc,
-               x_axis_type="datetime", tooltips=TOOLTIPS,
+               x_axis_type="datetime", x_range=date_range,
+               tooltips=TOOLTIPS,
                tools="xpan,xwheel_zoom,xzoom_in,xzoom_out,hover,save,reset")
     # s.toolbar.active_inspect = [HoverTool()]
 
@@ -291,19 +293,21 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
         r_clone_df = clone_df.loc[clone_df[columns[0]] == r]
         r_referrer_df = referrer_df.loc[referrer_df[columns[0]] == r]
 
-        # Plot traffic data
-        s1a = date_subplots(r_traffic_df, 'total', 'Total Daily Traffic', pw=pw,
-                            ph=ph, bc=bc, bfc=bfc)
+        date_range = get_date_range([r_traffic_df, r_clone_df])
 
-        s1b = date_subplots(r_traffic_df, 'unique', 'Unique Daily Traffic', pw=pw,
-                            ph=ph, bc=bc, bfc=bfc)
+        # Plot traffic data
+        s1a = date_subplots(r_traffic_df, 'total', date_range,
+                            'Total Daily Traffic', pw=pw, ph=ph, bc=bc, bfc=bfc)
+
+        s1b = date_subplots(r_traffic_df, 'unique', date_range,
+                            'Unique Daily Traffic', pw=pw, ph=ph, bc=bc, bfc=bfc)
 
         # Plot clones traffic
-        s2a = date_subplots(r_clone_df, 'total', 'Total Daily Clones', pw=pw,
-                            ph=ph, bc=bc, bfc=bfc)
+        s2a = date_subplots(r_clone_df, 'total', date_range,
+                            'Total Daily Clones', pw=pw, ph=ph, bc=bc, bfc=bfc)
 
-        s2b = date_subplots(r_clone_df, 'unique', 'Unique Daily Clones', pw=pw,
-                            ph=ph, bc=bc, bfc=bfc)
+        s2b = date_subplots(r_clone_df, 'unique', date_range,
+                            'Unique Daily Clones', pw=pw, ph=ph, bc=bc, bfc=bfc)
 
         s3a = refer_subplots(r_referrer_df, 'total', 'Total Referrals', pw=pw,
                              ph=ph, bc=bc, bfc=bfc)
