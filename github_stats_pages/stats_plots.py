@@ -3,7 +3,7 @@ from pathlib import Path
 from requests import get, HTTPError
 import markdown
 
-from typing import Dict
+from typing import Dict, List, Tuple, Optional
 
 from math import pi
 import pandas as pd
@@ -47,6 +47,28 @@ def load_data(data_dir: str) -> Dict[str, pd.DataFrame]:
         dict_df[stats] = pd.read_csv(stat_file, header=None, names=names)
 
     return dict_df
+
+
+def get_date_range(df_list: List[pd.DataFrame]) -> Optional[Tuple[dt, dt]]:
+    """
+    Get a complete date range from clone and traffic data
+
+    :param df_list: List of pandas DataFrame for each repository
+
+    :return: Range of datetime
+    """
+    x_min = []
+    x_max = []
+    for df in df_list:
+        date_list = [dt.strptime(d, '%Y-%m-%d') for d in df['date']]
+        if len(date_list) > 0:
+            x_min.append(min(date_list))
+            x_max.append(max(date_list))
+
+    if len(x_min) > 0:
+        return min(x_min) - td(days=1), max(x_max) + td(days=1)
+    else:
+        return None
 
 
 def date_subplots(df: pd.DataFrame, y_column: str, title: str = '',
