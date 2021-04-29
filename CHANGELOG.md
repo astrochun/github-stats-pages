@@ -1,12 +1,14 @@
 # Changelog
 
-## [UNRELEASED](https://github.com/astrochun/github-stats-pages/tree/HEAD) (YYYY-MM-DD)
+## [v0.3.9](https://github.com/astrochun/github-stats-pages/tree/v0.3.9) (2021-04-28)
 
 **Closed issues:**
  - Chore: Add hidden HTML explaining each HTML files [#38](http://github.com/astrochun/github-stats-pages/issues/38)
+ - Enhancement: Adjust timeline plot to line up for both clones and daily traffic [#36](http://github.com/astrochun/github-stats-pages/issues/36)
 
 **Merged pull requests:**
  - Chore: Add hidden HTML explaining each HTML files [#49](http://github.com/astrochun/github-stats-pages/pull/49)
+ - Enhancement: Adjust timeline plot to line up for both clones and daily traffic [#50](http://github.com/astrochun/github-stats-pages/pull/50)
 
 
 [v0.3.8](https://github.com/astrochun/github-stats-pages/tree/v0.3.8)
