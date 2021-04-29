@@ -295,25 +295,27 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
 
         date_range = get_date_range([r_traffic_df, r_clone_df])
 
+        subplots_dict = dict(pw=pw, ph=ph, bc=bc, bfc=bfc)
+
         # Plot traffic data
         s1a = date_subplots(r_traffic_df, 'total', date_range,
-                            'Total Daily Traffic', pw=pw, ph=ph, bc=bc, bfc=bfc)
+                            'Total Daily Traffic', **subplots_dict)
 
         s1b = date_subplots(r_traffic_df, 'unique', date_range,
-                            'Unique Daily Traffic', pw=pw, ph=ph, bc=bc, bfc=bfc)
+                            'Unique Daily Traffic', **subplots_dict)
 
         # Plot clones traffic
         s2a = date_subplots(r_clone_df, 'total', date_range,
-                            'Total Daily Clones', pw=pw, ph=ph, bc=bc, bfc=bfc)
+                            'Total Daily Clones', **subplots_dict)
 
         s2b = date_subplots(r_clone_df, 'unique', date_range,
-                            'Unique Daily Clones', pw=pw, ph=ph, bc=bc, bfc=bfc)
+                            'Unique Daily Clones', **subplots_dict)
 
-        s3a = refer_subplots(r_referrer_df, 'total', 'Total Referrals', pw=pw,
-                             ph=ph, bc=bc, bfc=bfc)
+        s3a = refer_subplots(r_referrer_df, 'total', 'Total Referrals',
+                             **subplots_dict)
 
-        s3b = refer_subplots(r_referrer_df, 'unique', 'Unique Referrals', pw=pw,
-                             ph=ph, bc=bc)
+        s3b = refer_subplots(r_referrer_df, 'unique', 'Unique Referrals',
+                             **subplots_dict)
 
         grid = gridplot([[s1a, s1b], [s2a, s2b], [s3a, s3b]],
                         plot_width=pw, plot_height=ph)
