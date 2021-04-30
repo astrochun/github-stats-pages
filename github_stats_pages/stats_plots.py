@@ -208,23 +208,9 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
     for key, df in dict_df.items():
         repo_names.update(set(df[columns[0]].unique()))
 
-    final_repo_names = repo_names  # init
-
-    # Filter for only inclusion
-    if include_repos:
-        print(f"Only including: {include_repos.replace(',', ', ')}")
-        final_repo_names = repo_names & set(include_repos.split(','))
-
-    # Filter for exclusion
-    if exclude_repos:
-        print(f"Excluding: {exclude_repos.replace(',', ', ')}")
-        final_repo_names = repo_names - set(exclude_repos.split(','))
-
-        for exclude in exclude_repos.split(','):
-            p_exclude = Path(p_repos / f"{exclude}.html")
-            print(f"Deleting: {p_exclude}")
-            if p_exclude.exists():
-                p_exclude.unlink()
+    final_repo_names = get_final_repo_names(p_repos, repo_names,
+                                            include_repos=include_repos,
+                                            exclude_repos=exclude_repos)
 
     n_final_repo_names = len(final_repo_names)
     print(f"Number of GitHub repositories: {n_final_repo_names}")
@@ -323,6 +309,40 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
         out_file = p_repos / f"{r}.html"
         with open(out_file, 'w') as f:
             f.writelines(t.render(jinja_dict=jinja_dict))
+
+
+def get_final_repo_names(p_repos: Path, repo_names: set,
+                         include_repos: str = '',
+                         exclude_repos: str = '') -> set:
+    """
+    Filter for repositories that are specifically included/excluded
+
+    :param p_repos: Path to repository folder
+    :param repo_names: Set of all user/organization's repositories
+    :param include_repos: Comma-separated list of repositories to include
+    :param exclude_repos: Comma-separated list of repositories to exclude
+
+    :return: Final repository set
+    """
+    final_repo_names = repo_names.copy()
+
+    # Filter for only inclusion
+    if include_repos:
+        print(f"Only including: {include_repos.replace(',', ', ')}")
+        final_repo_names = repo_names & set(include_repos.split(','))
+
+    # Filter for exclusion
+    if exclude_repos:
+        print(f"Excluding: {exclude_repos.replace(',', ', ')}")
+        final_repo_names = repo_names - set(exclude_repos.split(','))
+
+        for exclude in exclude_repos.split(','):
+            p_exclude = Path(p_repos / f"{exclude}.html")
+            print(f"Deleting: {p_exclude}")
+            if p_exclude.exists():
+                p_exclude.unlink()
+
+    return final_repo_names
 
 
 def get_jinja_dict(username: str, token: str, final_repo_names: set,
