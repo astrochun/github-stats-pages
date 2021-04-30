@@ -254,11 +254,8 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
     template_p = main_p / 'templates'
     file_loader = FileSystemLoader(template_p)
     env = Environment(loader=file_loader)
-    for file in ['index', 'about', 'repositories']:
-        t_index = env.get_template(f"{file}.html")
-        out_file = Path(out_dir) / f"{file}.html"
-        with open(out_file, 'w') as f:
-            f.writelines(t_index.render(jinja_dict=jinja_dict))
+
+    write_common_html(env, jinja_dict, out_dir)
 
     # Copy or symlink files
     source = template_p / "styles"
@@ -357,3 +354,20 @@ def get_jinja_dict(username: str, token: str, final_repo_names: set,
         'readme_html': readme_html,
     }
     return avatar_response, jinja_dict
+
+
+def write_common_html(env: Environment, jinja_dict: dict,
+                      out_dir: str):
+    """
+    Write index, about, and repositories HTML
+
+    :param env: Jinja Environment
+    :param jinja_dict: Dictionary for jinja templating
+    :param out_dir: Output file path directory
+    """
+
+    for file in ['index', 'about', 'repositories']:
+        t_index = env.get_template(f"{file}.html")
+        out_file = Path(out_dir) / f"{file}.html"
+        with open(out_file, 'w') as f:
+            f.writelines(t_index.render(jinja_dict=jinja_dict))
