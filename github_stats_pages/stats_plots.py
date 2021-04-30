@@ -126,8 +126,6 @@ def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
     """
 
     x = df['source'].to_list()
-    '''print(x)
-    s.x_range = FactorRange(*x)'''
 
     s = figure(plot_width=pw, plot_height=ph, title=title,
                background_fill_color=bc, border_fill_color=bfc,
@@ -139,9 +137,6 @@ def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
     s.axis.minor_tick_line_color = None
 
     s.grid.grid_line_color = "#ffffff"
-    # s.axis.minor_tick_in = 3
-    # s.axis.minor_tick_out = 0
-    # s.axis.subgroup_label_orientation = "normal"
 
     y = df[y_column]
     s.vbar(x=x, top=y, width=0.9, fill_color="#f8b739", fill_alpha=0.8,
