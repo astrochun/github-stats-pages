@@ -333,8 +333,8 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
             f.writelines(t.render(jinja_dict=jinja_dict))
 
 
-def get_jinja_dict(username: str, token: str, final_repo_names: list,
-                   readme_html: str):
+def get_jinja_dict(username: str, token: str, final_repo_names: set,
+                   readme_html: str) -> Tuple[dict, dict]:
     """
     Provides a dictionary for Jinja templating
 
