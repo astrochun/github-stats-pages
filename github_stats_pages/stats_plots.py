@@ -246,17 +246,9 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
     # Retrieve README.md file for user
     readme_html = user_readme(username)
 
-    headers = {}
-    if token:
-        headers['Authorization'] = f"token {token}"
-    avatar_response = get(f'https://api.github.com/users/{username}',
-                          headers=headers).json()
-    jinja_dict = {
-        'username': username,
-        'avatar_url': avatar_response['avatar_url'],
-        'repos': sorted(final_repo_names),
-        'readme_html': readme_html,
-    }
+    avatar_response, jinja_dict = get_jinja_dict(username, token,
+                                                 final_repo_names,
+                                                 readme_html)
 
     # Write HTML Files
     template_p = main_p / 'templates'
@@ -339,3 +331,29 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
         out_file = p_repos / f"{r}.html"
         with open(out_file, 'w') as f:
             f.writelines(t.render(jinja_dict=jinja_dict))
+
+
+def get_jinja_dict(username: str, token: str, final_repo_names: list,
+                   readme_html: str):
+    """
+    Provides a dictionary for Jinja templating
+
+    :param username: GitHub username or organization
+    :param token: GitHub Personal Access Token (this is to avoid rate limits)
+    :param final_repo_names: List of working GitHub repository name
+    :param readme_html: Contains user README profile
+
+    :return: Avatar JSON, Jinja dict
+    """
+    headers = {}
+    if token:
+        headers['Authorization'] = f"token {token}"
+    avatar_response = get(f'https://api.github.com/users/{username}',
+                          headers=headers).json()
+    jinja_dict = {
+        'username': username,
+        'avatar_url': avatar_response['avatar_url'],
+        'repos': sorted(final_repo_names),
+        'readme_html': readme_html,
+    }
+    return avatar_response, jinja_dict
