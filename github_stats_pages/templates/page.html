@@ -98,6 +98,10 @@
           <br>
           <b>Total Views: {{ jinja_dict.Total_Views }}</b>
           <b>Total Clones: {{ jinja_dict.Total_Clones }}</b>
+          <br><br>
+          {% if jinja_dict.description != 'nan' %}
+          {{ jinja_dict.description }}
+          {% endif %}
         </p>
           <center>
             {{ jinja_dict.div| safe }}

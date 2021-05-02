@@ -1,12 +1,16 @@
 # Changelog
 
-## [UNRELEASED](https://github.com/astrochun/github-stats-pages/tree/HEAD) (YYYY-MM-DD)
+## [v0.3.10](https://github.com/astrochun/github-stats-pages/tree/v0.3.10) (2021-05-02)
+
+**Implemented enhancements:**
+ - Feature: Add GitHub repo description on repo pages [#55](http://github.com/astrochun/github-stats-pages/pull/55)
 
 **Closed issues:**
  - Chore: Refactoring of stats_plots [#51](http://github.com/astrochun/github-stats-pages/issues/51)
+ - Feature: Add GitHub repo description on repo pages [#54](http://github.com/astrochun/github-stats-pages/issues/54)
 
 **Merged pull requests:**
- - Chore: Refactoring of stats_plots [#52](http://github.com/astrochun/github-stats-pages/pull/53)
+ - Chore: Refactoring of stats_plots [#53](http://github.com/astrochun/github-stats-pages/pull/53)
 
 
 ## [v0.3.9](https://github.com/astrochun/github-stats-pages/tree/v0.3.9) (2021-04-28)
@@ -20,7 +24,7 @@
  - Enhancement: Adjust timeline plot to line up for both clones and daily traffic [#50](http://github.com/astrochun/github-stats-pages/pull/50)
 
 
-[v0.3.8](https://github.com/astrochun/github-stats-pages/tree/v0.3.8)
+## [v0.3.8](https://github.com/astrochun/github-stats-pages/tree/v0.3.8)
 
 **Implemented enhancements:**
  - Feature: Support for markdown table to HTML [#48](http://github.com/astrochun/github-stats-pages/pull/48)

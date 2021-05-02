@@ -194,7 +194,7 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
             "Cannot provide include_repos and exclude_repos simultaneously!"
         )
 
-    repository_df = pd.read_csv(csv_file)
+    repository_df = pd.read_csv(csv_file, converters={'description': str})
 
     dict_df = load_data(data_dir)
 
