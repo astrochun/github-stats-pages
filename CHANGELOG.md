@@ -2,8 +2,12 @@
 
 ## [UNRELEASED](https://github.com/astrochun/github-stats-pages/tree/HEAD) (YYYY-MM-DD)
 
+**Implemented enhancements:**
+ - Feature: Add GitHub repo description on repo pages [#55](http://github.com/astrochun/github-stats-pages/pull/55)
+
 **Closed issues:**
  - Chore: Refactoring of stats_plots [#51](http://github.com/astrochun/github-stats-pages/issues/51)
+ - Feature: Add GitHub repo description on repo pages [#54](http://github.com/astrochun/github-stats-pages/issues/54)
 
 **Merged pull requests:**
  - Chore: Refactoring of stats_plots [#52](http://github.com/astrochun/github-stats-pages/pull/53)
