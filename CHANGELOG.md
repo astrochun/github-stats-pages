@@ -24,7 +24,7 @@
  - Enhancement: Adjust timeline plot to line up for both clones and daily traffic [#50](http://github.com/astrochun/github-stats-pages/pull/50)
 
 
-[v0.3.8](https://github.com/astrochun/github-stats-pages/tree/v0.3.8)
+## [v0.3.8](https://github.com/astrochun/github-stats-pages/tree/v0.3.8)
 
 **Implemented enhancements:**
  - Feature: Support for markdown table to HTML [#48](http://github.com/astrochun/github-stats-pages/pull/48)
