@@ -1,6 +1,6 @@
 # Changelog
 
-## [UNRELEASED](https://github.com/astrochun/github-stats-pages/tree/HEAD) (YYYY-MM-DD)
+## [v0.3.10](https://github.com/astrochun/github-stats-pages/tree/v0.3.10) (2021-05-02)
 
 **Implemented enhancements:**
  - Feature: Add GitHub repo description on repo pages [#55](http://github.com/astrochun/github-stats-pages/pull/55)
@@ -10,7 +10,7 @@
  - Feature: Add GitHub repo description on repo pages [#54](http://github.com/astrochun/github-stats-pages/issues/54)
 
 **Merged pull requests:**
- - Chore: Refactoring of stats_plots [#52](http://github.com/astrochun/github-stats-pages/pull/53)
+ - Chore: Refactoring of stats_plots [#53](http://github.com/astrochun/github-stats-pages/pull/53)
 
 
 ## [v0.3.9](https://github.com/astrochun/github-stats-pages/tree/v0.3.9) (2021-04-28)
