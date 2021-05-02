@@ -1,5 +1,14 @@
 # Changelog
 
+## [UNRELEASED](https://github.com/astrochun/github-stats-pages/tree/HEAD) (YYYY-MM-DD)
+
+**Closed issues:**
+ - Chore: Refactoring of stats_plots [#51](http://github.com/astrochun/github-stats-pages/issues/51)
+
+**Merged pull requests:**
+ - Chore: Refactoring of stats_plots [#52](http://github.com/astrochun/github-stats-pages/pull/53)
+
+
 ## [v0.3.9](https://github.com/astrochun/github-stats-pages/tree/v0.3.9) (2021-04-28)
 
 **Closed issues:**
