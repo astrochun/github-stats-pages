@@ -1,9 +1,11 @@
 import shutil
 from pathlib import Path
+from typing import Dict, List, Tuple, Optional
+
+# API related
+from github import Github
 from requests import get, HTTPError
 import markdown
-
-from typing import Dict, List, Tuple, Optional
 
 from math import pi
 import pandas as pd
@@ -357,11 +359,11 @@ def get_jinja_dict(username: str, token: str, final_repo_names: set,
 
     :return: Avatar JSON, Jinja dict
     """
-    headers = {}
-    if token:
-        headers['Authorization'] = f"token {token}"
-    avatar_response = get(f'https://api.github.com/users/{username}',
-                          headers=headers).json()
+
+    g = Github(token)
+    gu = g.get_user()
+    avatar_response = gu.raw_data
+
     jinja_dict = {
         'username': username,
         'avatar_url': avatar_response['avatar_url'],
