@@ -1,5 +1,14 @@
 # Changelog
 
+## [UNRELEASED](https://github.com/astrochun/github-stats-pages/tree/HEAD) (YYYY-MM-DD)
+
+**Implemented enhancements:**
+ - Switch over to use PyGitHub for more capabilities [#56](http://github.com/astrochun/github-stats-pages/pull/56)
+
+**Closed issues:**
+ - Switch over to use PyGitHub for more capabilities [#23](http://github.com/astrochun/github-stats-pages/issues/23)
+
+
 ## [v0.3.10](https://github.com/astrochun/github-stats-pages/tree/v0.3.10) (2021-05-02)
 
 **Implemented enhancements:**
