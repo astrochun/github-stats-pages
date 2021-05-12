@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, List, Dict
 import requests
 import json
 import pandas as pd
@@ -15,19 +15,14 @@ def get_repo_list(user: str) -> Tuple[list, pd.DataFrame]:
     Get list of public repository for a give user
 
     :param user: GitHub user or organization handle (e.g., "numpy")
-
     :return repository_list: List of public repositories and additional info
     :return repository_df: DataFrame containing public repositories
     """
 
     endpoint = f"https://api.github.com/users/{user}/repos"
-
-    params = {
-        'per_page': 100
-    }
-
+    params = {'per_page': 100}
     response = requests.get(endpoint, params=params)
-    repository_list = json.loads(response.content)
+    repository_list: List[Dict] = json.loads(response.content)
 
     repository_df = pd.DataFrame.from_dict(repository_list)
 

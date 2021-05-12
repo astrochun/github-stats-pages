@@ -1,9 +1,10 @@
 import shutil
 from pathlib import Path
-from requests import get, HTTPError
-import markdown
-
 from typing import Dict, List, Tuple, Optional
+
+# API related
+from github import Github, UnknownObjectException
+import markdown
 
 from math import pi
 import pandas as pd
@@ -145,7 +146,7 @@ def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
     return s
 
 
-def user_readme(username: str) -> str:
+def user_readme(username: str, token: str = None) -> str:
     """
     Retrieve user README.md and return HTML content
 
@@ -153,18 +154,19 @@ def user_readme(username: str) -> str:
     :return: Markdown -> HTML content
     """
 
-    readme_url = f"https://raw.githubusercontent.com/{username}/{username}/main/README.md"
-    readme_response = get(readme_url)
+    g = Github(token)
     try:
-        readme_response.raise_for_status()
+        readme_repo = g.get_repo(f"{username}/{username}")
+        file_content = readme_repo.get_contents('README.md')
+
         readme_html = markdown.markdown(
-            readme_response.content.decode('utf-8'),
+            file_content.decoded_content.decode('utf-8'),
             extensions=[
                 'sane_lists',
                 'markdown.extensions.tables',
             ]
         )
-    except HTTPError:
+    except UnknownObjectException:
         readme_html = ''
 
     return readme_html
@@ -225,7 +227,7 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
     bfc = "#fafafa"  # border fill color
 
     # Retrieve README.md file for user
-    readme_html = user_readme(username)
+    readme_html = user_readme(username, token=token)
 
     avatar_response, jinja_dict = get_jinja_dict(username, token,
                                                  final_repo_names,
@@ -357,11 +359,11 @@ def get_jinja_dict(username: str, token: str, final_repo_names: set,
 
     :return: Avatar JSON, Jinja dict
     """
-    headers = {}
-    if token:
-        headers['Authorization'] = f"token {token}"
-    avatar_response = get(f'https://api.github.com/users/{username}',
-                          headers=headers).json()
+
+    g = Github(token)
+    gu = g.get_user()
+    avatar_response = gu.raw_data
+
     jinja_dict = {
         'username': username,
         'avatar_url': avatar_response['avatar_url'],

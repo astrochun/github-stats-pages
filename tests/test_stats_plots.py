@@ -14,10 +14,10 @@ def test_load_data():
     assert isinstance(dict_df, dict)
 
 
-def test_user_readme():
-    assert stats_plots.user_readme('astrochun') != ''
+def test_user_readme(token=None):
+    assert stats_plots.user_readme('astrochun', token=token) != ''
 
-    assert stats_plots.user_readme('test') == ''
+    assert stats_plots.user_readme('test', token=token) == ''
 
 
 def test_make_plots(username, token):
