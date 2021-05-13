@@ -11,3 +11,9 @@ def test_run_each_repo(username, token):
     assert len(list(p0)) == 3
     for file in p0:
         Path(file).unlink()
+
+
+def test_get_popular_content(username, token):
+    for save in [False, True]:
+        gts_run.get_top_paths(username, token, 'github-stats-pages',
+                              save_csv=save)

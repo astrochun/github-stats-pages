@@ -1,5 +1,11 @@
 # Changelog
 
+## [UNRELEASED](https://github.com/astrochun/github-stats-pages/tree/HEAD) (YYYY-MM-DD)
+
+**Implemented enhancements:**
+ -  Add popular content (database/backend) [#57](http://github.com/astrochun/github-stats-pages/pull/57)
+
+
 ## [v0.4.0](https://github.com/astrochun/github-stats-pages/tree/v0.4.0) (2021-05-11)
 
 **Implemented enhancements:**

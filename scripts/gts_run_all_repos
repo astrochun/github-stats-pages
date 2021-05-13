@@ -36,7 +36,8 @@ if __name__ == '__main__':
     for repo_name in repo_list:
         gts_run.run_each_repo(args.user, args.token, repo_name,
                               save_csv=True)
-
+        gts_run.get_top_paths(args.user, args.token, repo_name,
+                              save_csv=True)
     # Save files in a data folder
     print("Moving records to data/ folder")
     p_cwd = Path.cwd()
