@@ -22,18 +22,19 @@ def get_top_paths(username: str, token: str, reponame: str,
     g = Github(token)
     repo = g.get_repo(f"{username}/{reponame}")
     top_path_list = repo.get_top_paths()
-    result = [p.raw_data for p in top_path_list]
-    df = pd.DataFrame.from_records(result)
-    pandas_write_buffer(df, ['path', 'count', 'uniques'], reponame)
-    df.insert(loc=0, column='date', value=now.strftime('%Y-%m-%d'))
+    if len(top_path_list) > 0:
+        result = [p.raw_data for p in top_path_list]
+        df = pd.DataFrame.from_records(result)
+        pandas_write_buffer(df, ['path', 'count', 'uniques'], reponame)
+        df.insert(loc=0, column='date', value=now.strftime('%Y-%m-%d'))
 
-    if save_csv:
-        outfile = f"{now.strftime('%Y-%m-%d-%Hh-%Mm')}-paths-stats.csv"
-        path = Path(outfile)
-        if not path.exists():
-            df.to_csv(path, index=False, header=True)
-        else:
-            df.to_csv(path, mode='a', index=False, header=False)
+        if save_csv:
+            outfile = f"{now.strftime('%Y-%m-%d-%Hh-%Mm')}-paths-stats.csv"
+            path = Path(outfile)
+            if not path.exists():
+                df.to_csv(path, index=False, header=True)
+            else:
+                df.to_csv(path, mode='a', index=False, header=False)
 
 
 def pandas_write_buffer(df, columns, reponame):
