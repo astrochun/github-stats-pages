@@ -12,7 +12,7 @@
  - Add popular content [#52](http://github.com/astrochun/github-stats-pages/issues/52)
 
 **Merged pull requests:**
- - Bug: Dependency update prevents Docker action from running [#59](http://github.com/astrochun/github-stats-pages/pull/59)
+ - Bug: Dependency update prevents Docker action from running [#60](http://github.com/astrochun/github-stats-pages/pull/60)
 
 
 ## [v0.4.0](https://github.com/astrochun/github-stats-pages/tree/v0.4.0) (2021-05-11)
