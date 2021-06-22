@@ -1,9 +1,18 @@
 # Changelog
 
-## [UNRELEASED](https://github.com/astrochun/github-stats-pages/tree/HEAD) (YYYY-MM-DD)
+## [v0.4.1](https://github.com/astrochun/github-stats-pages/tree/v0.4.1) (2021-06-21)
 
 **Implemented enhancements:**
  -  Add popular content (database/backend) [#57](http://github.com/astrochun/github-stats-pages/pull/57)
+
+**Fixed bugs:**
+ - Bug: Dependency update prevents Docker action from running [#59](http://github.com/astrochun/github-stats-pages/issues/59)
+
+**Closed issues:**
+ - Add popular content [#52](http://github.com/astrochun/github-stats-pages/issues/52)
+
+**Merged pull requests:**
+ - Bug: Dependency update prevents Docker action from running [#60](http://github.com/astrochun/github-stats-pages/pull/60)
 
 
 ## [v0.4.0](https://github.com/astrochun/github-stats-pages/tree/v0.4.0) (2021-05-11)
