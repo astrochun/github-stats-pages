@@ -1,5 +1,5 @@
 requests>=2.22.0
-pandas>=1.2.4
+pandas==1.2.4
 github-traffic-stats==1.2.0
 bokeh==2.3.0
 markdown==3.3.4
