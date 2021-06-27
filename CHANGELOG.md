@@ -1,5 +1,19 @@
 # Changelog
 
+## [v0.4.2](https://github.com/astrochun/github-stats-pages/tree/v0.4.2) (2021-06-27)
+
+**Fixed bugs:**
+ - Bug: Wrong avatar image used for organization
+   [#58](https://github.com/astrochun/github-stats-pages/issues/58)
+
+**Closed issues:**
+ - Set author of releases [#61](https://github.com/astrochun/github-stats-pages/issues/61)
+
+**Merged pull requests:**
+ - Bug: Wrong avatar image used for organization; Set author of releases
+   [#62](https://github.com/astrochun/github-stats-pages/pull/61)
+
+
 ## [v0.4.1](https://github.com/astrochun/github-stats-pages/tree/v0.4.1) (2021-06-21)
 
 **Implemented enhancements:**
