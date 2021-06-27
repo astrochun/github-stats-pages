@@ -361,7 +361,7 @@ def get_jinja_dict(username: str, token: str, final_repo_names: set,
     """
 
     g = Github(token)
-    gu = g.get_user()
+    gu = g.get_user(username)
     avatar_response = gu.raw_data
 
     jinja_dict = {
