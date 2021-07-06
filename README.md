@@ -336,6 +336,22 @@ Note: While a GitHub profile README does not work for an organization in the sam
 individual GitHub accounts, this software will still use its content if it is publicly available.
 Here's an [example](https://ual-odis.github.io/github-stats/)
 
+### 3. What happens when I renamed a repository?
+
+This software will retrieve the latest list of public repositories. When the
+statistics pages are then generated, it searches the `data/` folder for the
+information for each repo. As such, there is an issue with renaming of
+repositories. This will be apparent in the logs with the following warnings:
+```
+WARNING: Possible issue with repository name, ...
+If you renamed it, you will need to update data/ contents
+```
+
+To rectify this issue, you can `git clone` your GitHub repository, and rename
+each occurrence of the old repositories with the new ones using your preferred
+IDE or command-line options (e.g., `sed`). Then `git add`, `git commit`, and
+`git push` these changes. The next scheduled run will then work as intended.
+
 ## Versioning
 
 ## Continuous Integration
