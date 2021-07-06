@@ -261,56 +261,60 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
     for r in final_repo_names:
         t_r_df = repository_df.loc[repository_df['name'] == r]
 
-        r_traffic_df = traffic_df.loc[traffic_df[columns[0]] == r]
-        r_clone_df = clone_df.loc[clone_df[columns[0]] == r]
-        r_referrer_df = referrer_df.loc[referrer_df[columns[0]] == r]
+        if len(t_r_df) == 0:
+            print(f"WARNING: Possible issue with repository name, {r}")
+            print(f"If you renamed it, you will need to update data/ contents")
+        else:
+            r_traffic_df = traffic_df.loc[traffic_df[columns[0]] == r]
+            r_clone_df = clone_df.loc[clone_df[columns[0]] == r]
+            r_referrer_df = referrer_df.loc[referrer_df[columns[0]] == r]
 
-        date_range = get_date_range([r_traffic_df, r_clone_df])
+            date_range = get_date_range([r_traffic_df, r_clone_df])
 
-        subplots_dict = dict(pw=pw, ph=ph, bc=bc, bfc=bfc)
+            subplots_dict = dict(pw=pw, ph=ph, bc=bc, bfc=bfc)
 
-        # Plot traffic data
-        s1a = date_subplots(r_traffic_df, 'total', date_range,
-                            'Total Daily Traffic', **subplots_dict)
+            # Plot traffic data
+            s1a = date_subplots(r_traffic_df, 'total', date_range,
+                                'Total Daily Traffic', **subplots_dict)
 
-        s1b = date_subplots(r_traffic_df, 'unique', date_range,
-                            'Unique Daily Traffic', **subplots_dict)
+            s1b = date_subplots(r_traffic_df, 'unique', date_range,
+                                'Unique Daily Traffic', **subplots_dict)
 
-        # Plot clones traffic
-        s2a = date_subplots(r_clone_df, 'total', date_range,
-                            'Total Daily Clones', **subplots_dict)
+            # Plot clones traffic
+            s2a = date_subplots(r_clone_df, 'total', date_range,
+                                'Total Daily Clones', **subplots_dict)
 
-        s2b = date_subplots(r_clone_df, 'unique', date_range,
-                            'Unique Daily Clones', **subplots_dict)
+            s2b = date_subplots(r_clone_df, 'unique', date_range,
+                                'Unique Daily Clones', **subplots_dict)
 
-        s3a = refer_subplots(r_referrer_df, 'total', 'Total Referrals',
-                             **subplots_dict)
+            s3a = refer_subplots(r_referrer_df, 'total', 'Total Referrals',
+                                 **subplots_dict)
 
-        s3b = refer_subplots(r_referrer_df, 'unique', 'Unique Referrals',
-                             **subplots_dict)
+            s3b = refer_subplots(r_referrer_df, 'unique', 'Unique Referrals',
+                                 **subplots_dict)
 
-        grid = gridplot([[s1a, s1b], [s2a, s2b], [s3a, s3b]],
-                        plot_width=pw, plot_height=ph)
+            grid = gridplot([[s1a, s1b], [s2a, s2b], [s3a, s3b]],
+                            plot_width=pw, plot_height=ph)
 
-        script, div = components(grid)
+            script, div = components(grid)
 
-        jinja_dict = {
-            'username': username,
-            'title': f"GitHub Statistics for {r}",
-            'Total_Views': r_traffic_df['total'].sum(),
-            'Total_Clones': r_clone_df['total'].sum(),
-            'script': script,
-            'div': div,
-            'repos': sorted(final_repo_names),
-            'avatar_url': avatar_response['avatar_url'],
-        }
-        jinja_dict.update(t_r_df.to_dict(orient='records')[0])
+            jinja_dict = {
+                'username': username,
+                'title': f"GitHub Statistics for {r}",
+                'Total_Views': r_traffic_df['total'].sum(),
+                'Total_Clones': r_clone_df['total'].sum(),
+                'script': script,
+                'div': div,
+                'repos': sorted(final_repo_names),
+                'avatar_url': avatar_response['avatar_url'],
+            }
+            jinja_dict.update(t_r_df.to_dict(orient='records')[0])
 
-        t = env.get_template('page.html')
+            t = env.get_template('page.html')
 
-        out_file = p_repos / f"{r}.html"
-        with open(out_file, 'w') as f:
-            f.writelines(t.render(jinja_dict=jinja_dict))
+            out_file = p_repos / f"{r}.html"
+            with open(out_file, 'w') as f:
+                f.writelines(t.render(jinja_dict=jinja_dict))
 
 
 def get_final_repo_names(p_repos: Path, repo_names: set,
