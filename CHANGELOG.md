@@ -1,5 +1,16 @@
 # Changelog
 
+## [v0.4.3](https://github.com/astrochun/github-stats-pages/tree/v0.4.3) (2021-07-05)
+
+**Fixed bugs:**
+ - Bug: Failed run due to IndexError
+   [#63](https://github.com/astrochun/github-stats-pages/issues/63)
+
+**Merged pull requests:**
+ - Bug: Failed run due to IndexError
+   [#64](https://github.com/astrochun/github-stats-pages/pull/64)
+
+
 ## [v0.4.2](https://github.com/astrochun/github-stats-pages/tree/v0.4.2) (2021-06-27)
 
 **Fixed bugs:**
