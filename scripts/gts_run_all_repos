@@ -25,8 +25,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     df = read_csv(args.csv_file)
-    # Exclude forks
-    new_df = df.loc[df['fork'] == False]
+
+    # Exclude forks and archived repos
+    new_df = df.loc[(df['fork'] == False) &
+                    (df['archived'] == False)]
+    print(f"Number of repositories: {len(new_df)}")
 
     if args.test:
         repo_list = new_df['name'][0:5]

@@ -4,10 +4,10 @@ import json
 import pandas as pd
 
 SHORTEN_COLUMNS = ['id', 'name', 'html_url', 'description', 'language',
-                   'fork', 'stargazers_count', 'watchers_count', 'has_issues',
-                   'has_downloads', 'has_wiki', 'has_pages', 'forks_count',
-                   'disabled', 'open_issues_count', 'license', 'forks',
-                   'open_issues', 'watchers', 'default_branch']
+                   'fork', 'archived', 'stargazers_count', 'watchers_count',
+                   'has_issues', 'has_downloads', 'has_wiki', 'has_pages',
+                   'forks_count', 'disabled', 'open_issues_count', 'license',
+                   'forks', 'open_issues', 'watchers', 'default_branch']
 
 
 def get_repo_list(user: str) -> Tuple[list, pd.DataFrame]:
