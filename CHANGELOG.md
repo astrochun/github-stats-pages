@@ -1,5 +1,16 @@
 # Changelog
 
+## [v0.4.4](https://github.com/astrochun/github-stats-pages/tree/v0.4.4) (2021-08-12)
+
+**Implemented enhancements:**
+ - Do not include Archived projects
+   [#66](http://github.com/astrochun/github-stats-pages/pull/66)
+
+**Closed issues:**
+ - Do not include Archived projects
+   [#65](https://github.com/astrochun/github-stats-pages/issues/65)
+
+
 ## [v0.4.3](https://github.com/astrochun/github-stats-pages/tree/v0.4.3) (2021-07-05)
 
 **Fixed bugs:**
