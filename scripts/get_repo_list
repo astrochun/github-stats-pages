@@ -2,7 +2,7 @@
 
 import argparse
 
-from github_stats_pages import repo_list
+from github_stats_pages import repo_list, __version__
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -11,6 +11,8 @@ if __name__ == "__main__":
                         help='user or organization name')
     args = parser.parse_args()
 
+    print(f'Version: {__version__}')
+    print("Running get_repo_list script ...")
     repository_list, repository_df = repo_list.get_repo_list(args.user)
 
     # Write CSV files

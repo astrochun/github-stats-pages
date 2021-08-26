@@ -35,6 +35,8 @@ def get_top_paths(username: str, token: str, reponame: str,
                 df.to_csv(path, index=False, header=True)
             else:
                 df.to_csv(path, mode='a', index=False, header=False)
+    else:
+        print(f"Empty top paths for {reponame}")
 
 
 def pandas_write_buffer(df, columns, reponame):

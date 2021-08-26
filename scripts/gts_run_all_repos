@@ -24,12 +24,20 @@ if __name__ == '__main__':
                         help='Flag to quickly run a few repositories')
     args = parser.parse_args()
 
+    print("Running gts_run_all_repos script ...")
+
     df = read_csv(args.csv_file)
 
     # Exclude forks and archived repos
+    n_forks = df['fork'].values.sum()
+    n_archived = df['archived'].values.sum()
+    if n_forks > 0:
+        print(f"gts_run_all_repos - Excluding forks: {n_forks}")
+    if n_archived > 0:
+        print(f"gts_run_all_repos - Excluding archived: {n_archived}")
     new_df = df.loc[(df['fork'] == False) &
                     (df['archived'] == False)]
-    print(f"Number of repositories: {len(new_df)}")
+    print(f"gts_run_all_repos : Number of repositories: {len(new_df)}")
 
     if args.test:
         repo_list = new_df['name'][0:5]
@@ -37,6 +45,7 @@ if __name__ == '__main__':
         repo_list = new_df['name']
 
     for repo_name in repo_list:
+        print(f"Working on : {repo_name} ...")
         gts_run.run_each_repo(args.user, args.token, repo_name,
                               save_csv=True)
         gts_run.get_top_paths(args.user, args.token, repo_name,

@@ -19,6 +19,8 @@ def get_repo_list(user: str) -> Tuple[list, pd.DataFrame]:
     :return repository_df: DataFrame containing public repositories
     """
 
+    print("get_repo_list - Retrieving repository list ...")
+
     endpoint = f"https://api.github.com/users/{user}/repos"
     params = {'per_page': 100}
     response = requests.get(endpoint, params=params)
@@ -42,5 +44,5 @@ def construct_csv(repository_df: pd.DataFrame, csv_outfile: str):
 
     reduced_df = repository_df[SHORTEN_COLUMNS]
 
-    print(f"Writing: {csv_outfile}")
+    print(f"construct_csv - Writing: {csv_outfile}")
     reduced_df.to_csv(csv_outfile, index=False)
