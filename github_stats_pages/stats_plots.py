@@ -197,6 +197,8 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
         )
 
     repository_df = pd.read_csv(csv_file, converters={'description': str})
+    repository_df = repository_df.loc[(repository_df['fork'] == False) &
+                                      (repository_df['archived'] == False)]
 
     dict_df = load_data(data_dir)
 
@@ -206,9 +208,20 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
         p_repos.mkdir(parents=True)
 
     # Get unique repository names
-    repo_names = set()
+    repo_names0 = set()
     for key, df in dict_df.items():
-        repo_names.update(set(df[columns[0]].unique()))
+        repo_names0.update(set(df[columns[0]].unique()))
+
+    repo_names = set(repository_df['name']) & repo_names0
+
+    # Additional cleaning up:
+    clean_up = repo_names0 - set(repository_df['name'])
+    if len(clean_up) != 0:
+        for clean in clean_up:
+            p_exclude = Path(p_repos / f"{clean}.html")
+            print(f"Deleting: {p_exclude}")
+            if p_exclude.exists():
+                p_exclude.unlink()
 
     final_repo_names = get_final_repo_names(p_repos, repo_names,
                                             include_repos=include_repos,
