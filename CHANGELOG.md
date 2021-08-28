@@ -1,5 +1,16 @@
 # Changelog
 
+## [v0.4.5](https://github.com/astrochun/github-stats-pages/tree/v0.4.5) (2020-08-28)
+
+**Implemented enhancements:**
+ - Add more verbose messaging for completeness, troubleshooting
+   [#69](http://github.com/astrochun/github-stats-pages/pull/69)
+
+**Closed issues:**
+ - Add more verbose messaging for completeness, troubleshooting
+   [#67](http://github.com/astrochun/github-stats-pages/issues/67)
+
+
 ## [v0.4.4](https://github.com/astrochun/github-stats-pages/tree/v0.4.4) (2021-08-12)
 
 **Implemented enhancements:**
