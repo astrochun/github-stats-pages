@@ -8,7 +8,7 @@ with open("requirements.txt", "r") as fr:
 
 setup(
     name='github-stats-pages',
-    version='0.4.6',
+    version='0.4.7',
     packages=['github_stats_pages'],
     scripts=['scripts/get_repo_list',
              'scripts/gts_run_all_repos',
