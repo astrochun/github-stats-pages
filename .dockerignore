@@ -1,0 +1,9 @@
+.git
+.github
+CHANGELOG.md
+conftest.py
+LICENSE
+MANIFEST.in
+build
+dist
+venv*
