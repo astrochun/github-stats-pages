@@ -50,7 +50,7 @@ jobs:
         context: .
         push: true
         tags: |
-          - astrochun/github-stats-pages:${{ env.RELEASE_VERSION }}
-          - astrochun/github-stats-pages:latest
-          - ghcr.io/astrochun/github-stats-pages:${{ env.RELEASE_VERSION }}
-          - ghcr.io/astrochun/github-stats-pages:latest
+          astrochun/github-stats-pages:${{ env.RELEASE_VERSION }}
+          astrochun/github-stats-pages:latest
+          ghcr.io/astrochun/github-stats-pages:${{ env.RELEASE_VERSION }}
+          ghcr.io/astrochun/github-stats-pages:latest
