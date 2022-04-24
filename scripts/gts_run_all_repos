@@ -11,17 +11,20 @@ def read_csv(csv_file: str) -> pd.DataFrame:
     return pd.read_csv(csv_file)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description='CLI to retrieve GitHub traffic statistics')
-    parser.add_argument('-u', '--user', required=True,
-                        help='user or organization name')
-    parser.add_argument('-t', '--token', required=True,
-                        help='API token')
-    parser.add_argument('-c', '--csv-file', required=True,
-                        help='CSV filename')
-    parser.add_argument('--test', action='store_true',
-                        help='Flag to quickly run a few repositories')
+        description="CLI to retrieve GitHub traffic statistics"
+    )
+    parser.add_argument(
+        "-u", "--user", required=True, help="user or organization name"
+    )
+    parser.add_argument("-t", "--token", required=True, help="API token")
+    parser.add_argument("-c", "--csv-file", required=True, help="CSV filename")
+    parser.add_argument(
+        "--test",
+        action="store_true",
+        help="Flag to quickly run a few repositories",
+    )
     args = parser.parse_args()
 
     print("Running gts_run_all_repos script ...")
@@ -29,27 +32,24 @@ if __name__ == '__main__':
     df = read_csv(args.csv_file)
 
     # Exclude forks and archived repos
-    n_forks = df['fork'].values.sum()
-    n_archived = df['archived'].values.sum()
+    n_forks = df["fork"].values.sum()
+    n_archived = df["archived"].values.sum()
     if n_forks > 0:
         print(f"gts_run_all_repos - Excluding forks: {n_forks}")
     if n_archived > 0:
         print(f"gts_run_all_repos - Excluding archived: {n_archived}")
-    new_df = df.loc[(df['fork'] == False) &
-                    (df['archived'] == False)]
+    new_df = df.loc[(~df["fork"]) & (~df["archived"])]
     print(f"gts_run_all_repos : Number of repositories: {len(new_df)}")
 
     if args.test:
-        repo_list = new_df['name'][0:5]
+        repo_list = new_df["name"][0:5]
     else:
-        repo_list = new_df['name']
+        repo_list = new_df["name"]
 
     for repo_name in repo_list:
         print(f"Working on : {repo_name} ...")
-        gts_run.run_each_repo(args.user, args.token, repo_name,
-                              save_csv=True)
-        gts_run.get_top_paths(args.user, args.token, repo_name,
-                              save_csv=True)
+        gts_run.run_each_repo(args.user, args.token, repo_name, save_csv=True)
+        gts_run.get_top_paths(args.user, args.token, repo_name, save_csv=True)
     # Save files in a data folder
     print("Moving records to data/ folder")
     p_cwd = Path.cwd()
@@ -57,5 +57,5 @@ if __name__ == '__main__':
     if not p_data.exists():
         p_data.mkdir()
 
-    for f in p_cwd.glob('????-??-??-???-???-*stats.csv'):
+    for f in p_cwd.glob("????-??-??-???-???-*stats.csv"):
         f.rename(p_data / f.name)

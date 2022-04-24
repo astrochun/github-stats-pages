@@ -1,0 +1,23 @@
+name: Linting
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run black
+        uses: psf/black@stable
+        with:
+          options: ". --check"
+      - name: Run flake8
+        if: ${{ github.event_name == 'pull_request' }}
+        # This uses a temporary fix by pinning markup_safe.
+        # See https://github.com/grantmcconnaughey/lintly-flake8-github-action/pull/16
+        uses: bniedzie/lintly-flake8-github-action@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          failIf: new
+          args: "--config=.flake8 ."
