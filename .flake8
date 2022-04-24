@@ -1,0 +1,4 @@
+[flake8]
+select = E,F,W
+exclude = .git,.idea,.*egg-info,*data,build,dist,test*,venv
+max-complexity = 10

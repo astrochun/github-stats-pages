@@ -9,13 +9,14 @@ from datetime import datetime as dt
 
 def run_each_repo(username, token, reponame, save_csv=True):
     if save_csv:
-        os.system(f'gts {username}:{token} {reponame}')
+        os.system(f"gts {username}:{token} {reponame}")
     else:
-        os.system(f'gts {username}:{token} {reponame} no_csv')
+        os.system(f"gts {username}:{token} {reponame} no_csv")
 
 
-def get_top_paths(username: str, token: str, reponame: str,
-                  save_csv: bool = True):
+def get_top_paths(
+    username: str, token: str, reponame: str, save_csv: bool = True
+):
 
     now = dt.now()
 
@@ -25,8 +26,8 @@ def get_top_paths(username: str, token: str, reponame: str,
     if len(top_path_list) > 0:
         result = [p.raw_data for p in top_path_list]
         df = pd.DataFrame.from_records(result)
-        pandas_write_buffer(df, ['path', 'count', 'uniques'], reponame)
-        df.insert(loc=0, column='date', value=now.strftime('%Y-%m-%d'))
+        pandas_write_buffer(df, ["path", "count", "uniques"], reponame)
+        df.insert(loc=0, column="date", value=now.strftime("%Y-%m-%d"))
 
         if save_csv:
             outfile = f"{now.strftime('%Y-%m-%d-%Hh-%Mm')}-paths-stats.csv"
@@ -34,7 +35,7 @@ def get_top_paths(username: str, token: str, reponame: str,
             if not path.exists():
                 df.to_csv(path, index=False, header=True)
             else:
-                df.to_csv(path, mode='a', index=False, header=False)
+                df.to_csv(path, mode="a", index=False, header=False)
     else:
         print(f"Empty top paths for {reponame}")
 
@@ -45,4 +46,3 @@ def pandas_write_buffer(df, columns, reponame):
     print(f"> {reponame} - Top paths")
     print(buffer.getvalue())
     buffer.close()
-

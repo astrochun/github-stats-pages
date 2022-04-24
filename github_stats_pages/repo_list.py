@@ -3,11 +3,29 @@ import requests
 import json
 import pandas as pd
 
-SHORTEN_COLUMNS = ['id', 'name', 'html_url', 'description', 'language',
-                   'fork', 'archived', 'stargazers_count', 'watchers_count',
-                   'has_issues', 'has_downloads', 'has_wiki', 'has_pages',
-                   'forks_count', 'disabled', 'open_issues_count', 'license',
-                   'forks', 'open_issues', 'watchers', 'default_branch']
+SHORTEN_COLUMNS = [
+    "id",
+    "name",
+    "html_url",
+    "description",
+    "language",
+    "fork",
+    "archived",
+    "stargazers_count",
+    "watchers_count",
+    "has_issues",
+    "has_downloads",
+    "has_wiki",
+    "has_pages",
+    "forks_count",
+    "disabled",
+    "open_issues_count",
+    "license",
+    "forks",
+    "open_issues",
+    "watchers",
+    "default_branch",
+]
 
 
 def get_repo_list(user: str) -> Tuple[list, pd.DataFrame]:
@@ -22,7 +40,7 @@ def get_repo_list(user: str) -> Tuple[list, pd.DataFrame]:
     print("get_repo_list - Retrieving repository list ...")
 
     endpoint = f"https://api.github.com/users/{user}/repos"
-    params = {'per_page': 100}
+    params = {"per_page": 100}
     response = requests.get(endpoint, params=params)
     repository_list: List[Dict] = json.loads(response.content)
 

@@ -13,14 +13,14 @@ from datetime import datetime as dt, timedelta as td
 # Bokeh Libraries
 from bokeh.plotting import figure
 from bokeh.layouts import gridplot
-from bokeh.models import ColumnDataSource, DatetimeTickFormatter, VBar  # HoverTool
+from bokeh.models import ColumnDataSource, DatetimeTickFormatter, VBar
 from bokeh.embed import components
 from jinja2 import Environment, FileSystemLoader
 
-prefix = 'merged'
-stats_type = ['traffic', 'clone', 'referrer']
-columns = ['repository_name', 'date', 'total', 'unique']
-r_columns = ['repository_name', 'source', 'total', 'unique']  # For referrer
+prefix = "merged"
+stats_type = ["traffic", "clone", "referrer"]
+columns = ["repository_name", "date", "total", "unique"]
+r_columns = ["repository_name", "source", "total", "unique"]  # For referrer
 
 TOOLTIPS = [
     ("index", "$index"),
@@ -43,8 +43,8 @@ def load_data(data_dir: str) -> Dict[str, pd.DataFrame]:
     dict_df = {}
 
     for stats in stats_type:
-        stat_file = p / f'{prefix}_{stats}.csv'
-        names = r_columns if stats == 'referrer' else columns
+        stat_file = p / f"{prefix}_{stats}.csv"
+        names = r_columns if stats == "referrer" else columns
         dict_df[stats] = pd.read_csv(stat_file, header=None, names=names)
 
     return dict_df
@@ -61,7 +61,7 @@ def get_date_range(df_list: List[pd.DataFrame]) -> Optional[Tuple[dt, dt]]:
     x_min = []
     x_max = []
     for df in df_list:
-        date_list = [dt.strptime(d, '%Y-%m-%d') for d in df['date']]
+        date_list = [dt.strptime(d, "%Y-%m-%d") for d in df["date"]]
         if len(date_list) > 0:
             x_min.append(min(date_list))
             x_max.append(max(date_list))
@@ -72,14 +72,21 @@ def get_date_range(df_list: List[pd.DataFrame]) -> Optional[Tuple[dt, dt]]:
         return None
 
 
-def date_subplots(df: pd.DataFrame, y_column: str, date_range: tuple,
-                  title: str = '', pw: int = 350, ph: int = 350,
-                  bc: str = "#f0f0f0", bfc: str = "#fafafa") -> figure():
+def date_subplots(
+    df: pd.DataFrame,
+    y_column: str,
+    date_range: tuple,
+    title: str = "",
+    pw: int = 350,
+    ph: int = 350,
+    bc: str = "#f0f0f0",
+    bfc: str = "#fafafa",
+) -> figure():
     """
     Generate subplots with date x-axis
 
     :param df: DataFrame of traffic or clone data
-    :param y_column: DataFrame column to plot on y-axis, e.g., 'total', 'unique'
+    :param y_column: DataFrame column to plot on y-axis, e.g. 'total', 'unique'
     :param date_range: Minimum and maximum datetime object for ``x_range``
     :param title: Title of plot
     :param pw: plot width in pixel
@@ -87,11 +94,17 @@ def date_subplots(df: pd.DataFrame, y_column: str, date_range: tuple,
     :param bc: background color, #f0f0f0
     :param bfc: background filled color. Default: #fafafa
     """
-    s = figure(plot_width=pw, plot_height=ph, title=title,
-               background_fill_color=bc, border_fill_color=bfc,
-               x_axis_type="datetime", x_range=date_range,
-               tooltips=TOOLTIPS,
-               tools="xpan,xwheel_zoom,xzoom_in,xzoom_out,hover,save,reset")
+    s = figure(
+        plot_width=pw,
+        plot_height=ph,
+        title=title,
+        background_fill_color=bc,
+        border_fill_color=bfc,
+        x_axis_type="datetime",
+        x_range=date_range,
+        tooltips=TOOLTIPS,
+        tools="xpan,xwheel_zoom,xzoom_in,xzoom_out,hover,save,reset",
+    )
     # s.toolbar.active_inspect = [HoverTool()]
 
     s.axis.major_tick_in = 6
@@ -99,11 +112,18 @@ def date_subplots(df: pd.DataFrame, y_column: str, date_range: tuple,
     s.axis.minor_tick_line_color = None
     s.grid.grid_line_color = "#ffffff"
 
-    x = [dt.strptime(d, '%Y-%m-%d') for d in df['date']]
+    x = [dt.strptime(d, "%Y-%m-%d") for d in df["date"]]
     y = df[y_column]
-    g_source = ColumnDataSource(data={'x': x, 'top': y})
-    glyphs = VBar(x='x', top='top', bottom=0, width=td(days=1),
-                  fill_color="#f8b739", fill_alpha=0.8, line_color=None)
+    g_source = ColumnDataSource(data={"x": x, "top": y})
+    glyphs = VBar(
+        x="x",
+        top="top",
+        bottom=0,
+        width=td(days=1),
+        fill_color="#f8b739",
+        fill_alpha=0.8,
+        line_color=None,
+    )
     s.add_glyph(g_source, glyphs)
     # s.vbar(x=x, top=y, width=5.0)
     s.xaxis.formatter = DatetimeTickFormatter(years=["%Y %m"])
@@ -111,14 +131,20 @@ def date_subplots(df: pd.DataFrame, y_column: str, date_range: tuple,
     return s
 
 
-def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
-                   pw: int = 350, ph: int = 350, bc: str = "#f0f0f0",
-                   bfc: str = "#fafafa") -> figure():
+def refer_subplots(
+    df: pd.DataFrame,
+    y_column: str,
+    title: str = "",
+    pw: int = 350,
+    ph: int = 350,
+    bc: str = "#f0f0f0",
+    bfc: str = "#fafafa",
+) -> figure():
     """
     Generate subplots with referrer x-axis
 
     :param df: DataFrame of referrer data
-    :param y_column: DataFrame column to plot on y-axis, e.g., 'total', 'unique'
+    :param y_column: DataFrame column to plot on y-axis, e.g. 'total', 'unique'
     :param title: Title of plot
     :param pw: plot width in pixel
     :param ph: plot height in pixel
@@ -126,22 +152,35 @@ def refer_subplots(df: pd.DataFrame, y_column: str, title: str = '',
     :param bfc: background filled color. Default: #fafafa
     """
 
-    x = df['source'].to_list()
+    x = df["source"].to_list()
 
-    s = figure(plot_width=pw, plot_height=ph, title=title,
-               background_fill_color=bc, border_fill_color=bfc,
-               x_range=x, tools="", toolbar_location=None)
+    s = figure(
+        plot_width=pw,
+        plot_height=ph,
+        title=title,
+        background_fill_color=bc,
+        border_fill_color=bfc,
+        x_range=x,
+        tools="",
+        toolbar_location=None,
+    )
 
     s.axis.major_tick_in = 6
     s.axis.major_tick_out = 0
-    s.xaxis.major_label_orientation = 0.83 * pi/2
+    s.xaxis.major_label_orientation = 0.83 * pi / 2
     s.axis.minor_tick_line_color = None
 
     s.grid.grid_line_color = "#ffffff"
 
     y = df[y_column]
-    s.vbar(x=x, top=y, width=0.9, fill_color="#f8b739", fill_alpha=0.8,
-           line_color=None)
+    s.vbar(
+        x=x,
+        top=y,
+        width=0.9,
+        fill_color="#f8b739",
+        fill_alpha=0.8,
+        line_color=None,
+    )
 
     return s
 
@@ -157,36 +196,42 @@ def user_readme(username: str, token: str = None) -> str:
     g = Github(token)
     try:
         readme_repo = g.get_repo(f"{username}/{username}")
-        file_content = readme_repo.get_contents('README.md')
+        file_content = readme_repo.get_contents("README.md")
 
         readme_html = markdown.markdown(
-            file_content.decoded_content.decode('utf-8'),
+            file_content.decoded_content.decode("utf-8"),
             extensions=[
-                'sane_lists',
-                'markdown.extensions.tables',
-            ]
+                "sane_lists",
+                "markdown.extensions.tables",
+            ],
         )
     except UnknownObjectException:
-        readme_html = ''
+        readme_html = ""
 
     return readme_html
 
 
-def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
-               symlink: bool = False, token: str = '',
-               include_repos: str = '',
-               exclude_repos: str = ''):
+def make_plots(
+    username: str,
+    data_dir: str,
+    out_dir: str,
+    csv_file: str,
+    symlink: bool = False,
+    token: str = "",
+    include_repos: str = "",
+    exclude_repos: str = "",
+):
     """
     Generate HTML pages containing Bokeh plots
 
     :param username: GitHub username or organization
-    :param data_dir: Path to working folder. CSV files are under a 'data' sub-folder
+    :param data_dir: Path to working folder. CSVs are under a 'data' sub-folder
     :param out_dir: Location of outputted HTML
     :param csv_file: CSV file containing user or organization repository list
-    :param symlink: Symbolic link styles assets instead of a copy. Default: copy
+    :param symlink: Symbolic link styles assets instead of copy. Default: copy
     :param token: GitHub Personal Access Token (this is to avoid rate limits)
     :param include_repos: Repositories to only generate HTML pages.
-                          Ignore csv_file inputs. Comma separated for more than one
+                          Ignore csv_file inputs. Comma separated for multiples
     :param exclude_repos: Repositories to exclude from csv_file list.
                           Comma separated for more than one
     """
@@ -196,9 +241,10 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
             "Cannot provide include_repos and exclude_repos simultaneously!"
         )
 
-    repository_df = pd.read_csv(csv_file, converters={'description': str})
-    repository_df = repository_df.loc[(repository_df['fork'] == False) &
-                                      (repository_df['archived'] == False)]
+    repository_df = pd.read_csv(csv_file, converters={"description": str})
+    repository_df = repository_df.loc[
+        (~repository_df["fork"]) & (~repository_df["archived"])
+    ]
 
     dict_df = load_data(data_dir)
 
@@ -212,10 +258,10 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
     for key, df in dict_df.items():
         repo_names0.update(set(df[columns[0]].unique()))
 
-    repo_names = set(repository_df['name']) & repo_names0
+    repo_names = set(repository_df["name"]) & repo_names0
 
     # Additional cleaning up:
-    clean_up = repo_names0 - set(repository_df['name'])
+    clean_up = repo_names0 - set(repository_df["name"])
     if len(clean_up) != 0:
         for clean in clean_up:
             p_exclude = Path(p_repos / f"{clean}.html")
@@ -223,16 +269,19 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
             if p_exclude.exists():
                 p_exclude.unlink()
 
-    final_repo_names = get_final_repo_names(p_repos, repo_names,
-                                            include_repos=include_repos,
-                                            exclude_repos=exclude_repos)
+    final_repo_names = get_final_repo_names(
+        p_repos,
+        repo_names,
+        include_repos=include_repos,
+        exclude_repos=exclude_repos,
+    )
 
     n_final_repo_names = len(final_repo_names)
     print(f"Number of GitHub repositories: {n_final_repo_names}")
 
-    traffic_df = dict_df['traffic']
-    clone_df = dict_df['clone']
-    referrer_df = dict_df['referrer']
+    traffic_df = dict_df["traffic"]
+    clone_df = dict_df["clone"]
+    referrer_df = dict_df["referrer"]
 
     pw = 450  # plot width
     ph = 350  # plot height
@@ -242,12 +291,12 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
     # Retrieve README.md file for user
     readme_html = user_readme(username, token=token)
 
-    avatar_response, jinja_dict = get_jinja_dict(username, token,
-                                                 final_repo_names,
-                                                 readme_html)
+    avatar_response, jinja_dict = get_jinja_dict(
+        username, token, final_repo_names, readme_html
+    )
 
     # Write HTML Files
-    template_p = main_p / 'templates'
+    template_p = main_p / "templates"
     file_loader = FileSystemLoader(template_p)
     env = Environment(loader=file_loader)
 
@@ -265,18 +314,19 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
             shutil.rmtree(target)
 
     if not target.exists() and not symlink:
-        shutil.copytree(source, target, symlinks=True,
-                        copy_function=shutil.copy2)
+        shutil.copytree(
+            source, target, symlinks=True, copy_function=shutil.copy2
+        )
     else:
         if not target.is_symlink():
             target.symlink_to(source)
 
     for r in final_repo_names:
-        t_r_df = repository_df.loc[repository_df['name'] == r]
+        t_r_df = repository_df.loc[repository_df["name"] == r]
 
         if len(t_r_df) == 0:
             print(f"WARNING: Possible issue with repository name, {r}")
-            print(f"If you renamed it, you will need to update data/ contents")
+            print("If you renamed it, you will need to update data/ contents")
         else:
             r_traffic_df = traffic_df.loc[traffic_df[columns[0]] == r]
             r_clone_df = clone_df.loc[clone_df[columns[0]] == r]
@@ -287,52 +337,80 @@ def make_plots(username: str, data_dir: str, out_dir: str, csv_file: str,
             subplots_dict = dict(pw=pw, ph=ph, bc=bc, bfc=bfc)
 
             # Plot traffic data
-            s1a = date_subplots(r_traffic_df, 'total', date_range,
-                                'Total Daily Traffic', **subplots_dict)
+            s1a = date_subplots(
+                r_traffic_df,
+                "total",
+                date_range,
+                "Total Daily Traffic",
+                **subplots_dict,
+            )
 
-            s1b = date_subplots(r_traffic_df, 'unique', date_range,
-                                'Unique Daily Traffic', **subplots_dict)
+            s1b = date_subplots(
+                r_traffic_df,
+                "unique",
+                date_range,
+                "Unique Daily Traffic",
+                **subplots_dict,
+            )
 
             # Plot clones traffic
-            s2a = date_subplots(r_clone_df, 'total', date_range,
-                                'Total Daily Clones', **subplots_dict)
+            s2a = date_subplots(
+                r_clone_df,
+                "total",
+                date_range,
+                "Total Daily Clones",
+                **subplots_dict,
+            )
 
-            s2b = date_subplots(r_clone_df, 'unique', date_range,
-                                'Unique Daily Clones', **subplots_dict)
+            s2b = date_subplots(
+                r_clone_df,
+                "unique",
+                date_range,
+                "Unique Daily Clones",
+                **subplots_dict,
+            )
 
-            s3a = refer_subplots(r_referrer_df, 'total', 'Total Referrals',
-                                 **subplots_dict)
+            s3a = refer_subplots(
+                r_referrer_df, "total", "Total Referrals", **subplots_dict
+            )
 
-            s3b = refer_subplots(r_referrer_df, 'unique', 'Unique Referrals',
-                                 **subplots_dict)
+            s3b = refer_subplots(
+                r_referrer_df, "unique", "Unique Referrals", **subplots_dict
+            )
 
-            grid = gridplot([[s1a, s1b], [s2a, s2b], [s3a, s3b]],
-                            plot_width=pw, plot_height=ph)
+            grid = gridplot(
+                [[s1a, s1b], [s2a, s2b], [s3a, s3b]],
+                plot_width=pw,
+                plot_height=ph,
+            )
 
             script, div = components(grid)
 
             jinja_dict = {
-                'username': username,
-                'title': f"GitHub Statistics for {r}",
-                'Total_Views': r_traffic_df['total'].sum(),
-                'Total_Clones': r_clone_df['total'].sum(),
-                'script': script,
-                'div': div,
-                'repos': sorted(final_repo_names),
-                'avatar_url': avatar_response['avatar_url'],
+                "username": username,
+                "title": f"GitHub Statistics for {r}",
+                "Total_Views": r_traffic_df["total"].sum(),
+                "Total_Clones": r_clone_df["total"].sum(),
+                "script": script,
+                "div": div,
+                "repos": sorted(final_repo_names),
+                "avatar_url": avatar_response["avatar_url"],
             }
-            jinja_dict.update(t_r_df.to_dict(orient='records')[0])
+            jinja_dict.update(t_r_df.to_dict(orient="records")[0])
 
-            t = env.get_template('page.html')
+            t = env.get_template("page.html")
 
             out_file = p_repos / f"{r}.html"
-            with open(out_file, 'w') as f:
+            with open(out_file, "w") as f:
                 f.writelines(t.render(jinja_dict=jinja_dict))
 
 
-def get_final_repo_names(p_repos: Path, repo_names: set,
-                         include_repos: str = '',
-                         exclude_repos: str = '') -> set:
+def get_final_repo_names(
+    p_repos: Path,
+    repo_names: set,
+    include_repos: str = "",
+    exclude_repos: str = "",
+) -> set:
     """
     Filter for repositories that are specifically included/excluded
 
@@ -348,14 +426,14 @@ def get_final_repo_names(p_repos: Path, repo_names: set,
     # Filter for only inclusion
     if include_repos:
         print(f"Only including: {include_repos.replace(',', ', ')}")
-        final_repo_names = repo_names & set(include_repos.split(','))
+        final_repo_names = repo_names & set(include_repos.split(","))
 
     # Filter for exclusion
     if exclude_repos:
         print(f"Excluding: {exclude_repos.replace(',', ', ')}")
-        final_repo_names = repo_names - set(exclude_repos.split(','))
+        final_repo_names = repo_names - set(exclude_repos.split(","))
 
-        for exclude in exclude_repos.split(','):
+        for exclude in exclude_repos.split(","):
             p_exclude = Path(p_repos / f"{exclude}.html")
             print(f"Deleting: {p_exclude}")
             if p_exclude.exists():
@@ -364,8 +442,9 @@ def get_final_repo_names(p_repos: Path, repo_names: set,
     return final_repo_names
 
 
-def get_jinja_dict(username: str, token: str, final_repo_names: set,
-                   readme_html: str) -> Tuple[dict, dict]:
+def get_jinja_dict(
+    username: str, token: str, final_repo_names: set, readme_html: str
+) -> Tuple[dict, dict]:
     """
     Provides a dictionary for Jinja templating
 
@@ -382,16 +461,15 @@ def get_jinja_dict(username: str, token: str, final_repo_names: set,
     avatar_response = gu.raw_data
 
     jinja_dict = {
-        'username': username,
-        'avatar_url': avatar_response['avatar_url'],
-        'repos': sorted(final_repo_names),
-        'readme_html': readme_html,
+        "username": username,
+        "avatar_url": avatar_response["avatar_url"],
+        "repos": sorted(final_repo_names),
+        "readme_html": readme_html,
     }
     return avatar_response, jinja_dict
 
 
-def write_common_html(env: Environment, jinja_dict: dict,
-                      out_dir: str):
+def write_common_html(env: Environment, jinja_dict: dict, out_dir: str):
     """
     Write index, about, and repositories HTML
 
@@ -400,8 +478,8 @@ def write_common_html(env: Environment, jinja_dict: dict,
     :param out_dir: Output file path directory
     """
 
-    for file in ['index', 'about', 'repositories']:
+    for file in ["index", "about", "repositories"]:
         t_index = env.get_template(f"{file}.html")
         out_file = Path(out_dir) / f"{file}.html"
-        with open(out_file, 'w') as f:
+        with open(out_file, "w") as f:
             f.writelines(t_index.render(jinja_dict=jinja_dict))
