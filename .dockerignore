@@ -1,9 +1,14 @@
+.coverage
 .git
 .github
+.idea
+.pre-commit-config.yaml
+.pytest*
 CHANGELOG.md
 conftest.py
 LICENSE
 MANIFEST.in
 build
 dist
+testing
 venv*

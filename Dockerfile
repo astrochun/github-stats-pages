@@ -7,10 +7,10 @@ LABEL maintainer="astro.chun@gmail.com"
 
 COPY github_stats_pages ./github_stats_pages
 COPY scripts ./scripts
-COPY requirements.txt setup.py ./
+COPY pyproject.toml setup.py setup.cfg ./
 COPY README.md .
 COPY entrypoint.sh /entrypoint.sh
 
-RUN python setup.py develop
+RUN pip install -e .
 
 ENTRYPOINT ["/entrypoint.sh"]
