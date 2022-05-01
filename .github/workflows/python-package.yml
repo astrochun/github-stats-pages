@@ -28,7 +28,7 @@ jobs:
         python -m pip install pytest pytest-cov
     - name: Install github_stats_pages
       run: |
-        python setup.py install
+        pip install .
     - name: Test with pytest
       run: |
         echo "Username for unit tests : ${{ github.actor }}"
