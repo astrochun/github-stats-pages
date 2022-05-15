@@ -1,21 +1,21 @@
-import shutil
+from datetime import datetime as dt, timedelta as td
+from math import pi
 from pathlib import Path
+import shutil
 from typing import Dict, List, Tuple, Optional
 
 # API related
 from github import Github, UnknownObjectException
 import markdown
 
-from math import pi
-import pandas as pd
-from datetime import datetime as dt, timedelta as td
-
-# Bokeh Libraries
 from bokeh.plotting import figure
 from bokeh.layouts import gridplot
 from bokeh.models import ColumnDataSource, DatetimeTickFormatter, VBar
 from bokeh.embed import components
 from jinja2 import Environment, FileSystemLoader
+import pandas as pd
+
+from .logger import app_log as log
 
 prefix = "merged"
 stats_type = ["traffic", "clone", "referrer"]
@@ -265,7 +265,7 @@ def make_plots(
     if len(clean_up) != 0:
         for clean in clean_up:
             p_exclude = Path(p_repos / f"{clean}.html")
-            print(f"Deleting: {p_exclude}")
+            log.info(f"Deleting: {p_exclude}")
             if p_exclude.exists():
                 p_exclude.unlink()
 
@@ -277,7 +277,7 @@ def make_plots(
     )
 
     n_final_repo_names = len(final_repo_names)
-    print(f"Number of GitHub repositories: {n_final_repo_names}")
+    log.info(f"Number of GitHub repositories: {n_final_repo_names}")
 
     traffic_df = dict_df["traffic"]
     clone_df = dict_df["clone"]
@@ -307,10 +307,10 @@ def make_plots(
     target = Path(out_dir) / "styles"
     if target.exists():
         if target.is_symlink():
-            print("styles folder is already a symbolic link!")
+            log.info("styles folder is already a symbolic link!")
         else:
             # Delete content to start fresh
-            print("Deleting styles assets (fresh start) ...")
+            log.info("[yellow]Deleting styles assets (fresh start)")
             shutil.rmtree(target)
 
     if not target.exists() and not symlink:
@@ -325,8 +325,10 @@ def make_plots(
         t_r_df = repository_df.loc[repository_df["name"] == r]
 
         if len(t_r_df) == 0:
-            print(f"WARNING: Possible issue with repository name, {r}")
-            print("If you renamed it, you will need to update data/ contents")
+            log.warning(
+                f"[bold red]Possible issue with repository name, {r}.\n"
+                f"If you renamed it, you will need to update data/ contents"
+            )
         else:
             r_traffic_df = traffic_df.loc[traffic_df[columns[0]] == r]
             r_clone_df = clone_df.loc[clone_df[columns[0]] == r]
@@ -425,17 +427,17 @@ def get_final_repo_names(
 
     # Filter for only inclusion
     if include_repos:
-        print(f"Only including: {include_repos.replace(',', ', ')}")
+        log.info(f"Only including: {include_repos.replace(',', ', ')}")
         final_repo_names = repo_names & set(include_repos.split(","))
 
     # Filter for exclusion
     if exclude_repos:
-        print(f"Excluding: {exclude_repos.replace(',', ', ')}")
+        log.info(f"Excluding: {exclude_repos.replace(',', ', ')}")
         final_repo_names = repo_names - set(exclude_repos.split(","))
 
         for exclude in exclude_repos.split(","):
             p_exclude = Path(p_repos / f"{exclude}.html")
-            print(f"Deleting: {p_exclude}")
+            log.info(f"Deleting: {p_exclude}")
             if p_exclude.exists():
                 p_exclude.unlink()
 

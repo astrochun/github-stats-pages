@@ -1,7 +1,10 @@
-from typing import Tuple, List, Dict
-import requests
 import json
+from typing import Tuple, List, Dict
+
 import pandas as pd
+import requests
+
+from .logger import app_log as log
 
 SHORTEN_COLUMNS = [
     "id",
@@ -37,7 +40,7 @@ def get_repo_list(user: str) -> Tuple[list, pd.DataFrame]:
     :return repository_df: DataFrame containing public repositories
     """
 
-    print("get_repo_list - Retrieving repository list ...")
+    log.info("[yellow]Retrieving repository list")
 
     endpoint = f"https://api.github.com/users/{user}/repos"
     params = {"per_page": 100}
@@ -46,6 +49,7 @@ def get_repo_list(user: str) -> Tuple[list, pd.DataFrame]:
 
     repository_df = pd.DataFrame.from_dict(repository_list)
 
+    log.info("[dark_green]Repository list retrieved!")
     return repository_list, repository_df
 
 
@@ -60,7 +64,9 @@ def construct_csv(repository_df: pd.DataFrame, csv_outfile: str):
     :type csv_outfile: str
     """
 
+    log.info(f"[yellow]Writing: {csv_outfile}")
+
     reduced_df = repository_df[SHORTEN_COLUMNS]
 
-    print(f"construct_csv - Writing: {csv_outfile}")
     reduced_df.to_csv(csv_outfile, index=False)
+    log.info(f"[dark_green]Wrote: {csv_outfile}!")

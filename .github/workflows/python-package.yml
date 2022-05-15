@@ -32,7 +32,7 @@ jobs:
     - name: Test with pytest
       run: |
         echo "Username for unit tests : ${{ github.actor }}"
-        pytest --cov-report term-missing --cov=github_stats_pages tests --username ${{ github.actor }} --token ${{ secrets.GH_TOKEN }}
+        pytest -sv --cov-report term-missing --cov=github_stats_pages tests --username ${{ github.actor }} --token ${{ secrets.GH_TOKEN }}
     - run: |
         mkdir ${{env.work_dir}}
         cd ${{env.work_dir}}

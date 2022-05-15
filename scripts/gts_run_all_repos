@@ -1,10 +1,11 @@
 #!/usr/bin/env python
-
 import argparse
-import pandas as pd
 from pathlib import Path
 
+import pandas as pd
+
 from github_stats_pages import gts_run
+from github_stats_pages.logger import app_log as log
 
 
 def read_csv(csv_file: str) -> pd.DataFrame:
@@ -27,7 +28,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    print("Running gts_run_all_repos script ...")
+    log.info("[yellow]Running gts_run_all_repos script")
 
     df = read_csv(args.csv_file)
 
@@ -35,11 +36,11 @@ if __name__ == "__main__":
     n_forks = df["fork"].values.sum()
     n_archived = df["archived"].values.sum()
     if n_forks > 0:
-        print(f"gts_run_all_repos - Excluding forks: {n_forks}")
+        log.info(f"Excluding forks: {n_forks}")
     if n_archived > 0:
-        print(f"gts_run_all_repos - Excluding archived: {n_archived}")
+        log.info(f"Excluding archived: {n_archived}")
     new_df = df.loc[(~df["fork"]) & (~df["archived"])]
-    print(f"gts_run_all_repos : Number of repositories: {len(new_df)}")
+    log.info(f"Number of repositories: {len(new_df)}")
 
     if args.test:
         repo_list = new_df["name"][0:5]
@@ -47,11 +48,12 @@ if __name__ == "__main__":
         repo_list = new_df["name"]
 
     for repo_name in repo_list:
-        print(f"Working on : {repo_name} ...")
+        log.info(f"[yellow]Working on: {repo_name}")
         gts_run.run_each_repo(args.user, args.token, repo_name, save_csv=True)
         gts_run.get_top_paths(args.user, args.token, repo_name, save_csv=True)
+
     # Save files in a data folder
-    print("Moving records to data/ folder")
+    log.info("[yellow]Moving records to data/folder")
     p_cwd = Path.cwd()
     p_data = p_cwd / "data"
     if not p_data.exists():
@@ -59,3 +61,5 @@ if __name__ == "__main__":
 
     for f in p_cwd.glob("????-??-??-???-???-*stats.csv"):
         f.rename(p_data / f.name)
+
+    log.info("[dark_green]gts_run_all_repos script completed!")

@@ -1,10 +1,12 @@
+from datetime import datetime as dt
 import io
 import os
 from pathlib import Path
 
 from github import Github
 import pandas as pd
-from datetime import datetime as dt
+
+from .logger import app_log as log
 
 
 def run_each_repo(username, token, reponame, save_csv=True):
@@ -37,12 +39,12 @@ def get_top_paths(
             else:
                 df.to_csv(path, mode="a", index=False, header=False)
     else:
-        print(f"Empty top paths for {reponame}")
+        log.warning(f"Empty top paths for {reponame}")
 
 
 def pandas_write_buffer(df, columns, reponame):
     buffer = io.StringIO()
     df[columns].to_markdown(buffer, index=False)
-    print(f"> {reponame} - Top paths")
+    log.info(f"> {reponame} - Top paths")
     print(buffer.getvalue())
     buffer.close()
