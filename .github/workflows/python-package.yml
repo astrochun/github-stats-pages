@@ -22,18 +22,24 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install pytest pytest-cov
     - name: Install github_stats_pages
       run: |
-        pip install .
+        pip install .[test]
     - name: Test with pytest
       run: |
         echo "Username for unit tests : ${{ github.actor }}"
-        pytest -sv --cov-report term-missing --cov=github_stats_pages tests --username ${{ github.actor }} --token ${{ secrets.GH_TOKEN }}
-    - run: |
+        coverage run -m pytest --username ${{ github.actor }} --token ${{ secrets.GH_TOKEN }}
+        coverage report && coverage xml && coverage html && coverage json
+    - name: Upload coverage data
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage-data
+        path: |
+          coverage.*
+          htmlcov
+        if-no-files-found: ignore
+    - name: Make working directory
+      run: |
         mkdir ${{env.work_dir}}
         cd ${{env.work_dir}}
     - name: Test scripts (get data, merge, and generate static pages)
@@ -42,3 +48,11 @@ jobs:
         gts_run_all_repos -u ${{ github.actor }} -t ${{ secrets.GH_TOKEN }} -c ${{ github.actor }}.csv --test
         merge-csv.sh
         make_stats_plots -u ${{ github.actor }} -t ${{ secrets.GH_TOKEN }} -c ${{ github.actor }}.csv
+    - name: Analyze coverage data
+      id: coverage_comment
+      uses: ewjoachim/python-coverage-comment-action@v2
+      with:
+        GITHUB_TOKEN: ${{ github.token }}
+    - name: Store Pull Request comment to be posted
+      uses: actions/upload-artifact@v2
+      if: steps.coverage_comment.outputs.COMMENT_FILE_WRITTEN == 'true'

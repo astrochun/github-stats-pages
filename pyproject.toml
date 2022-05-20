@@ -5,3 +5,25 @@ build-backend = "setuptools.build_meta"
 [tool.black]
 line-length = 79
 target-version = ['py38', 'py39', 'py310']
+
+[tool.pytest.ini_options]
+addopts = "-sv"
+testpaths = [
+    "tests",
+]
+log_cli = true
+#env = [
+#    {GITHUB_ACTOR = "data/test_assets"}
+#]
+
+[tool.coverage.run]
+branch = true
+# command_line = "-m pytest"
+source = [
+    "github_stats_pages"
+]
+relative_files = true
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
