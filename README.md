@@ -1,13 +1,11 @@
 # github-stats-pages
 Retrieve statistics for a user's repositories and populate the information onto a GitHub static page
 
-[![GitHub Workflow Status (main)](https://img.shields.io/github/workflow/status/astrochun/github-stats-pages/Python%20package/main?color=blue&label=build%20%28main%29&logo=github)](https://github.com/astrochun/github-stats-pages/actions?query=workflow%3A%22Python+package%22+branch%3Amain)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/astrochun/github-stats-pages/Python%20package?color=blue&label=build%20%28latest%29&logo=github)](https://github.com/astrochun/github-stats-pages/actions?query=workflow%3A%22Python+package%22)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/github-stats-pages)
-[![PyPI](https://img.shields.io/pypi/v/github-stats-pages?color=blue)](https://pypi.org/project/github-stats-pages)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-
-![PyPI - Downloads](https://img.shields.io/pypi/dm/github-stats-pages?color=light%20green&label=PyPI-download)
+| Categories | Status                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| General    | ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/github-stats-pages) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)                                                                                                                                                                                                                                               |
+| CI/CD      | [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/astrochun/github-stats-pages/Python%20package/main?color=blue&label=build&logo=github)](https://github.com/astrochun/github-stats-pages/actions?query=workflow%3A%22Python+package%22+branch%3Amain) ![Coverage badge](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/wiki/astrochun/github-stats-pages/python-coverage-comment-action-badge.json) |
+| PyPI       | [![PyPI](https://img.shields.io/pypi/v/github-stats-pages?color=blue)](https://pypi.org/project/github-stats-pages) ![PyPI - Downloads](https://img.shields.io/pypi/dm/github-stats-pages?color=light%20green&label=PyPI-download)                                                                                                                                                                                                                 |
 
 - [Overview](#overview)
 - [Requirements](#requirements)
@@ -135,12 +133,12 @@ This workflow will run for all public repositories.
 
 ##### Inputs
 
-| Variable        | Description                        | Required? | Type  | Defaults | Examples         |
-| --------------- | ---------------------------------- | --------- | ----- | -------- | ---------------- |
-| `username`      | GitHub username or organization    | **Yes**   | `str` | N/A      | `astrochun`      |
-| `token`         | GitHub Personal Access Token (PAT) | **Yes**   | `str` | N/A      | `abcdef12345678` |
-| `include-repos` | Comma-separated lists of repositories. This overrides the full list of public repositories | No | `str` | `''` | `'github-stats-pages,astrochun.github.io'`
-| `exclude-repos` | Comma-separated lists of repositories to exclude from default public repository list | No | `str` | `''` | `'repo1'` |
+| Variable        | Description                                                                                | Required? | Type  | Defaults | Examples                                   |
+|-----------------|--------------------------------------------------------------------------------------------|-----------|-------|----------|--------------------------------------------|
+| `username`      | GitHub username or organization                                                            | **Yes**   | `str` | N/A      | `astrochun`                                |
+| `token`         | GitHub Personal Access Token (PAT)                                                         | **Yes**   | `str` | N/A      | `abcdef12345678`                           |
+| `include-repos` | Comma-separated lists of repositories. This overrides the full list of public repositories | No        | `str` | `''`     | `'github-stats-pages,astrochun.github.io'` |
+| `exclude-repos` | Comma-separated lists of repositories to exclude from default public repository list       | No        | `str` | `''`     | `'repo1'`                                  |
 
 ##### Other GitHub Action deployment examples:
 
