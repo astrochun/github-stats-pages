@@ -7,7 +7,7 @@ d_dir="data"  # Data directory for all CSV files
 
 if [[ -z $1 ]]; then wd='.'; else wd=$1; fi
 
-for stat_type in traffic clone referrer
+for stat_type in traffic clone paths # referrer
 do
     # Merge all non-header lines into merged.csv
     for fname in ${wd}/${d_dir}/*${stat_type}-stats.csv
