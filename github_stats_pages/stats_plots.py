@@ -1,5 +1,4 @@
 from datetime import datetime as dt, timedelta as td
-from math import pi
 from pathlib import Path
 import shutil
 from typing import Dict, List, Tuple, Optional
@@ -18,7 +17,7 @@ import pandas as pd
 from .logger import app_log as log
 
 prefix = "merged"
-stats_type = ["traffic", "clone", "referrer"]
+stats_type = ["traffic", "clone"]
 columns = ["repository_name", "date", "total", "unique"]
 r_columns = ["repository_name", "source", "total", "unique"]  # For referrer
 
@@ -131,6 +130,7 @@ def date_subplots(
     return s
 
 
+'''
 def refer_subplots(
     df: pd.DataFrame,
     y_column: str,
@@ -183,6 +183,7 @@ def refer_subplots(
     )
 
     return s
+'''
 
 
 def user_readme(username: str, token: str = None) -> str:
@@ -281,7 +282,6 @@ def make_plots(
 
     traffic_df = dict_df["traffic"]
     clone_df = dict_df["clone"]
-    referrer_df = dict_df["referrer"]
 
     pw = 450  # plot width
     ph = 350  # plot height
@@ -332,7 +332,6 @@ def make_plots(
         else:
             r_traffic_df = traffic_df.loc[traffic_df[columns[0]] == r]
             r_clone_df = clone_df.loc[clone_df[columns[0]] == r]
-            r_referrer_df = referrer_df.loc[referrer_df[columns[0]] == r]
 
             date_range = get_date_range([r_traffic_df, r_clone_df])
 
@@ -372,16 +371,17 @@ def make_plots(
                 **subplots_dict,
             )
 
-            s3a = refer_subplots(
+            # Temporarily disable
+            """s3a = refer_subplots(
                 r_referrer_df, "total", "Total Referrals", **subplots_dict
             )
 
             s3b = refer_subplots(
                 r_referrer_df, "unique", "Unique Referrals", **subplots_dict
-            )
+            )"""
 
             grid = gridplot(
-                [[s1a, s1b], [s2a, s2b], [s3a, s3b]],
+                [[s1a, s1b], [s2a, s2b]],
                 plot_width=pw,
                 plot_height=ph,
             )
