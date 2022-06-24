@@ -21,6 +21,8 @@ else
   test="--test"
 fi
 
+migrate_to_sqlite
+
 get_repo_list -u $1
 
 gts_run_all_repos -u $1 -t $2 -c "$1".csv ${test}
@@ -29,5 +31,5 @@ if [ $ret -ne 0 ]; then
   exit 1
 fi
 
-merge-csv.sh .
+# merge-csv.sh .
 make_stats_plots -u $1 -t $2 -c "$1".csv -o ./public ${include_repos} ${exclude_repos}

@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+from pathlib import Path
+
+import pandas as pd
+
+from github_stats_pages import db
+from github_stats_pages.logger import app_log as log
+from github_stats_pages.models import Clone, Traffic, Referring, Paths
+
+DROP_DUPLICATES_SUBSET = ["date", "repository_name", "site"]
+
+
+if __name__ == "__main__":
+    log.info("[bold yellow]Running migrate_to_sqlite script")
+
+    sql_path = Path(db.SQLITE_FILE_NAME)
+    if sql_path.exists():
+        log.info("SQLite DB exists!")
+    engine = db.create_db_and_tables()
+
+    p_data = Path("data")
+
+    # Handle referrer files (missing date field)
+    referrer_files = list(p_data.glob("*referrer-stats.csv"))
+    log.info(f"Number of referrer files: {len(referrer_files)}")
+    referrer_merged_df = pd.DataFrame()
+    for r_file in referrer_files:
+        file_date = r_file.name.rstrip("data/")[:10]
+        r_df = pd.read_csv(r_file)
+        r_df.insert(loc=0, column="date", value=file_date)
+        referrer_merged_df = referrer_merged_df.append(r_df, ignore_index=True)
+    if not referrer_merged_df.empty:
+        referrer_merged_df.drop_duplicates(
+            subset=DROP_DUPLICATES_SUBSET, keep="last", inplace=True
+        )
+        log.info(f"Referrer record number: {len(referrer_merged_df)}")
+        referrer_outfile = p_data / "merged_referrer.csv"
+        log.info(f"Writing: {referrer_outfile}")
+        referrer_merged_df.to_csv(referrer_outfile, header=False, index=False)
+
+    merged_files = [x for x in sorted(p_data.glob("merged_*.csv"))]
+    if merged_files:
+        model_list = [Clone, Paths, Referring, Traffic]
+        for file, model in zip(merged_files, model_list):
+            db.migrate_csv(file, model=model, engine=engine)
+    else:
+        log.info("No merged files to migrate!")
