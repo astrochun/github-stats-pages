@@ -10,7 +10,7 @@ tests_data_folder = Path("tests_data")
 
 
 def test_load_data():
-    dict_df = stats_plots.load_data(tests_data_folder)
+    dict_df = stats_plots.load_data(test=True)
     assert isinstance(dict_df, dict)
 
 

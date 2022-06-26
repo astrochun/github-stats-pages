@@ -15,6 +15,8 @@ from jinja2 import Environment, FileSystemLoader
 import pandas as pd
 
 from .logger import app_log as log
+from . import db
+from .models import Clone, Traffic
 
 prefix = "merged"
 stats_type = ["traffic", "clone"]
@@ -29,23 +31,25 @@ TOOLTIPS = [
 main_p = Path(__file__).parent
 
 
-def load_data(data_dir: str) -> Dict[str, pd.DataFrame]:
+def load_data(test: bool = False) -> Dict[str, pd.DataFrame]:
     """
     Load stats CSV as dict of pandas DataFrame
 
-    :param data_dir: Path containing merged*.csv
     :return: Dict of pandas DataFrame
     """
 
-    p = Path(data_dir) / "data"
+    engine = db.create_db_and_tables(test=test)
 
     dict_df = {}
 
-    for stats in stats_type:
-        stat_file = p / f"{prefix}_{stats}.csv"
-        names = r_columns if stats == "referrer" else columns
-        dict_df[stats] = pd.read_csv(stat_file, header=None, names=names)
-
+    for stats, m in zip(stats_type, [Traffic, Clone]):
+        records = [i.dict() for i in db.query_all(engine, m)]
+        if records:
+            dict_df[stats] = pd.DataFrame.from_records(records, index="id")
+        else:
+            log.warning(f"[bold red]No data in {stats} table!")
+            names = r_columns if stats == "referrer" else columns
+            dict_df[stats] = pd.DataFrame(columns=names)
     return dict_df
 
 
@@ -247,7 +251,7 @@ def make_plots(
         (~repository_df["fork"]) & (~repository_df["archived"])
     ]
 
-    dict_df = load_data(data_dir)
+    dict_df = load_data()
 
     # Add repo folder for all static repo pages
     p_repos = Path(out_dir) / "repos"

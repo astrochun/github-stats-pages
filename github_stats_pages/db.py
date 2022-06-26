@@ -1,6 +1,6 @@
 from functools import partial
 from pathlib import Path
-from typing import Union, Type
+from typing import List, Type, Union
 
 import pandas as pd
 from sqlalchemy.future import Engine
@@ -20,6 +20,7 @@ def configure(test: bool = False, echo: bool = False) -> Engine:
     if not sqlite_file_name.parent.exists():
         sqlite_file_name.parent.mkdir()
     sqlite_url = f"sqlite:///{sqlite_file_name}"
+    log.info(f"Configuring SQLite at: {sqlite_url}")
     return create_engine(sqlite_url, echo=echo)
 
 
@@ -84,3 +85,14 @@ def query(
             return result.one()
         except NoResultFound:
             return
+
+
+def query_all(
+    engine: Engine,
+    model: Union[Type[SQLModel], Clone, Referring, Paths, Traffic],
+) -> List[Union[SQLModel, Clone, Referring, Paths, Traffic]]:
+    """Retrieve an entire table"""
+
+    with Session(engine) as session:
+        result = session.exec(select(model))
+        return result.all()
