@@ -24,7 +24,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install github_stats_pages
       run: |
-        pip install .[test]
+        pip install -e .[test]
     - name: Test with pytest
       run: |
         echo "Username for unit tests : ${{ github.actor }}"
