@@ -10,4 +10,4 @@ class Paths(SQLModel, table=True):
     path: str
     title: str
     views: int
-    unique_views: int
+    unique: int

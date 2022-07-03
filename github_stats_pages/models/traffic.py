@@ -8,4 +8,4 @@ class Traffic(SQLModel, table=True):
     repository_name: str
     date: str
     views: int
-    unique_visitors: int
+    unique: int

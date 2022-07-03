@@ -20,8 +20,9 @@ from .models import Clone, Traffic
 
 prefix = "merged"
 stats_type = ["traffic", "clone"]
-columns = ["repository_name", "date", "total", "unique"]
-r_columns = ["repository_name", "source", "total", "unique"]  # For referrer
+c_columns = ["repository_name", "date", "total", "unique"]
+r_columns = ["repository_name", "date", "source", "total", "unique"]
+t_columns = ["repository_name", "date", "views", "unique"]
 
 TOOLTIPS = [
     ("index", "$index"),
@@ -48,7 +49,13 @@ def load_data(test: bool = False) -> Dict[str, pd.DataFrame]:
             dict_df[stats] = pd.DataFrame.from_records(records, index="id")
         else:
             log.warning(f"[bold red]No data in {stats} table!")
-            names = r_columns if stats == "referrer" else columns
+            names = []
+            if stats == "clone":
+                names = c_columns
+            elif stats == "traffic":
+                names = t_columns
+            elif stats == "referrer":
+                names = r_columns
             dict_df[stats] = pd.DataFrame(columns=names)
     return dict_df
 
@@ -218,19 +225,18 @@ def user_readme(username: str, token: str = None) -> str:
 
 def make_plots(
     username: str,
-    data_dir: str,
     out_dir: str,
     csv_file: str,
     symlink: bool = False,
     token: str = "",
     include_repos: str = "",
     exclude_repos: str = "",
+    test: bool = False,
 ):
     """
     Generate HTML pages containing Bokeh plots
 
     :param username: GitHub username or organization
-    :param data_dir: Path to working folder. CSVs are under a 'data' sub-folder
     :param out_dir: Location of outputted HTML
     :param csv_file: CSV file containing user or organization repository list
     :param symlink: Symbolic link styles assets instead of copy. Default: copy
@@ -239,6 +245,7 @@ def make_plots(
                           Ignore csv_file inputs. Comma separated for multiples
     :param exclude_repos: Repositories to exclude from csv_file list.
                           Comma separated for more than one
+    :param test: For CI testing
     """
 
     if include_repos and exclude_repos:
@@ -251,7 +258,7 @@ def make_plots(
         (~repository_df["fork"]) & (~repository_df["archived"])
     ]
 
-    dict_df = load_data()
+    dict_df = load_data(test=test)
 
     # Add repo folder for all static repo pages
     p_repos = Path(out_dir) / "repos"
@@ -261,7 +268,7 @@ def make_plots(
     # Get unique repository names
     repo_names0 = set()
     for key, df in dict_df.items():
-        repo_names0.update(set(df[columns[0]].unique()))
+        repo_names0.update(set(df["repository_name"].unique()))
 
     repo_names = set(repository_df["name"]) & repo_names0
 
@@ -334,8 +341,8 @@ def make_plots(
                 f"If you renamed it, you will need to update data/ contents"
             )
         else:
-            r_traffic_df = traffic_df.loc[traffic_df[columns[0]] == r]
-            r_clone_df = clone_df.loc[clone_df[columns[0]] == r]
+            r_traffic_df = traffic_df.loc[traffic_df["repository_name"] == r]
+            r_clone_df = clone_df.loc[clone_df["repository_name"] == r]
 
             date_range = get_date_range([r_traffic_df, r_clone_df])
 
@@ -344,7 +351,7 @@ def make_plots(
             # Plot traffic data
             s1a = date_subplots(
                 r_traffic_df,
-                "total",
+                "views",
                 date_range,
                 "Total Daily Traffic",
                 **subplots_dict,
@@ -395,7 +402,7 @@ def make_plots(
             jinja_dict = {
                 "username": username,
                 "title": f"GitHub Statistics for {r}",
-                "Total_Views": r_traffic_df["total"].sum(),
+                "Total_Views": r_traffic_df["views"].sum(),
                 "Total_Clones": r_clone_df["total"].sum(),
                 "script": script,
                 "div": div,

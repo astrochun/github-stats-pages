@@ -33,9 +33,9 @@ def test_make_plots(username, token):
     d0 = {
         "username": username,
         "token": token,
-        "data_dir": tests_data_folder,
         "out_dir": tests_data_folder,
         "csv_file": tests_data_folder / "repository.csv",
+        "test": True,
     }
     html_list = [
         "index.html",

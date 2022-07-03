@@ -8,5 +8,5 @@ class Referring(SQLModel, table=True):
     repository_name: str
     site: str
     date: str
-    views: int
-    unique_visitors: int
+    total: int
+    unique: int
