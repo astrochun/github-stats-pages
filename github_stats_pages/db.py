@@ -17,7 +17,7 @@ def configure(test: bool = False, echo: bool = False) -> Engine:
     sqlite_file_name = (
         Path("tests_data/sqlite3.db") if test else SQLITE_FILE_NAME
     )
-    if not sqlite_file_name.parent.exists():
+    if not sqlite_file_name.parent.exists():  # pragma: no cover
         sqlite_file_name.parent.mkdir()
     sqlite_url = f"sqlite:///{sqlite_file_name}"
     log.info(f"Configuring SQLite at: {sqlite_url}")
@@ -46,7 +46,7 @@ def migrate_csv(
     )
     log.info(f"[yellow]Loading: {filename}")
     df = pd.read_csv(filename, header=None, skiprows=skip_rows, names=names)
-    if isinstance(model, Paths):
+    if model.__name__ == "Paths":
         repository_names = [a.split("/")[2] for a in df["path"].values]
         df.insert(1, "repository_name", repository_names)
 
@@ -64,7 +64,7 @@ def migrate_csv(
         new_df.to_sql(
             model.__name__.lower(), engine, if_exists="append", index=False
         )
-        if len(new_df) < len(df):
+        if len(new_df) < len(df):  # pragma: no cover
             log.info("[orange]Some records exists in db")
 
 

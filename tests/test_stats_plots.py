@@ -9,8 +9,8 @@ from github_stats_pages import stats_plots
 tests_data_folder = Path("tests_data")
 
 
-def test_load_data():
-    dict_df = stats_plots.load_data(test=True)
+def test_load_data(test_engine):
+    dict_df = stats_plots.load_data(test=True, engine=test_engine)
     assert isinstance(dict_df, dict)
 
 

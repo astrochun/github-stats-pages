@@ -32,14 +32,17 @@ TOOLTIPS = [
 main_p = Path(__file__).parent
 
 
-def load_data(test: bool = False) -> Dict[str, pd.DataFrame]:
+def load_data(
+    test: bool = False, engine: Optional[db.Engine] = None
+) -> Dict[str, pd.DataFrame]:
     """
     Load stats CSV as dict of pandas DataFrame
 
     :return: Dict of pandas DataFrame
     """
 
-    engine = db.create_db_and_tables(test=test)
+    if not engine:
+        engine = db.create_db_and_tables(test=test)
 
     dict_df = {}
 
@@ -78,8 +81,8 @@ def get_date_range(df_list: List[pd.DataFrame]) -> Optional[Tuple[dt, dt]]:
 
     if len(x_min) > 0:
         return min(x_min) - td(days=1), max(x_max) + td(days=1)
-    else:
-        return None
+    else:  # pragma: no cover
+        return
 
 
 def date_subplots(
