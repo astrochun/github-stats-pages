@@ -50,9 +50,15 @@ def migrate_csv(
         repository_names = [a.split("/")[2] for a in df["path"].values]
         df.insert(1, "repository_name", repository_names)
 
-    func = partial(query, engine=engine, model=model)
+    if model.__name__ == "Paths":
+        func = partial(query_path, engine=engine, model=model)
+        query_results = list(
+            map(func, df["repository_name"], df["date"], df["path"])
+        )
+    else:
+        func = partial(query, engine=engine, model=model)
+        query_results = list(map(func, df["repository_name"], df["date"]))
 
-    query_results = list(map(func, df["repository_name"], df["date"]))
     new_df: pd.DataFrame = df.iloc[
         [idx for idx, item in enumerate(query_results) if not item]
     ]
@@ -96,3 +102,25 @@ def query_all(
     with Session(engine) as session:
         result = session.exec(select(model))
         return result.all()
+
+
+def query_path(
+    repository_name: str,
+    date: str,
+    path: str,
+    engine: Engine,
+    model: Union[Type[SQLModel], Paths],
+) -> Union[SQLModel, Paths, None]:
+
+    with Session(engine) as session:
+        result = session.exec(
+            select(model).where(
+                model.repository_name == repository_name,
+                model.date == date,
+                model.path == path,
+            )
+        )
+        try:
+            return result.one()
+        except NoResultFound:
+            return
