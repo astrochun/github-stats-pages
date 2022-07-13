@@ -29,7 +29,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    log.info("[yellow]Running gts_run_all_repos script")
+    log.info("[bold yellow]Running gts_run_all_repos script")
 
     df = read_csv(args.csv_file)
 
@@ -63,4 +63,4 @@ if __name__ == "__main__":
         for f in p_cwd.glob(f"????-??-??-???-???-*{datatype}-stats.csv"):
             db.migrate_csv(f, model, engine, skip_rows=1)
 
-    log.info("[dark_green]gts_run_all_repos script completed!")
+    log.info("[bold dark_green]gts_run_all_repos script completed!")

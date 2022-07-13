@@ -45,3 +45,5 @@ if __name__ == "__main__":
             db.migrate_csv(file, model=model, engine=engine)
     else:
         log.info("No merged files to migrate!")
+
+    log.info("[bold dark_green]migrate_to_sqlite script completed!")

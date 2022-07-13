@@ -46,7 +46,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     vargs = vars(args)
 
-    log.info("[yellow]Running make_stats_plots script")
+    log.info("[bold yellow]Running make_stats_plots script")
 
     if args.include_repos and args.exclude_repos:
         msg = "Cannot provide include_repos and exclude_repos simultaneously!"
@@ -54,3 +54,5 @@ if __name__ == "__main__":
         raise ValueError(msg)
 
     stats_plots.make_plots(**vargs)
+
+    log.info("[bold dark_green]make_stats_plots script completed!")

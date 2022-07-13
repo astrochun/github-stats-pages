@@ -46,6 +46,7 @@ def migrate_csv(
     )
     log.info(f"[yellow]Loading: {filename}")
     df = pd.read_csv(filename, header=None, skiprows=skip_rows, names=names)
+    log.info(f"Size of dataframe: {len(df)}")
     if model.__name__ == "Paths":
         repository_names = [a.split("/")[2] for a in df["path"].values]
         df.insert(1, "repository_name", repository_names)
