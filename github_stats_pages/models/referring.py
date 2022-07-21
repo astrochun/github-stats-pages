@@ -7,6 +7,6 @@ class Referring(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     repository_name: str
     site: str
-    date: str
+    date: Optional[str]
     total: int
     unique: int

@@ -59,7 +59,9 @@ if __name__ == "__main__":
     p_cwd = Path.cwd()
     p_data = p_cwd / "data"
 
-    for datatype, model in zip(["clone", "traffic"], [db.Clone, db.Traffic]):
+    model_names = ["clone", "traffic", "paths", "referrer"]
+    models = [db.Clone, db.Traffic, db.Paths, db.Referring]
+    for datatype, model in zip(model_names, models):
         for f in p_cwd.glob(f"????-??-??-???-???-*{datatype}-stats.csv"):
             db.migrate_csv(f, model, engine, skip_rows=1)
 

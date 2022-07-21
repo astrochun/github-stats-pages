@@ -47,6 +47,10 @@ def migrate_csv(
     log.info(f"[yellow]Loading: {filename}")
     df = pd.read_csv(filename, header=None, skiprows=skip_rows, names=names)
     log.info(f"Size of dataframe: {len(df)}")
+    if model.__name__ == "Referring":  # Add date since this isn't included
+        file_date = filename.name[:10]
+        df.insert(loc=0, column="date", value=file_date)
+
     if model.__name__ == "Paths":
         repository_names = [a.split("/")[2] for a in df["path"].values]
         df.insert(1, "repository_name", repository_names)
@@ -56,7 +60,12 @@ def migrate_csv(
         query_results = list(
             map(func, df["repository_name"], df["date"], df["path"])
         )
-    else:
+    elif model.__name__ == "Referring":
+        func = partial(query_referring, engine=engine, model=model)
+        query_results = list(
+            map(func, df["repository_name"], df["date"], df["site"])
+        )
+    else:  # For Clone and Traffic
         func = partial(query, engine=engine, model=model)
         query_results = list(map(func, df["repository_name"], df["date"]))
 
@@ -119,6 +128,28 @@ def query_path(
                 model.repository_name == repository_name,
                 model.date == date,
                 model.path == path,
+            )
+        )
+        try:
+            return result.one()
+        except NoResultFound:
+            return
+
+
+def query_referring(
+    repository_name: str,
+    date: str,
+    site: str,
+    engine: Engine,
+    model: Union[Type[SQLModel], Referring],
+) -> Union[SQLModel, Referring, None]:
+
+    with Session(engine) as session:
+        result = session.exec(
+            select(model).where(
+                model.repository_name == repository_name,
+                model.date == date,
+                model.site == site,
             )
         )
         try:
