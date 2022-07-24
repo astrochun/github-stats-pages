@@ -55,6 +55,8 @@ def migrate_csv(
         repository_names = [a.split("/")[2] for a in df["path"].values]
         df.insert(1, "repository_name", repository_names)
 
+    df.sort_values(["repository_name", "date"], inplace=True)
+
     if model.__name__ == "Paths":
         func = partial(query_path, engine=engine, model=model)
         query_results = list(
