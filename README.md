@@ -214,8 +214,8 @@ Here's an overview providing more details how this codebase works.
 There are four primary scripts accompanying `github-stats-pages`
 1. `get_repo_list`
 2. `gts_run_all_repos`
-3. `merge-csv.sh`
 3. `make_stats_plots`
+4. `merge_csv`
 
 `get_repo_list` generates a CSV file containing a list of public repositories
 for a GitHub user/organization. This database allows the code to aggregate
@@ -249,11 +249,11 @@ window of data aggregation. The data can be merged with the `merge-csv.sh`
 script:
 
 ```
-(venv) laptop:github_data $ ./merge-csv.sh
+(venv) laptop:github_data $ merge_csv
 ```
 
-This generates three files: merge_clones.csv, merge_traffic.csv and
-merge_referrers.csv. These files are used in the final step to generate the
+This generates four files: merged_clone.csv, merged_paths.csv, merged_referrers.csv,
+and merge_traffic.csv. These files are used in the final step to generate the
 plots.
 
 Finally to generate static pages containing the visualization, we
@@ -277,6 +277,7 @@ github_data/
 │   ├── 2021-01-17-00h-46m-traffic-stats.csv
 │   ├── ...
 │   ├── merged_clone.csv
+│   ├── merged_paths.csv
 │   ├── merged_referrer.csv
 │   └── merged_traffic.csv
 ├── repos
