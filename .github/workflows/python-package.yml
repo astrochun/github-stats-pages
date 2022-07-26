@@ -46,7 +46,7 @@ jobs:
       run: |
         get_repo_list -u ${{ github.actor }}
         gts_run_all_repos -u ${{ github.actor }} -t ${{ secrets.GH_TOKEN }} -c ${{ github.actor }}.csv --test
-        merge-csv.sh
+        merge_csv
         make_stats_plots -u ${{ github.actor }} -t ${{ secrets.GH_TOKEN }} -c ${{ github.actor }}.csv
     - name: Analyze coverage data
       id: coverage_comment
