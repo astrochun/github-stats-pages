@@ -18,8 +18,6 @@ from .logger import app_log as log
 
 prefix = "merged"
 stats_type = ["traffic", "clone"]
-columns = ["repository_name", "date", "total", "unique"]
-r_columns = ["repository_name", "source", "total", "unique"]  # For referrer
 
 TOOLTIPS = [
     ("index", "$index"),
@@ -43,8 +41,7 @@ def load_data(data_dir: str) -> Dict[str, pd.DataFrame]:
 
     for stats in stats_type:
         stat_file = p / f"{prefix}_{stats}.csv"
-        names = r_columns if stats == "referrer" else columns
-        dict_df[stats] = pd.read_csv(stat_file, header=None, names=names)
+        dict_df[stats] = pd.read_csv(stat_file)
 
     return dict_df
 
@@ -257,7 +254,7 @@ def make_plots(
     # Get unique repository names
     repo_names0 = set()
     for key, df in dict_df.items():
-        repo_names0.update(set(df[columns[0]].unique()))
+        repo_names0.update(set(df["repository_name"].unique()))
 
     repo_names = set(repository_df["name"]) & repo_names0
 
@@ -330,8 +327,8 @@ def make_plots(
                 f"If you renamed it, you will need to update data/ contents"
             )
         else:
-            r_traffic_df = traffic_df.loc[traffic_df[columns[0]] == r]
-            r_clone_df = clone_df.loc[clone_df[columns[0]] == r]
+            r_traffic_df = traffic_df.loc[traffic_df["repository_name"] == r]
+            r_clone_df = clone_df.loc[clone_df["repository_name"] == r]
 
             date_range = get_date_range([r_traffic_df, r_clone_df])
 
@@ -340,7 +337,7 @@ def make_plots(
             # Plot traffic data
             s1a = date_subplots(
                 r_traffic_df,
-                "total",
+                "views",
                 date_range,
                 "Total Daily Traffic",
                 **subplots_dict,
@@ -357,7 +354,7 @@ def make_plots(
             # Plot clones traffic
             s2a = date_subplots(
                 r_clone_df,
-                "total",
+                "clones",
                 date_range,
                 "Total Daily Clones",
                 **subplots_dict,
@@ -391,8 +388,8 @@ def make_plots(
             jinja_dict = {
                 "username": username,
                 "title": f"GitHub Statistics for {r}",
-                "Total_Views": r_traffic_df["total"].sum(),
-                "Total_Clones": r_clone_df["total"].sum(),
+                "Total_Views": r_traffic_df["views"].sum(),
+                "Total_Clones": r_clone_df["clones"].sum(),
                 "script": script,
                 "div": div,
                 "repos": sorted(final_repo_names),
