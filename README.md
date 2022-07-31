@@ -214,8 +214,8 @@ Here's an overview providing more details how this codebase works.
 There are four primary scripts accompanying `github-stats-pages`
 1. `get_repo_list`
 2. `gts_run_all_repos`
-3. `merge-csv.sh`
 3. `make_stats_plots`
+4. `merge_csv`
 
 `get_repo_list` generates a CSV file containing a list of public repositories
 for a GitHub user/organization. This database allows the code to aggregate
@@ -249,11 +249,11 @@ window of data aggregation. The data can be merged with the `merge-csv.sh`
 script:
 
 ```
-(venv) laptop:github_data $ ./merge-csv.sh
+(venv) laptop:github_data $ merge_csv
 ```
 
-This generates three files: merge_clones.csv, merge_traffic.csv and
-merge_referrers.csv. These files are used in the final step to generate the
+This generates four files: merged_clone.csv, merged_paths.csv, merged_referrers.csv,
+and merge_traffic.csv. These files are used in the final step to generate the
 plots.
 
 Finally to generate static pages containing the visualization, we
@@ -277,6 +277,7 @@ github_data/
 │   ├── 2021-01-17-00h-46m-traffic-stats.csv
 │   ├── ...
 │   ├── merged_clone.csv
+│   ├── merged_paths.csv
 │   ├── merged_referrer.csv
 │   └── merged_traffic.csv
 ├── repos
@@ -378,7 +379,7 @@ A list of repos using `github-stats-pages` can be found [here](https://github.co
 [![astrochun/test-stats](https://images.weserv.nl/?url=avatars.githubusercontent.com%2Fu%2F20305734%3Fv%3D4&h=50&w=50&fit=cover&mask=circle&maxage=7d)](https://github.com/astrochun/test-stats)
 [![hessevans/test1](https://images.weserv.nl/?url=avatars.githubusercontent.com%2Fu%2F85516139%3Fv%3D4&h=50&w=50&fit=cover&mask=circle&maxage=7d)](https://github.com/hessevans/test1)
 [![schorschinho/github-stats-osprey](https://images.weserv.nl/?url=avatars.githubusercontent.com%2Fu%2F16669943%3Fv%3D4&h=50&w=50&fit=cover&mask=circle&maxage=7d)](https://github.com/schorschinho/github-stats-osprey)
-[![thenomaniqbal/thenomaniqbal](https://images.weserv.nl/?url=avatars.githubusercontent.com%2Fu%2F45229497%3Fv%3D4&h=50&w=50&fit=cover&mask=circle&maxage=7d)](https://github.com/thenomaniqbal/thenomaniqbal)
 [![UAL-RE/github-stats](https://images.weserv.nl/?url=avatars.githubusercontent.com%2Fu%2F61063507%3Fv%3D4&h=50&w=50&fit=cover&mask=circle&maxage=7d)](https://UAL-RE.github.io/github-stats)
+[![thenomaniqbal/thenomaniqbal](https://images.weserv.nl/?url=avatars.githubusercontent.com%2Fu%2F45229497%3Fv%3D4&h=50&w=50&fit=cover&mask=circle&maxage=7d)](https://github.com/thenomaniqbal/thenomaniqbal)
 [![Mo-Shakib/Mo-Shakib](https://images.weserv.nl/?url=avatars.githubusercontent.com%2Fu%2F50780268%3Fv%3D4&h=50&w=50&fit=cover&mask=circle&maxage=7d)](https://github.com/Mo-Shakib/Mo-Shakib)
 <!-- end: readme-repos-list -->

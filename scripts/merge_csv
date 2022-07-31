@@ -1,0 +1,64 @@
+#!/usr/bin/env python
+import argparse
+from pathlib import Path
+
+import pandas as pd
+
+from github_stats_pages import STATS_TYPES, STATS_COLUMNS, STATS_SORT_DATAFRAME
+from github_stats_pages.logger import app_log as log
+
+rename_mapping = {
+    "count": "views",  # for paths
+    "unique_visitors/cloners": "unique",  # for clones, traffic, referrer
+    "uniques": "unique",  # for paths
+}
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-w", "--w_dir", required=False, help="Working folder", default="."
+    )
+    args = parser.parse_args()
+
+    log.info("[yellow]Running merge_csv script")
+
+    d_dir = Path(args.w_dir) / "data"
+
+    for stat in STATS_TYPES:
+        log.info(f"[yellow]Working on {stat} files")
+        merged_df = pd.DataFrame(columns=STATS_COLUMNS[stat])
+        files = list(d_dir.glob(f"????-??-??-??h-??m-{stat}-stats.csv"))
+        files.sort()
+        log.info(f"Number of {stat} files found: {len(files)}")
+        for file in files:
+            df = pd.read_csv(file)
+            df.rename(columns=rename_mapping, inplace=True)
+            if stat == "traffic":
+                df.rename(columns={"total": "views"}, inplace=True)
+
+            if stat == "referrer":
+                file_date = file.name[:10]
+                df.insert(0, "date", file_date)
+            if stat == "paths":
+                repository_names = [a.split("/")[2] for a in df["path"].values]
+                df.insert(1, "repository_name", repository_names)
+                titles = [
+                    "/".join(a.split("/")[3:]) for a in df["path"].values
+                ]
+                df["path"] = titles
+
+            merged_df = merged_df.append(df, ignore_index=True)
+
+        log.info(f"Number of records: {len(merged_df)}")
+        merged_df.drop_duplicates(
+            subset=STATS_SORT_DATAFRAME[stat], keep="last", inplace=True
+        )
+        log.info(f"Number of records (duplicates removed): {len(merged_df)}")
+        merged_df.sort_values(STATS_SORT_DATAFRAME[stat], inplace=True)
+
+        outfile = d_dir / f"merged_{stat}.csv"
+        log.info(f"Columns: {merged_df.columns.values}")
+        log.info(f"[yellow]Writing: {outfile}")
+        merged_df.to_csv(outfile, index=False)
+
+    log.info("[dark_green]merge_csv script completed!")

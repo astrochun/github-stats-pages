@@ -31,5 +31,6 @@ if [ $ret -ne 0 ]; then
   exit 1
 fi
 
-# merge-csv.sh .
+merge_csv
+
 make_stats_plots -u $1 -t $2 -c "$1".csv -o ./public ${include_repos} ${exclude_repos}

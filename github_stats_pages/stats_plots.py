@@ -60,6 +60,7 @@ def load_data(
             elif stats == "referrer":
                 names = r_columns
             dict_df[stats] = pd.DataFrame(columns=names)
+
     return dict_df
 
 
@@ -371,7 +372,7 @@ def make_plots(
             # Plot clones traffic
             s2a = date_subplots(
                 r_clone_df,
-                "total",
+                "clones",
                 date_range,
                 "Total Daily Clones",
                 **subplots_dict,
@@ -406,7 +407,7 @@ def make_plots(
                 "username": username,
                 "title": f"GitHub Statistics for {r}",
                 "Total_Views": r_traffic_df["views"].sum(),
-                "Total_Clones": r_clone_df["total"].sum(),
+                "Total_Clones": r_clone_df["clones"].sum(),
                 "script": script,
                 "div": div,
                 "repos": sorted(final_repo_names),
