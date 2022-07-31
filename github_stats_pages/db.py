@@ -9,7 +9,7 @@ from sqlmodel import SQLModel, Session, create_engine, select
 
 from .models import Clone, Referrer, Traffic, Paths
 from .logger import app_log as log
-from . import STATS_SORT_DATAFRAME
+from . import RENAME_MAPPING, STATS_SORT_DATAFRAME
 
 SQLITE_FILE_NAME = Path("data/sqlite3.db")
 
@@ -40,7 +40,7 @@ def migrate_csv(
 
     log.info(f"[yellow]Loading: {filename}")
     df = pd.read_csv(filename)
-    df.rename(columns={"unique_visitors/cloners": "unique"}, inplace=True)
+    df.rename(columns=RENAME_MAPPING, inplace=True)
     log.info(f"Size of dataframe: {len(df)}")
     if "merge" not in filename.name:
         if model.__name__ == "Referrer":  # Add date since this isn't included

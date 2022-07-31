@@ -1,5 +1,10 @@
 __version__ = "0.4.14"
 
+RENAME_MAPPING = {
+    "count": "views",  # for paths
+    "unique_visitors/cloners": "unique",  # for clones, traffic, referrer
+    "uniques": "unique",  # for paths
+}
 
 STATS_TYPES = ["clone", "paths", "referrer", "traffic"]
 
