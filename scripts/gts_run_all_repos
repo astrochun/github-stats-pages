@@ -60,9 +60,9 @@ if __name__ == "__main__":
     p_data = p_cwd / "data"
 
     model_names = ["clone", "traffic", "paths", "referrer"]
-    models = [db.Clone, db.Traffic, db.Paths, db.Referring]
+    models = [db.Clone, db.Traffic, db.Paths, db.Referrer]
     for datatype, model in zip(model_names, models):
         for f in p_cwd.glob(f"????-??-??-???-???-*{datatype}-stats.csv"):
-            db.migrate_csv(f, model, engine, skip_rows=1)
+            db.migrate_csv(f, model, engine)
 
     log.info("[bold dark_green]gts_run_all_repos script completed!")

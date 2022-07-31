@@ -5,7 +5,7 @@ import pandas as pd
 
 from github_stats_pages import db
 from github_stats_pages.logger import app_log as log
-from github_stats_pages.models import Clone, Traffic, Referring, Paths
+from github_stats_pages.models import Clone, Traffic, Referrer, Paths
 
 DROP_DUPLICATES_SUBSET = ["date", "repository_name", "site"]
 
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     merged_files = [x for x in sorted(p_data.glob("merged_*.csv"))]
     if merged_files:
-        model_list = [Clone, Paths, Referring, Traffic]
+        model_list = [Clone, Paths, Referrer, Traffic]
         for file, model in zip(merged_files, model_list):
             db.migrate_csv(file, model=model, engine=engine)
     else:

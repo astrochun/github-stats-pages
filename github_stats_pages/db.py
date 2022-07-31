@@ -7,8 +7,9 @@ from sqlalchemy.future import Engine
 from sqlalchemy.exc import NoResultFound
 from sqlmodel import SQLModel, Session, create_engine, select
 
-from .models import Clone, Referring, Traffic, Paths
+from .models import Clone, Referrer, Traffic, Paths
 from .logger import app_log as log
+from . import STATS_SORT_DATAFRAME
 
 SQLITE_FILE_NAME = Path("data/sqlite3.db")
 
@@ -31,39 +32,35 @@ def create_db_and_tables(test: bool = False, echo: bool = False):
 
 
 def migrate_csv(
-    filename: Union[str, Path],
+    filename: Path,
     model: Type[SQLModel],
     engine: Engine,
-    skip_rows: Union[int, None] = None,
 ):
     """Migrate CSV over to SQLite"""
 
-    names = list(
-        map(
-            lambda f: f.name,
-            filter(lambda x: x.required, model.__fields__.values()),
-        )
-    )
     log.info(f"[yellow]Loading: {filename}")
-    df = pd.read_csv(filename, header=None, skiprows=skip_rows, names=names)
+    df = pd.read_csv(filename)
     log.info(f"Size of dataframe: {len(df)}")
-    if model.__name__ == "Referring":  # Add date since this isn't included
-        file_date = filename.name[:10]
-        df.insert(loc=0, column="date", value=file_date)
+    if "merge" not in filename.name:
+        if model.__name__ == "Referrer":  # Add date since this isn't included
+            file_date = filename.name[:10]
+            df.insert(loc=0, column="date", value=file_date)
 
     if model.__name__ == "Paths":
         repository_names = [a.split("/")[2] for a in df["path"].values]
         df.insert(1, "repository_name", repository_names)
+        simple_paths = ["/".join(a.split("/")[3:]) for a in df["path"].values]
+        df["path"] = simple_paths
 
-    df.sort_values(["repository_name", "date"], inplace=True)
+    df.sort_values(STATS_SORT_DATAFRAME[model.__name__.lower()], inplace=True)
 
     if model.__name__ == "Paths":
         func = partial(query_path, engine=engine, model=model)
         query_results = list(
             map(func, df["repository_name"], df["date"], df["path"])
         )
-    elif model.__name__ == "Referring":
-        func = partial(query_referring, engine=engine, model=model)
+    elif model.__name__ == "Referrer":
+        func = partial(query_referrer, engine=engine, model=model)
         query_results = list(
             map(func, df["repository_name"], df["date"], df["site"])
         )
@@ -90,8 +87,8 @@ def query(
     repository_name: str,
     date: str,
     engine: Engine,
-    model: Union[Type[SQLModel], Clone, Referring, Paths, Traffic],
-) -> Union[SQLModel, Clone, Referring, Paths, Traffic, None]:
+    model: Union[Type[SQLModel], Clone, Referrer, Paths, Traffic],
+) -> Union[SQLModel, Clone, Referrer, Paths, Traffic, None]:
 
     with Session(engine) as session:
         result = session.exec(
@@ -107,8 +104,8 @@ def query(
 
 def query_all(
     engine: Engine,
-    model: Union[Type[SQLModel], Clone, Referring, Paths, Traffic],
-) -> List[Union[SQLModel, Clone, Referring, Paths, Traffic]]:
+    model: Union[Type[SQLModel], Clone, Referrer, Paths, Traffic],
+) -> List[Union[SQLModel, Clone, Referrer, Paths, Traffic]]:
     """Retrieve an entire table"""
 
     with Session(engine) as session:
@@ -138,13 +135,13 @@ def query_path(
             return
 
 
-def query_referring(
+def query_referrer(
     repository_name: str,
     date: str,
     site: str,
     engine: Engine,
-    model: Union[Type[SQLModel], Referring],
-) -> Union[SQLModel, Referring, None]:
+    model: Union[Type[SQLModel], Referrer],
+) -> Union[SQLModel, Referrer, None]:
 
     with Session(engine) as session:
         result = session.exec(
