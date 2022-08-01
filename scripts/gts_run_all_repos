@@ -64,5 +64,6 @@ if __name__ == "__main__":
     for datatype, model in zip(model_names, models):
         for f in p_cwd.glob(f"????-??-??-???-???-*{datatype}-stats.csv"):
             db.migrate_csv(f, model, engine)
+            f.rename(p_data / f.name)
 
     log.info("[bold dark_green]gts_run_all_repos script completed!")
