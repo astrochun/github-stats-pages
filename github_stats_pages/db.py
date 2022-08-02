@@ -49,10 +49,17 @@ def migrate_csv(
             df.insert(loc=0, column="date", value=file_date)
 
     if model.__name__ == "Paths":
-        repository_names = [a.split("/")[2] for a in df["path"].values]
-        df.insert(1, "repository_name", repository_names)
-        simple_paths = ["/".join(a.split("/")[3:]) for a in df["path"].values]
-        df["path"] = simple_paths
+        if "repository_name" not in df.columns:
+            repository_names = [a.split("/")[2] for a in df["path"].values]
+            df.insert(1, "repository_name", repository_names)
+            simple_paths = [
+                "/".join(a.split("/")[3:]) for a in df["path"].values
+            ]
+            df["path"] = simple_paths
+        else:
+            log.info(
+                f"{filename} already updated with repository_name and path"
+            )
 
     sort_columns = STATS_SORT_DATAFRAME[model.__name__.lower()]
     log.info(f"sort_columns: {sort_columns}")
