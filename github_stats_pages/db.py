@@ -42,6 +42,7 @@ def migrate_csv(
     df = pd.read_csv(filename)
     df.rename(columns=RENAME_MAPPING, inplace=True)
     log.info(f"Size of dataframe: {len(df)}")
+    log.info(f"columns: {df.columns}")
     if "merge" not in filename.name:
         if model.__name__ == "Referrer":  # Add date since this isn't included
             file_date = filename.name[:10]
