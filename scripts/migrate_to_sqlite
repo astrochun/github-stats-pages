@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 from pathlib import Path
 
 import pandas as pd
@@ -42,6 +43,7 @@ if __name__ == "__main__":
     if merged_files:
         model_list = [Clone, Paths, Referrer, Traffic]
         for file, model in zip(merged_files, model_list):
+            os.system(f"head -5 {file}")
             db.migrate_csv(file, model=model, engine=engine)
     else:
         log.info("No merged files to migrate!")
