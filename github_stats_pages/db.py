@@ -53,7 +53,9 @@ def migrate_csv(
         simple_paths = ["/".join(a.split("/")[3:]) for a in df["path"].values]
         df["path"] = simple_paths
 
-    df.sort_values(STATS_SORT_DATAFRAME[model.__name__.lower()], inplace=True)
+    sort_columns = STATS_SORT_DATAFRAME[model.__name__.lower()]
+    log.info(f"sort_columns: {sort_columns}")
+    df.sort_values(by=sort_columns, inplace=True)
 
     if model.__name__ == "Paths":
         func = partial(query_path, engine=engine, model=model)
