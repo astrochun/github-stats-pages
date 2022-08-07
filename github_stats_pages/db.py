@@ -39,7 +39,7 @@ def migrate_csv(
     """Migrate CSV over to SQLite"""
 
     log.info(f"[yellow]Loading: {filename}")
-    df = pd.read_csv(filename)
+    df = pd.read_csv(filename, na_filter=False)
     df.rename(columns=RENAME_MAPPING, inplace=True)
     log.info(f"Size of dataframe: {len(df)}")
     log.info(f"columns: {df.columns}")
