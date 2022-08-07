@@ -37,7 +37,7 @@ if __name__ == "__main__":
         log.info(f"Referrer record number: {len(referrer_merged_df)}")
         referrer_outfile = p_data / "merged_referrer.csv"
         log.info(f"Writing: {referrer_outfile}")
-        referrer_merged_df.to_csv(referrer_outfile, header=False, index=False)
+        referrer_merged_df.to_csv(referrer_outfile, index=False)
 
     merged_files = [x for x in sorted(p_data.glob("merged_*.csv"))]
     if merged_files:
