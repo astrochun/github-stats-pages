@@ -15,9 +15,14 @@ from jinja2 import Environment, FileSystemLoader
 import pandas as pd
 
 from .logger import app_log as log
+from . import db
+from .models import Clone, Traffic
 
 prefix = "merged"
 stats_type = ["traffic", "clone"]
+c_columns = ["repository_name", "date", "total", "unique"]
+r_columns = ["repository_name", "date", "source", "total", "unique"]
+t_columns = ["repository_name", "date", "views", "unique"]
 
 TOOLTIPS = [
     ("index", "$index"),
@@ -27,21 +32,34 @@ TOOLTIPS = [
 main_p = Path(__file__).parent
 
 
-def load_data(data_dir: str) -> Dict[str, pd.DataFrame]:
+def load_data(
+    test: bool = False, engine: Optional[db.Engine] = None
+) -> Dict[str, pd.DataFrame]:
     """
     Load stats CSV as dict of pandas DataFrame
 
-    :param data_dir: Path containing merged*.csv
     :return: Dict of pandas DataFrame
     """
 
-    p = Path(data_dir) / "data"
+    if not engine:
+        engine = db.create_db_and_tables(test=test)
 
     dict_df = {}
 
-    for stats in stats_type:
-        stat_file = p / f"{prefix}_{stats}.csv"
-        dict_df[stats] = pd.read_csv(stat_file)
+    for stats, m in zip(stats_type, [Traffic, Clone]):
+        records = [i.dict() for i in db.query_all(engine, m)]
+        if records:
+            dict_df[stats] = pd.DataFrame.from_records(records, index="id")
+        else:
+            log.warning(f"[bold red]No data in {stats} table!")
+            names = []
+            if stats == "clone":
+                names = c_columns
+            elif stats == "traffic":
+                names = t_columns
+            elif stats == "referrer":
+                names = r_columns
+            dict_df[stats] = pd.DataFrame(columns=names)
 
     return dict_df
 
@@ -64,8 +82,8 @@ def get_date_range(df_list: List[pd.DataFrame]) -> Optional[Tuple[dt, dt]]:
 
     if len(x_min) > 0:
         return min(x_min) - td(days=1), max(x_max) + td(days=1)
-    else:
-        return None
+    else:  # pragma: no cover
+        return
 
 
 def date_subplots(
@@ -211,19 +229,18 @@ def user_readme(username: str, token: str = None) -> str:
 
 def make_plots(
     username: str,
-    data_dir: str,
     out_dir: str,
     csv_file: str,
     symlink: bool = False,
     token: str = "",
     include_repos: str = "",
     exclude_repos: str = "",
+    test: bool = False,
 ):
     """
     Generate HTML pages containing Bokeh plots
 
     :param username: GitHub username or organization
-    :param data_dir: Path to working folder. CSVs are under a 'data' sub-folder
     :param out_dir: Location of outputted HTML
     :param csv_file: CSV file containing user or organization repository list
     :param symlink: Symbolic link styles assets instead of copy. Default: copy
@@ -232,6 +249,7 @@ def make_plots(
                           Ignore csv_file inputs. Comma separated for multiples
     :param exclude_repos: Repositories to exclude from csv_file list.
                           Comma separated for more than one
+    :param test: For CI testing
     """
 
     if include_repos and exclude_repos:
@@ -244,7 +262,7 @@ def make_plots(
         (~repository_df["fork"]) & (~repository_df["archived"])
     ]
 
-    dict_df = load_data(data_dir)
+    dict_df = load_data(test=test)
 
     # Add repo folder for all static repo pages
     p_repos = Path(out_dir) / "repos"

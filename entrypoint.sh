@@ -21,6 +21,8 @@ else
   test="--test"
 fi
 
+migrate_to_sqlite
+
 get_repo_list -u $1
 
 gts_run_all_repos -u $1 -t $2 -c "$1".csv ${test}

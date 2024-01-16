@@ -4,14 +4,13 @@ from pathlib import Path
 
 import pandas as pd
 
-from github_stats_pages import STATS_TYPES, STATS_COLUMNS, STATS_SORT_DATAFRAME
+from github_stats_pages import (
+    RENAME_MAPPING,
+    STATS_TYPES,
+    STATS_COLUMNS,
+    STATS_SORT_DATAFRAME,
+)
 from github_stats_pages.logger import app_log as log
-
-rename_mapping = {
-    "count": "views",  # for paths
-    "unique_visitors/cloners": "unique",  # for clones, traffic, referrer
-    "uniques": "unique",  # for paths
-}
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -32,7 +31,7 @@ if __name__ == "__main__":
         log.info(f"Number of {stat} files found: {len(files)}")
         for file in files:
             df = pd.read_csv(file)
-            df.rename(columns=rename_mapping, inplace=True)
+            df.rename(columns=RENAME_MAPPING, inplace=True)
             if stat == "traffic":
                 df.rename(columns={"total": "views"}, inplace=True)
 

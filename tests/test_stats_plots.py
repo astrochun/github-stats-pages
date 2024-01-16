@@ -9,8 +9,8 @@ from github_stats_pages import stats_plots
 tests_data_folder = Path("tests_data")
 
 
-def test_load_data():
-    dict_df = stats_plots.load_data(tests_data_folder)
+def test_load_data(test_engine):
+    dict_df = stats_plots.load_data(test=True, engine=test_engine)
     assert isinstance(dict_df, dict)
 
 
@@ -33,9 +33,9 @@ def test_make_plots(username, token):
     d0 = {
         "username": username,
         "token": token,
-        "data_dir": tests_data_folder,
         "out_dir": tests_data_folder,
         "csv_file": tests_data_folder / "repository.csv",
+        "test": True,
     }
     html_list = [
         "index.html",

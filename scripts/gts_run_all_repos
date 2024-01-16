@@ -6,6 +6,7 @@ import pandas as pd
 
 from github_stats_pages import gts_run
 from github_stats_pages.logger import app_log as log
+from github_stats_pages import db
 
 
 def read_csv(csv_file: str) -> pd.DataFrame:
@@ -28,7 +29,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    log.info("[yellow]Running gts_run_all_repos script")
+    log.info("[bold yellow]Running gts_run_all_repos script")
 
     df = read_csv(args.csv_file)
 
@@ -52,14 +53,17 @@ if __name__ == "__main__":
         gts_run.run_each_repo(args.user, args.token, repo_name, save_csv=True)
         gts_run.get_top_paths(args.user, args.token, repo_name, save_csv=True)
 
-    # Save files in a data folder
-    log.info("[yellow]Moving records to data/folder")
+    log.info("[yellow]Moving CSV records to SQLite")
+    engine = db.create_db_and_tables()
+
     p_cwd = Path.cwd()
     p_data = p_cwd / "data"
-    if not p_data.exists():
-        p_data.mkdir()
 
-    for f in p_cwd.glob("????-??-??-???-???-*stats.csv"):
-        f.rename(p_data / f.name)
+    model_names = ["clone", "traffic", "paths", "referrer"]
+    models = [db.Clone, db.Traffic, db.Paths, db.Referrer]
+    for datatype, model in zip(model_names, models):
+        for f in p_cwd.glob(f"????-??-??-???-???-*{datatype}-stats.csv"):
+            db.migrate_csv(f, model, engine)
+            f.rename(p_data / f.name)
 
-    log.info("[dark_green]gts_run_all_repos script completed!")
+    log.info("[bold dark_green]gts_run_all_repos script completed!")

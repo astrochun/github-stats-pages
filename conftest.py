@@ -1,5 +1,7 @@
 import pytest
 
+from github_stats_pages import db
+
 
 def pytest_addoption(parser):
     parser.addoption("--username", action="store", default="GitHub username")
@@ -22,3 +24,8 @@ def token(request):
     if name_value is None:
         pytest.skip()
     return name_value
+
+
+@pytest.fixture(scope="session")
+def test_engine():
+    return db.create_db_and_tables(test=True)
