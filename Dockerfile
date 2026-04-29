@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM python:3.10-slim
 
 LABEL org.label-schema.name="astrochun/github-stats-pages"
 LABEL org.label-schema.description="Docker image to build static GitHub stats pages"
