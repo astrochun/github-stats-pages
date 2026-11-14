@@ -31,7 +31,7 @@ jobs:
         coverage run -m pytest --username ${{ github.actor }} --token ${{ secrets.GH_TOKEN }}
         coverage report && coverage xml && coverage html && coverage json
     - name: Upload coverage data
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: coverage-data
         path: |
@@ -54,5 +54,5 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ github.token }}
     - name: Store Pull Request comment to be posted
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       if: steps.coverage_comment.outputs.COMMENT_FILE_WRITTEN == 'true'
